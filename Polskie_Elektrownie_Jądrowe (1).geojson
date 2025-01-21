@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.844627, 54.802245]
+      },
+      "properties": {
+        "Назва": "Elektrownia Jądrowa „Choczewo”",
+        "Потужність": 3750,
+        "Опис": "Zgodnie z przyjętym przez Radę Ministrów harmonogramem, budowa pierwszej polskiej elektrowni jądrowej rozpocznie się w 2026 r., a w 2033 r. uruchomiony zostanie pierwszy blok elektrowni jądrowej o mocy około 1-1,6 GW; Kolejne bloki będą wdrażane co 2–3 lata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [19.326668, 50.034797]
+      },
+      "properties": {
+        "Назва": "Elektrownia Jądrowa stawy monowskie",
+        "Потужність": 1330,
+        "Опис": "W lutym 2024 Generalny Dyrektor Ochrony Środowiska (GDOŚ) wydał postanowienie określające wymagania dotyczące zakresu raportu środowiskowego dla tej siłowni. Była to pierwsza taka decyzja w Unii Europejskiej."
+      }
+    }
+  ]
+}
