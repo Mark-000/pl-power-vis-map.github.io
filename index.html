@@ -202,11 +202,14 @@
                                     className: 'custom-tooltip',
                                     html: `
                                         <div class="imp-exp-block">
+                                            <span style="font-size: 10px; text-align: center; color: Black; font-weight: bold;">
+                                                ${feature.properties.country}
+                                            </span>
                                             <span style="font-size: 15px; text-align: center; color: blue; font-weight: bold;">
-                                                ${Math.round(Import)} MW
+                                                ${Math.round(Import)/1000} GW
                                             </span>
                                             <span style="font-size: 15px; text-align: center; color: red; font-weight: bold;">
-                                                ${Math.round(Export)} MW
+                                                ${Math.round(Export)/1000} GW
                                             </span>
                                         </div>
                                     `,
@@ -459,7 +462,8 @@
         var geojsonUrlGPZ = 'https://mark-000.github.io/pl-power-vis-map.github.io/pse-GPZ.geojson';
         var geojsonUrlProjekty = 'https://mark-000.github.io/pl-power-vis-map.github.io/pse-proekty-all-35r';
         var geojsonUrlRecons = 'https://mark-000.github.io/pl-power-vis-map.github.io/pse-recons-linii-all-shem.geojson'; // Новий шар
-        var layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer;
+        var geojsonUrlJdr = 'https://mark-000.github.io/pl-power-vis-map.github.io/Polskie_Elektrownie_Jądrowe.geojson';
+        var layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer, projektyJdr;
 
 
         var createLayer = (geojsonData, voltage) => {
@@ -553,10 +557,15 @@
                                     .then(response => response.json())
                                     .then(reconsGeojsonData => {
                                         reconsLayer = L.geoJSON(reconsGeojsonData, {
-                                            style: {
-                                                color: 'red', // Колір шару
-                                                weight: 3,
-                                                dashArray: '5,5' // Додано пунктирний стиль
+                                            style: function(feature) {
+                                                // Логіка для зміни кольору залежно від значення voltage
+                                                if (feature.properties.voltage && feature.properties.voltage.includes('220')) {
+                                                    return { color: 'green', weight: 3, dashArray: '10' }; // Зелений для 220
+                                                } else if (feature.properties.voltage && feature.properties.voltage.includes('400')) {
+                                                    return { color: 'red', weight: 3, dashArray: '10' }; // Червоний для 400
+                                                } else {
+                                                    return { color: 'purple', weight: 3, dashArray: '10' }; // Фіолетовий для всього іншого
+                                                }
                                             },
                                             onEachFeature: function(feature, layer) {
                                                 layer.bindPopup(`
@@ -566,15 +575,39 @@
                                             }
                                         });
                         // Додавання контролю для перемикання шарів
-                                        var overlays = {
-                                            "<span style='color: purple;'>400kV Лінії</span>": layer400,
-                                            "<span style='color: green;'>220kV Лінії</span>": layer220,
-                                            "<span style='color: red;'>110kV Лінії</span>": layer110,
-                                            "<span style='color: black;'>Межі операторів</span>": arcgisLayer,
-                                            "<span style='color: black;'>PSE підстанції</span>": gpzLayer,// Додаємо шар з ArcGIS
-                                            "<span style='color: black;'>PSE проекти GPZ</span>": projektyLayer,
-                                            "<span style='color: red; text-decoration: underline;'>PSE проекти Linii</span>": reconsLayer
-                                        };
+                                        fetch(geojsonUrlJdr)
+                                            .then(response => response.json())
+                                            .then(projektyGeojsonData => {
+                                                projektyJdr = L.geoJSON(projektyGeojsonData, {
+                                                    pointToLayer: function(feature, latlng) {
+                                                        return L.circleMarker(latlng, {
+                                                            radius: 10, // Радіус точки
+                                                            fillColor: "black", // Колір заповнення
+                                                            color: "orange", // Колір обведення
+                                                            weight: 2, // Товщина обведення
+                                                            opacity: 1, // Прозорість обведення
+                                                            fillOpacity: 1 // Прозорість заповнення
+                                                        });
+                                                    },
+                                                    onEachFeature: function(feature, layer) {
+                                                        layer.bindPopup(`
+                                                            <b>Назва:</b> ${feature.properties.Name || 'Unknown'}<br>
+                                                            <b>Потужність:</b> ${feature.properties.Power || 'Unknown'} MW<br>
+                                                            <b>Опис:</b> ${feature.properties.Description || 'Unknown'}<br>
+                                                        `);
+                                                    }
+                                                });
+                        // Додавання контролю для перемикання шарів
+                                                var overlays = {
+                                                    "<span style='color: purple;'>400kV Лінії</span>": layer400,
+                                                    "<span style='color: green;'>220kV Лінії</span>": layer220,
+                                                    "<span style='color: red;'>110kV Лінії</span>": layer110,
+                                                    "<span style='color: black;'>Межі операторів</span>": arcgisLayer,
+                                                    "<span style='color: black;'>PSE підстанції</span>": gpzLayer,// Додаємо шар з ArcGIS
+                                                    "<span style='color: black;'>PSE проекти GPZ</span>": projektyLayer,
+                                                    "<span style='color: black;'>АЕС</span>": projektyJdr,
+                                                    "<span style='color: red; text-decoration: underline;'>PSE проекти Linii</span>": reconsLayer
+                                                };
 
                                 // Додавання контролю для перемикання шарів
                                 L.control.layers(null, overlays).addTo(map);
@@ -584,6 +617,8 @@
                 //layer400.addTo(map); // Додаємо шар 400 на карту
                 //layer110.addTo(map); // Додаємо новий шар 110 на карту
                //arcgisLayer.addTo(map); // Додаємо шар ArcGIS на карту
+                            })
+                            .catch(error => console.error('Error loading Jdr GeoJSON:', error));
                         })
                         .catch(error => console.error('Error loading Recons GeoJSON:', error));
                     })
