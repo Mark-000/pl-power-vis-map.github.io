@@ -1,0 +1,2108 @@
+{
+    "type": "FeatureCollection",
+    "name": "pse-proekty-gpz-35",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "relation/9399771",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \u201eSiersza\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.464738320335027,
+                    50.20891007333672
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "relation/18085709",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/110kV \"S\u0142upsk Wierzbi\u0119cin\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.891909706072,
+                    54.50131443768204
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/25898810",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \"Praga\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.995084528762305,
+                    52.29267074110752
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/29098336",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201ePiaseczno\u201d 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.035535647594923,
+                    52.09122882595726
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/29115701",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Mory\" 220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.877575910785332,
+                    52.214452930611344
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;6000",
+                "id": "way/29139402",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110/6kV \"Katowice\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.05423240800369,
+                    50.26440105259815
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/32036484",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Plewiska\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.77940157578458,
+                    52.36837484446558
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/32943179",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Morzyczyn\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    14.896378472855432,
+                    53.35461849850859
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;15000",
+                "id": "way/35366436",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110/15kV \"Jan\u00f3w\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.56146627762021,
+                    51.757709281513115
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000",
+                "id": "way/39428977",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Krajnik\" 400/220 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    14.47590483347393,
+                    53.19603562013436
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/40946784",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eTucznawa\u201d 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.331685555882963,
+                    50.37689556982404
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/40946790",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Jamki\" 220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.269439178245506,
+                    50.325815892943965
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;30000;15000;6000",
+                "id": "way/44389929",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Bujak\u00f3w\" 220/30/15/6kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.21274027233636,
+                    49.84240724337543
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/46092396",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Grudzi\u0105dz - W\u0119growo\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.804632828925698,
+                    53.44672924498155
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/46235456",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Jasiniec\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.10777603223451,
+                    53.13552223339691
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/66161634",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"\u0141agisza\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.141070938896313,
+                    50.35215116734193
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/79033485",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201ePasikurowice\u201d 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.119120424320485,
+                    51.21375111761553
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/86494356",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"\u017barnowiec\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.10859095665536,
+                    54.7185975506353
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;15000",
+                "id": "way/87667718",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV & GPZ 110/15kV \"Lubocza\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.09881100554289,
+                    50.09585773226613
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/91384044",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Mo\u015bciska\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.881308841704747,
+                    52.29062984612441
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;15000",
+                "id": "way/98634956",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110/15kV \"Komorowice\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.053305279786848,
+                    49.862201435676
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/99593626",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Mi\u0142osna\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.28937287593374,
+                    52.227005209187645
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/101914781",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eOlsztyn M\u0105tki\u201d 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.34805996126725,
+                    53.827475131855905
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;15000",
+                "id": "way/101915790",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eOlsztyn I\u201d 220/110/15 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.529140965866542,
+                    53.80299220648313
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/101982559",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eZgierz\u201d 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.383450608570122,
+                    51.830815833665945
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/102165724",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Pabianice\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.36782700643851,
+                    51.677603347833696
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/111615226",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/220/110kV \u201eMiku\u0142owa\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.112966319638156,
+                    51.09154883783418
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/112614319",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Gda\u0144sk B\u0142onia\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.70967704952491,
+                    54.338681836515384
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/115801644",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \u201eWanda\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.078902147524644,
+                    50.06150217291993
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/121656686",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/220/110kV \"Ostro\u0142\u0119ka\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.623289073256547,
+                    53.106957325150105
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;15000",
+                "id": "way/131120723",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110/15 kV Pozna\u0144 Po\u0142udnie"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.91398189615882,
+                    52.33150361654224
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000",
+                "id": "way/133537926",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Byczyna\" 400kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.292119724319512,
+                    50.16377749744891
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/135598292",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \u201ePor\u0119ba\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.273323035917176,
+                    50.00072414477504
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/139452056",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eWielopole\u201d 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.541038368045758,
+                    50.12301278796985
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/143484238",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eToru\u0144 - Elana\u201d 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.6704498387905,
+                    53.04472383649345
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/144646702",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eP\u0142ock\u201d 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.719379564154714,
+                    52.63586567843219
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/145037309",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Sochaczew\" 220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.258790571201274,
+                    52.2326758932978
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/148060965",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Lublin Systemowa\" 400/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.61619794404641,
+                    51.29811873561071
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/148197330",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Leszno Gronowo\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.59011243899569,
+                    51.87626194014572
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/154838041",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Gda\u0144sk I\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.441235231213923,
+                    54.33756663385627
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/154894455",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Czarna\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.28963853384923,
+                    51.39203637180383
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/158232924",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Le\u015bni\u00f3w\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.292937699624263,
+                    51.98842205235748
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/166710856",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/110kV \u201eTarn\u00f3w\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.965026750383487,
+                    49.969415990296476
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/166838338",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Krosno Iskrzynia\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.852623301641845,
+                    49.6882260645664
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/170249563",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Abramowice\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.584021948504677,
+                    51.19630498107719
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/170316833",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201ePiotrk\u00f3w\u201d 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.68334423313248,
+                    51.42822568634919
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/170368942",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eMokre\u201d 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.147747763618003,
+                    50.69845302109893
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/171383831",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna Adam\u00f3w 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.54192057165453,
+                    52.01204176350293
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/171917072",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eTr\u0119baczew\u201d 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.90783235080758,
+                    51.142742569962614
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/171992870",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Podolszyce\" 220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.735782287802685,
+                    52.53669934860032
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/173582810",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/220/110kV \"Kozienice\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.455786561576982,
+                    51.66240621913842
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/173613665",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eZamo\u015b\u0107\u201d 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.292840437620193,
+                    50.71673340302619
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;20000",
+                "id": "way/177749653",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Bogusz\u00f3w\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.190836244501057,
+                    50.75265211123595
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/178756295",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Cieplice\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.684896999789032,
+                    50.88736124697267
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;20000",
+                "id": "way/179279860",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eZ\u0105bkowice\u201d 220/110/20 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.789933146381568,
+                    50.59405748814668
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/180535363",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"\u017bukowice\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.006036501834203,
+                    51.66235315433352
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/180542657",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Polkowice\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.075549721007295,
+                    51.49638358417501
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/183259405",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Halemba\" 220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.85220712764504,
+                    50.23098537461022
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/183945016",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \"Kopanina\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.849713020707178,
+                    50.13056123615974
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/184899160",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \u201eMoszczenica\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.563352576617685,
+                    49.94124088419568
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/185454704",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Blachownia\" 220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.293806324737353,
+                    50.35908850899061
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/185459155",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"K\u0119dzierzyn\" 220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.25422389033658,
+                    50.31714103007964
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/189501431",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/220/110kV \"Skawina\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.80587751899773,
+                    49.97486709403022
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;30000;15000",
+                "id": "way/189851841",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110/30/15kV \u201eRo\u017cki\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.046420139236286,
+                    51.33802978021923
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/191035265",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \"Klikowa\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.945014495274865,
+                    50.063793476149534
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/191352746",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Chmiel\u00f3w\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.671551785693197,
+                    50.50415403072735
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/194903381",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Che\u0142m\"  400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.439353052725764,
+                    51.15832471180182
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;30000;15000",
+                "id": "way/198635989",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Boguchwa\u0142a\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.932877434750264,
+                    49.99408092734958
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000",
+                "id": "way/199098050",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/220kV \"Kielce\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.415077404555557,
+                    50.899828766708275
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000;15000",
+                "id": "way/199098053",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Po\u0142aniec\" 400/220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.331951681625405,
+                    50.44263019862339
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;15000",
+                "id": "way/199098055",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Radkowice\" 220/110/15kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.52211693776792,
+                    50.78774967411318
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/215282393",
+                "description": "",
+                "Name": "Rzesz\u00f3w Systemowa (Wide\u0142ka) 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.871046886922855,
+                    50.191484808077085
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000",
+                "id": "way/216446549",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400kV FW Dar\u0142owo"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.090891296364802,
+                    54.127376491018204
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/216975352",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110kV \"Elektrownia Konin\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.270164998263386,
+                    52.28674178024603
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/217899005",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Wrzosowa\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.16654063936031,
+                    50.75395536875334
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000;30000;15000",
+                "id": "way/228154083",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eKielce Piaski\u201d 220/110/30/15kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.638267770805484,
+                    50.90471832201399
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/238640596",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Pi\u0142a Krzewina\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.872940710776465,
+                    53.07816045369464
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000",
+                "id": "way/241842600",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eJoachim\u00f3w\u201d 400/220 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.316644651900514,
+                    50.760033091974364
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/251239544",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"O\u0142tarzew\" 400/220/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.74197075352395,
+                    52.22703334836686
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/254235846",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Ostrowiec\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.45169480238957,
+                    50.93885506522943
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/254938713",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna Kromolice 400/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.168929588964247,
+                    52.2811342517929
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/255277953",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Dobrze\u0144\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.87332383738599,
+                    50.746343307986
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000;110000",
+                "id": "way/255284259",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"P\u0105tn\u00f3w\" 400/220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.234986535587833,
+                    52.30511153971895
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/255293400",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Bydgoszcz Zach\u00f3d\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.87803487385124,
+                    53.088703085084425
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/255293403",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Ostr\u00f3w\" 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.84922301064732,
+                    51.636052586860615
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000",
+                "id": "way/255972326",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400kV \"\u0141om\u017ca\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.134033499762083,
+                    53.090807061571056
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/255972397",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/110kV \"Siedlce Ujrzan\u00f3w\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.34398663283902,
+                    52.129701381556735
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000",
+                "id": "way/255973806",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400kV \"Stanis\u0142aw\u00f3w\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.55658487019984,
+                    52.269711156285396
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000",
+                "id": "way/276291999",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"\u015awiebodzice\" 400 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.356377573161343,
+                    50.85311584360473
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;220000",
+                "id": "way/293484891",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Rogowiec\" 400/220 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.328538005835703,
+                    51.31611791431293
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/293489607",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/110kV \u201eRokitnica\u201d"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.772169492651148,
+                    50.36548049565797
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/293489663",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u201eNarew\u201d 400/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.046154790582165,
+                    53.026996944029484
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/303870256",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"E\u0142k Bis\" 400 kV/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.301919243682228,
+                    53.75760015497115
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/336990960",
+                "description": "",
+                "Name": "Stacja Energetyczna \"Groszowice\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.971418237642663,
+                    50.61335394011372
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/385098015",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400/110 kV Pelplin"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.665356077972064,
+                    53.94534074658504
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000",
+                "id": "way/385118244",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400kV Gda\u0144sk Przyja\u017a\u0144"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.3814720281899,
+                    54.28168107738124
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/385539724",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \"Gorz\u00f3w\" 220/110 kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.267363448618655,
+                    52.748698523942465
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000;110000",
+                "id": "way/534238983",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna \u017bydowo Kierzkowo 400/110kV"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.730579502879937,
+                    54.04143876612802
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000",
+                "id": "way/628655950",
+                "description": "",
+                "Name": "Stacja Elektroenergetyczna 220kV Pomorzany"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    14.521868874510702,
+                    53.390248012927266
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000",
+                "id": "way/668348943",
+                "description": "",
+                "Name": "Stacja Elektroenergetyczna 220kV Rec\u0142aw"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    14.631577523111226,
+                    53.84659288954204
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/726776987",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 220/110 kV Stalowa Wola"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.077500948718725,
+                    50.55529562529166
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "220000;110000",
+                "id": "way/1022342082",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400(220)/110kV \"Wyszk\u00f3w\""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.49353371427234,
+                    52.618769696950416
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "voltage": "400000",
+                "id": "way/1119590976",
+                "description": "",
+                "Name": "Stacja elektroenergetyczna 400kV Choczewo"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.91202314296829,
+                    54.77136454656496
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 1,
+                "Name": "KZE",
+                "voltage": "400, \u043f\u043e\u0441\u0442\u0456\u0439\u043d\u0438\u0439 \u0441\u0442\u0440\u0443\u043c",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.788437623646388,
+                    54.390424953395105
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 2,
+                "Name": "SBO",
+                "voltage": "400",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.72156789613311,
+                    53.875954599877794
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 3,
+                "Name": "BCS",
+                "voltage": "400/220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.03748796083941,
+                    52.76387214785843
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 4,
+                "Name": "PSC",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.849661082152489,
+                    52.48099755606731
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 5,
+                "Name": "GDM",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.17186366841089,
+                    51.681006009849504
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 6,
+                "Name": "ZER",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.41282825412255,
+                    52.295634258806956
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 7,
+                "Name": "GNA",
+                "voltage": "400",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.134923311596662,
+                    52.24604265307774
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 8,
+                "Name": "MKA",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    16.72953194677696,
+                    51.217746641200726
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 9,
+                "Name": "NYS",
+                "voltage": "220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.374661038375386,
+                    50.529858940894776
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 10,
+                "Name": "WRS",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.80665241733357,
+                    50.65294520795531
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 12,
+                "Name": "LWN",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.704591310934113,
+                    50.75027076722766
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 14,
+                "Name": "PBO",
+                "voltage": "400/220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.695441090026897,
+                    49.89318378865616
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 15,
+                "Name": "MAK",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.707568210229255,
+                    50.09073916604035
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 17,
+                "Name": "EPK",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.005745844240472,
+                    50.52730343003124
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 18,
+                "Name": "CPK",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.3435844667324,
+                    52.17354202259802
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 19,
+                "Name": "REM",
+                "voltage": "400/220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.052142894967393,
+                    52.392941013860884
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 20,
+                "Name": "WYP",
+                "voltage": "220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20.87128047338095,
+                    52.10682483123152
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 21,
+                "Name": "KUZ",
+                "voltage": "400",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.393427240650045,
+                    51.460515116634525
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 22,
+                "Name": "DMO",
+                "voltage": "400/220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.766271751259556,
+                    51.9187608545003
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 23,
+                "Name": "WTN",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.37543727553835,
+                    52.16359055788738
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 24,
+                "Name": "MAO",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    19.07224180373849,
+                    52.764167456614324
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 25,
+                "Name": "DZO",
+                "voltage": "400/220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.773116921673953,
+                    53.30076537003587
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 26,
+                "Name": "DSC",
+                "voltage": "400",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    18.006859375438815,
+                    54.18940869078187
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 27,
+                "Name": "EJ1",
+                "voltage": "400/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.809436881950905,
+                    54.71703488720119
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 27,
+                "Name": "NOR",
+                "voltage": "220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.634222888236227,
+                    53.91385701094436
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 28,
+                "Name": "WIG",
+                "voltage": "220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.96060761073334,
+                    54.05663114098611
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 30,
+                "Name": "ZGN",
+                "voltage": "220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    15.299572692469686,
+                    51.62058235687706
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 30,
+                "Name": "SWR",
+                "voltage": "400/220/110",
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.357250113230442,
+                    52.04440023887098
+                ]
+            }
+        }
+    ]
+}
