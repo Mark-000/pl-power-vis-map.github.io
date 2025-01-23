@@ -52,6 +52,19 @@
         "Typ:": "ME",
         "Description": "Magazyn energii o mocy 263 MW i pojemności co najmniej 900 MWh. Magazyn powstanie w pobliżu Elektrowni Szczytowo-Pompowej Żarnowiec oraz przyszłych morskich farm wiatrowych PGE."
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [21.465229, 51.659768]
+      },
+      "properties": {
+        "Name": "Elektrownia gazowa Kozienice",
+        "Power": 750,
+        "Typ:": "EG",
+        "Description": "Spółka celowa Enea Elkogaz przetarg na budowę w Kozienicach „pod klucz” bloku wraz z 12-letnim serwisem ogłosiła na początku lipca. Zamówienie obejmowało blok gazowo-parowy, pracujący w cyklu kombinowanym (CCGT), o nominalnej mocy elektrycznej brutto 650-750 MW, a także 12-letnią umowę serwisową."
+      }
     }
   ]
 }
