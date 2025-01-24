@@ -31,7 +31,7 @@
             font-size: 14px; /* Розмір шрифту */
             font-weight: bold; /* Жирний текст */
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Легка тінь */
-            transform: translate(-100%, 10%);/* Розташування під маркером */
+            transform: translate(-50%, -10%);/* Розташування під маркером */
         }
         .imp-exp-block {
             display: flex;
@@ -40,7 +40,8 @@
             flex-direction: column;
             background-color: white;
             margin-top: 30%;
-        }.donations-box {
+        }
+        .donations-box {
             position: absolute;
             z-index: 9999; 
             height: 100%;
@@ -102,11 +103,13 @@
         .display-none {
             display: none;
         }
+
+
         
     </style>    
 </head>
 <body>
-    <!--<div class="donations-box" id="donation">
+    <div class="donations-box" id="donation">
         <div class="donations-block">
             <div>
                 <div style="font-size: calc(2.5vw + 1vh); font-weight: bold; margin-top: 20%;">Вітаємо на PPM!</div>
@@ -125,30 +128,37 @@
             </div>
         </div>   
     
-    </div>-->
+    </div>
     <div id="map"></div>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+   
+    
 
     <script>
-        // URLs для GeoJSON файлів
+
         function clossebut(){
             const dispNone = document.getElementById("donation")
             dispNone.classList.add("display-none");
         }
-        
+
+        // URLs для GeoJSON файлів
         var exportImportUrl = 'https://storage.googleapis.com/yazadovbavsia/export_import_data.geojson';
         var powerPlantsUrl = 'https://storage.googleapis.com/yazadovbavsia/elektrownie.geojson';
-
+        var dayscount = 7
         // Створення карти
         var map = L.map('map', {
             zoom: 7,
             center: [52.196893, 18.626428],
             timeDimension: true,
+            timeDimensionOptions: {
+                period: 'PT1H' // Крок у 1 годину
+            },
             timeDimensionControl: true,
             timeDimensionControlOptions: {
                 autoPlay: false,
@@ -164,19 +174,11 @@
         
         // Додавання плиток карти (OpenStreetMap)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(map);
+
         var tooltipMarkers = [];
         // Функція для завантаження та створення шару для експорту/імпорту
         function loadExportImportLayer() {
             var tooltipMarkers = [];
-            var apiUrl = `https://api.raporty.pse.pl/api/przeplywy-mocy-export?` + 
-                         `$select=Doba%20handlowa,OREB,Czechy%20Eksport%20%5BMW%5D,Czechy%20Import%20%5BMW%5D,` + 
-                         `S%C5%82owacja%20Eksport%20%5BMW%5D,S%C5%82owacja%20Import%20%5BMW%5D,` + 
-                         `Niemcy%20Eksport%20%5BMW%5D,Niemcy%20Import%20%5BMW%5D,` + 
-                         `Szwecja%20Eksport%20%5BMW%5D,Szwecja%20Import%20%5BMW%5D,` + 
-                         `Ukraina%20Eksport%20%5BMW%5D,Ukraina%20Import%20%5BMW%5D,` + 
-                         `Litwa%20Eksport%20%5BMW%5D,Litwa%20Import%20%5BMW%5D,Data%20publikacji&` + 
-                         `$filter=business_date%20eq%20%27${new Date().toISOString().split('T')[0]}%27`;
-
             var countryCoordinates = {
                 Litwa: [23.821156, 54.618995],
                 Czechy: [15.867570, 50.059313],
@@ -191,14 +193,28 @@
                 features: []
             };
 
-            return fetch(apiUrl)
-                .then((response) => {
+            const today = new Date();
+            const promises = [];
+
+            for (let i = 0; i < dayscount; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                const dateString = date.toISOString().split('T')[0];
+                const apiUrl = `https://api.raporty.pse.pl/api/przeplywy-mocy-export?` + 
+                    `$select=Doba%20handlowa,OREB,Czechy%20Eksport%20%5BMW%5D,Czechy%20Import%20%5BMW%5D,` + 
+                    `S%C5%82owacja%20Eksport%20%5BMW%5D,S%C5%82owacja%20Import%20%5BMW%5D,` + 
+                    `Niemcy%20Eksport%20%5BMW%5D,Niemcy%20Import%20%5BMW%5D,` + 
+                    `Szwecja%20Eksport%20%5BMW%5D,Szwecja%20Import%20%5BMW%5D,` + 
+                    `Ukraina%20Eksport%20%5BMW%5D,Ukraina%20Import%20%5BMW%5D,` + 
+                    `Litwa%20Eksport%20%5BMW%5D,Litwa%20Import%20%5BMW%5D,Data%20publikacji&` + 
+                    `$filter=business_date%20eq%20%27${dateString}%27`;
+
+                promises.push(fetch(apiUrl).then((response) => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
-                })
-                .then((data) => {
+                }).then((data) => {
                     const entries = data.value;
                     entries.forEach((entry) => {
                         Object.keys(countryCoordinates).forEach((country) => {
@@ -228,93 +244,87 @@
                             }
                         });
                     });
+                }).catch((error) => console.error('Error fetching data:', error)));
+            }
 
-                    geoJsonData.features.forEach(feature => {
-                        if (feature.properties && feature.properties.dateTime) {
-                            feature.properties.time = new Date(feature.properties.dateTime).toISOString();
-                        }
-                    });
+            return Promise.all(promises).then(() => {
+                geoJsonData.features.forEach(feature => {
+                    if (feature.properties && feature.properties.dateTime) {
+                        feature.properties.time = new Date(feature.properties.dateTime).toISOString();
+                    }
+                });
 
-                    const timestamps = geoJsonData.features.map(feature => new Date(feature.properties.dateTime));
-                    const minDate = new Date(Math.min(...timestamps));
-                    const maxDate = new Date(Math.max(...timestamps));
+                const timestamps = geoJsonData.features.map(feature => new Date(feature.properties.dateTime));
+                const minDate = new Date(Math.min(...timestamps));
+                const maxDate = new Date(Math.max(...timestamps));
 
-                    map.timeDimension.options.timeInterval = `${minDate.toISOString()}/${maxDate.toISOString()}`;
-                    map.timeDimension.options.period = 'PT15M';
+                map.timeDimension.options.timeInterval = `${minDate.toISOString()}/${maxDate.toISOString()}`;
+                map.timeDimension.options.period = 'PT1H';
 
-                    const geoJsonLayer = L.geoJSON(geoJsonData, {
-                        pointToLayer: function (feature, latlng) {
-                            return L.circleMarker(latlng, {
-                                radius: 3,
-                                color: 'black',
-                                weight: 1,
-                                opacity: 1,
-                                fillOpacity: 0.8
-                            });
-                        },
-                        onEachFeature: function (feature, layer) {
-                            var popupContent = `
-                                <b>Країна:</b> ${feature.properties.country || 'Невідомо'}<br>
-                                <b>Експорт (MW):</b> ${feature.properties.export}<br>
-                                <b>Імпорт (MW):</b> ${feature.properties.import}<br>
-                                <b>Час:</b> ${feature.properties.dateTime || 'Невідомо'}`;
-                            layer.bindPopup(popupContent);
-                        }
-                    });
-
-                    var timeDimensionLayer = L.timeDimension.layer.geoJson(geoJsonLayer, {
-                        updateTimeDimension: true,
-                        addLastPoint: true,
-                        duration: 'PT15M'
-                    });
-                   //console.log(timeDimensionLayer, "layer1")
-
-                    map.timeDimension.on('timeload', function () {
-                        // Видаляємо старі маркери
-                        tooltipMarkers.forEach(marker => map.removeLayer(marker));
-                        tooltipMarkers = []; // Очищаємо масив
-
-                        // Додаємо нові маркери з тултіпами
-                        geoJsonLayer.eachLayer(function (layer) {
-                            var feature = layer.feature;
-                            var currentTime = map.timeDimension.getCurrentTime();
-
-                            // Якщо час елемента збігається з поточним часом
-                            if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
-                                var Export = feature.properties.export;
-                                var Import = feature.properties.import;
-                                console.log(feature.properties)
-                                var tooltip = L.divIcon({
-                                    className: 'custom-tooltip',
-                                    html: `
-                                        <div class="imp-exp-block">
-                                            <span style="font-size: 10px; text-align: center; color: Black; font-weight: bold;">
-                                                ${feature.properties.country}
-                                            </span>
-                                            <span style="font-size: 15px; text-align: center; color: blue; font-weight: bold;">
-                                                ${Math.round(Import)/1000} GW
-                                            </span>
-                                            <span style="font-size: 15px; text-align: center; color: red; font-weight: bold;">
-                                                ${Math.round(Export)/1000} GW
-                                            </span>
-                                        </div>
-                                    `,
-                                    iconSize: [100, 50], // Розмір тултіпу
-                                     // Розташування тултіпу
-                                });
-
-                                // Додаємо тултіп як маркер
-                                var tooltipMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
-                                tooltipMarkers.push(tooltipMarker); // Зберігаємо маркер
-                            }
+                const geoJsonLayer = L.geoJSON(geoJsonData, {
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 3,
+                            color: 'black',
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
                         });
-                        
-                    });
+                    },
+                    onEachFeature: function (feature, layer) {
+                        var popupContent = `
+                            <b>Країна:</b> ${feature.properties.country || 'Невідомо'}<br>
+                            <b>Експорт (MW):</b> ${feature.properties.export}<br>
+                            <b>Імпорт (MW):</b> ${feature.properties.import}<br>
+                            <b>Час:</b> ${feature.properties.dateTime || 'Невідомо'}`;
+                        layer.bindPopup(popupContent);
+                    }
+                });
 
-                    return timeDimensionLayer;
-                    
-                })
-                .catch((error) => console.error('Error fetching data:', error));
+                var timeDimensionLayer = L.timeDimension.layer.geoJson(geoJsonLayer, {
+                    updateTimeDimension: true,
+                    addLastPoint: true,
+                    duration: 'PT1H'
+                });
+
+                map.timeDimension.on('timeload', function () {
+                    tooltipMarkers.forEach(marker => map.removeLayer(marker));
+                    tooltipMarkers = [];
+
+                    geoJsonLayer.eachLayer(function (layer) {
+                        var feature = layer.feature;
+                        var currentTime = map.timeDimension.getCurrentTime();
+
+                        if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
+                            var Export = feature.properties.export;
+                            var Import = feature.properties.import;
+                            console.log(feature.properties);
+                            var tooltip = L.divIcon({
+                                className: 'custom-tooltip',
+                                html: `
+                                    <div class="imp-exp-block">
+                                        <span style="font-size: 10px; text-align: center; color: Black; font-weight: bold;">
+                                            ${feature.properties.country}
+                                        </span>
+                                        <span style="font-size: 15px; text-align: center; color: blue; font-weight: bold;">
+                                            ${Math.round(Import)/1000} GW
+                                        </span>
+                                        <span style="font-size: 15px; text-align: center; color: red; font-weight: bold;">
+                                            ${Math.round(Export)/1000} GW
+                                        </span>
+                                    </div>
+                                `,
+                                iconSize: [100, 50],
+                            });
+
+                            var tooltipMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
+                            tooltipMarkers.push(tooltipMarker);
+                        }
+                    });
+                });
+
+                return timeDimensionLayer;
+            }).catch((error) => console.error('Error fetching data:', error));
         }
         
         
@@ -326,60 +336,54 @@
             return { hours, minutes };
         }
 
-
+        
         function loadPowerPlantsLayer() {
-                const currentDate = moment().format('YYYY-MM-DD');
-                var tooltipMarkers = []; // Масив для зберігання маркерів з тултіпами
-                // Формуємо URL для запиту даних
-                var geoJsonLayer
-                const urlE = `https://api.raporty.pse.pl/api/gen-jw-export?$select=Doba%20handlowa,OREB,Elektrownia,Kod%20JW,Tryb%20pracy,wartosc,Data%20publikacji&$orderby=udtczas_utc,%20%27Kod%20JW%27&$first=15000&$filter=business_date%20ge%20%27${currentDate}%27%20and%20business_date%20le%20%27${currentDate}%27`;
-                return fetch(urlE)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                })
-                .then((responseData) => {
+            const tooltipMarkers = [];
+            const coordinates = {
+                                "Bełchatów": [19.325833,51.2675],
+                                "Kozienice": [21.464444, 51.665278,],
+                                "Opole": [17.883889, 50.751389],
+                                "Jaworzno 3": [19.206667, 50.208611],
+                                "Połaniec": [21.333528, 50.435111],
+                                "Rybnik": [18.526278, 50.133083],
+                                "Turów": [14.912056, 50.94725],
+                                "Dolna Odra": [14.463452, 53.20592],
+                                "Pątnów 2": [18.236111, 52.301111],
+                                "Łaziska 3": [18.846417, 50.132778],
+                                "Łagisza": [19.1475, 50.349444],
+                                "Ostrołęka B": [21.613056, 53.104167],
+                                "Siersza": [19.4625, 50.206111],
+                                "Skawina": [19.803889, 49.975889],
+                                "EC Stalowa Wola": [22.075967, 50.550439]
+                            };
+
+            const geoJsonData = {
+                type: "FeatureCollection",
+                features: []
+            };
+
+            const today = new Date();
+            const promises = [];
+
+            for (let i = 0; i < dayscount; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                const dateString = moment(date).format('YYYY-MM-DD');
+                const urlE = `https://api.raporty.pse.pl/api/gen-jw-export?$select=Doba%20handlowa,OREB,Elektrownia,Kod%20JW,Tryb%20pracy,wartosc,Data%20publikacji&$orderby=udtczas_utc,%20%27Kod%20JW%27&$first=15000&$filter=business_date%20eq%20%27${dateString}%27`;
+
+                promises.push(fetch(urlE).then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                }).then((responseData) => {
                     const data = responseData.value;
-                    console.log(data.value);
 
-                    var coordinates = {
-                        "Bełchatów": [19.325833,51.2675],
-                        "Kozienice": [21.464444, 51.665278,],
-                        "Opole": [17.883889, 50.751389],
-                        "Jaworzno 3": [19.206667, 50.208611],
-                        "Połaniec": [21.333528, 50.435111],
-                        "Rybnik": [18.526278, 50.133083],
-                        "Turów": [14.912056, 50.94725],
-                        "Dolna Odra": [14.463452, 53.20592],
-                        "Pątnów 2": [18.236111, 52.301111],
-                        "Łaziska 3": [18.846417, 50.132778],
-                        "Łagisza": [19.1475, 50.349444],
-                        "Ostrołęka B": [21.613056, 53.104167],
-                        "Siersza": [19.4625, 50.206111],
-                        "Skawina": [19.803889, 49.975889],
-                        "EC Stalowa Wola": [22.075967, 50.550439]
-                    };
-                    // Фільтруємо дані, де 'wartosc' не є NaN
                     const filteredData = data.filter(item => item.wartosc !== null);
-
-                    // Конвертуємо 'Data publikacji' в правильний формат
                     filteredData.forEach(item => {
                         item["Data publikacji"] = moment(item["Data publikacji"]).toDate();
                     });
 
-                    // Сортуємо по 'Data publikacji' в порядку спадання
-                    filteredData.sort((a, b) => b["Data publikacji"] - a["Data publikacji"]);
-
-                    // Заміна 'Kozienice 1' і 'Kozienice 2' на 'Kozienice'
-                    filteredData.forEach(item => {
-                        if (item.Elektrownia === 'Kozienice 1' || item.Elektrownia === 'Kozienice 2') {
-                            item.Elektrownia = 'Kozienice';
-                        }
-                    });
-
-                    // Групуємо по 'OREB' та 'Elektrownia', підсумовуємо 'wartosc'
                     const groupedData = {};
                     filteredData.forEach(item => {
                         const key = `${item.OREB}-${item.Elektrownia}`;
@@ -389,11 +393,10 @@
                         groupedData[key].wartosc += item.wartosc;
                     });
 
-                    // Додаємо час для OREB
                     function getTimeFromOREB(oreb) {
-                        const [startTime] = oreb.split(' - '); // Беремо тільки перший час
-                        const [startHour, startMinute] = startTime.split(':').map(Number); // Розділяємо години та хвилини
-                        return { hours: startHour, minutes: startMinute }; // Повертаємо об'єкт з годинами і хвилинами
+                        const [startTime] = oreb.split(' - ');
+                        const [startHour, startMinute] = startTime.split(':').map(Number);
+                        return { hours: startHour, minutes: startMinute };
                     }
 
                     const updatedGroupedData = Object.values(groupedData).map(item => {
@@ -403,138 +406,122 @@
                         return item;
                     });
 
-                    // Додаємо координати до кожного елементу
                     updatedGroupedData.forEach(item => {
                         item.coordinates = coordinates[item.Elektrownia] || null;
                     });
 
-                    // Фільтруємо елементи з відсутніми координатами
                     const finalData = updatedGroupedData.filter(item => item.coordinates);
-
-                    // Форматуємо дати
                     finalData.forEach(item => {
                         item["Doba handlowa"] = moment(item["Doba handlowa"]).format('YYYY-MM-DD HH:mm:ss');
                         item["Data publikacji"] = moment(item["Data publikacji"]).format('YYYY-MM-DD HH:mm:ss');
                         item["timestamp"] = moment(item["timestamp"]).format('YYYY-MM-DD HH:mm:ss');
                     });
 
-                    // Створення GeoJSON
-                    const geoJSON = {
-                        type: "FeatureCollection",
-                        features: finalData.map(item => ({
-                            type: "Feature",
-                            geometry: {
-                                type: "Point",
-                                coordinates: item.coordinates
-                            },
-                            properties: {
-                                "OREB": item.OREB,
-                                "Elektrownia": item.Elektrownia,
-                                "Kod JW": item["Kod JW"],
-                                "Tryb pracy": item["Tryb pracy"],
-                                "wartosc": item.wartosc,
-                                "Doba handlowa": item["Doba handlowa"],
-                                "Data publikacji": item["Data publikacji"],
-                                "timestamp": item["timestamp"]
-                            }
-                        }))
-                    };
-
-
-
-                    console.log(geoJSON);
-                    var geojsonData = geoJSON
-                    geojsonData.features.forEach(feature => {
-                        if (feature.properties && feature.properties.timestamp) {
-                            const timestamp = feature.properties.timestamp.replace(' ', 'T') + 'Z';
-                            feature.properties.time = new Date(timestamp).toISOString();
-                        }
-                    });
-
-                    console.log(geojsonData);
-                    geoJsonLayer = L.geoJSON(geojsonData, {
-                        
-                        pointToLayer: function (feature, latlng) {
-                            var wartosc = feature.properties.wartosc || 0;
-                            var size = Math.sqrt(wartosc) * 2;
-                            
-                            console.log('додавання1 точок')
-                            return L.marker(latlng,  {
-                                
-                                icon: L.divIcon({
-                                    className: 'custom-marker',
-                                    html: `<div style="
-                                        width: ${size / 2}px;
-                                        height: ${size / 2}px;
-                                        background-color: #910101;
-                                        opacity: 0.5;
-                                        border: 1px solid black;
-                                        transform: translate(-40%, -40%);
-                                    "></div>`
-                                })
-                            });
+                    geoJsonData.features.push(...finalData.map(item => ({
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: item.coordinates
                         },
-                        onEachFeature: function (feature, layer) {
-                            var wartosc = feature.properties.wartosc || 0;
-                            var popupContent = `
-                                <b>Електростанція:</b> ${feature.properties.Elektrownia || 'Невідомо'}<br>
-                                <b>Потужність (MW):</b> ${Math.round(wartosc)}<br>
-                                <b>Час:</b> ${feature.properties.timestamp || 'Невідомо'}`;
-
-                            layer.bindPopup(popupContent);
+                        properties: {
+                            "OREB": item.OREB,
+                            "Elektrownia": item.Elektrownia,
+                            "Kod JW": item["Kod JW"],
+                            "Tryb pracy": item["Tryb pracy"],
+                            "wartosc": item.wartosc,
+                            "Doba handlowa": item["Doba handlowa"],
+                            "Data publikacji": item["Data publikacji"],
+                            "timestamp": item["timestamp"]
                         }
-                    })
-                    
+                    })));
 
-                    // Повертаємо шар з підтримкою TimeDimension
-                    const timeDimensionLayer = L.timeDimension.layer.geoJson(geoJsonLayer, {
-                        updateTimeDimension: true,
-                        addLastPoint: true,
-                        duration: 'PT15M'
-                    });
-                    
-                    console.log(timeDimensionLayer)
-                    map.timeDimension.on('timeload', function () {
-                        // Видаляємо всі попередні маркери з текстами
-                        tooltipMarkers.forEach(marker => map.removeLayer(marker));
-                        tooltipMarkers = []; // Очищаємо масив
+                }).catch((error) => console.error('Error fetching data:', error)));
+            }
 
-                        // Додаємо нові маркери, які відповідають поточному часу
-                        geoJsonLayer.eachLayer(function (layer) {
-                            var feature = layer.feature;
-                            var wartosc = feature.properties.wartosc || 0;
+            return Promise.all(promises).then(() => {
+                geoJsonData.features.forEach(feature => {
+                    if (feature.properties && feature.properties.timestamp) {
+                        const timestamp = feature.properties.timestamp.replace(' ', 'T') + 'Z';
+                        feature.properties.time = new Date(timestamp).toISOString();
+                    }
+                });
 
-                            var size = Math.sqrt(wartosc) * 2;
-                            wartosc = wartosc / 1000;
-                            wartosc = parseFloat(wartosc.toFixed(2));
-
-                            var currentTime = map.timeDimension.getCurrentTime();
-
-                            // Якщо timestamp елемента збігається з поточним часом, додаємо тултіп
-                            if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
-                                var tooltip = L.divIcon({
-                                    className: 'custom-tooltip1',
-                                    html: `<div class="tooltip-box">${wartosc}</div>`,
-                                    iconSize: null, // Дозволяємо автоматично підлаштовувати розмір
-                                    iconAnchor: [size/6, -size/4 ] // Центруємо текстовий бокс під маркером
-                                });
-
-                                // Створюємо маркер для тексту та додаємо його до карти
-                                var textMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
-                                tooltipMarkers.push(textMarker); // Додаємо маркер до масиву
-                            }
-
+                const geoJsonLayer = L.geoJSON(geoJsonData, {
+                    pointToLayer: function (feature, latlng) {
+                        const wartosc = feature.properties.wartosc || 0;
+                        var size = Math.sqrt(wartosc) * 2;
+                        return L.marker(latlng, {
+                            icon: L.divIcon({
+                                className: 'custom-marker',
+                                html: `<div style="
+                                    width: ${size / 2}px;
+                                    height: ${size / 2}px;
+                                    background-color: #910101;
+                                    opacity: 0.5;
+                                    border: 1px solid black;
+                                    transform: translate(-40%, -40%);
+                                "></div>`
+                            })
                         });
-                    });
+                    },
+                    onEachFeature: function (feature, layer) {
+                        const wartosc = feature.properties.wartosc || 0;
+                        const popupContent = `
+                            <b>Електростанція:</b> ${feature.properties.Elektrownia || 'Невідомо'}<br>
+                            <b>Потужність (MW):</b> ${Math.round(wartosc)}<br>
+                            <b>Час:</b> ${feature.properties.timestamp || 'Невідомо'}`;
+                        layer.bindPopup(popupContent);
+                    }
+                });
+
+                const timeDimensionLayer = L.timeDimension.layer.geoJson(geoJsonLayer, {
+                    updateTimeDimension: true,
+                    addLastPoint: true,
+                    duration: 'PT1H'
+                });
+
+                map.timeDimension.on('timeload', function () {
+                    tooltipMarkers.forEach(marker => map.removeLayer(marker));
+                    tooltipMarkers.length = 0;
                     
-                    return timeDimensionLayer;
-                    console.log(timeDimensionLayer,'layer2')
-                })
-                .catch((error) => console.error('Error fetching data:', error));
+                    geoJsonLayer.eachLayer(function (layer) {
+                        const feature = layer.feature;
+                        const currentTime = map.timeDimension.getCurrentTime();
+                        
+                        if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
+                            var wartosc = feature.properties.wartosc || 0;
+                            var tiptop = feature.properties.Elektrownia
+                            wartosc = wartosc / 1000;
+                            var size = Math.sqrt(wartosc) * 2;
+                            var tooltip;
+                            if (tiptop == "Łagisza"){
+                                tooltip = L.divIcon({
+                                    className: 'custom-tooltip1',
+                                    html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                    iconSize: [size, size], // Дозволяємо автоматично підлаштовувати розмір
+                                    iconAnchor: [size/0.1, size/0.03]
+                                });
+                            } else {
+                                tooltip = L.divIcon({
+                                    className: 'custom-tooltip1',
+                                    html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                    iconSize: [size, size], // Дозволяємо автоматично підлаштовувати розмір
+                                    iconAnchor: [size/0.1, -size/0.1]
+                                });
+                            }
+                            const textMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
+                            tooltipMarkers.push(textMarker);
+                        }
+                    });
+                });
+
+                return timeDimensionLayer;
+            }).catch((error) => console.error('Error fetching data:', error));
         }
 
         Promise.all([loadExportImportLayer(),
-         loadPowerPlantsLayer()])
+         loadPowerPlantsLayer()
+         ])
             .then((layers) => {
                 layers.forEach(layer => layer.addTo(map));
                 
@@ -549,7 +536,8 @@
         var geojsonUrlProjekty = 'https://mark-000.github.io/pl-power-vis-map.github.io/pse-proekty-all-35r';
         var geojsonUrlRecons = 'https://mark-000.github.io/pl-power-vis-map.github.io/pse-recons-linii-all-shem.geojson'; // Новий шар
         var geojsonUrlJdr = 'https://mark-000.github.io/pl-power-vis-map.github.io/Polskie_Elektrownie_Jądrowe.geojson';
-        var layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer, projektyJdr;
+        var geojsonUrlBorder = 'https://mark-000.github.io/pl-power-vis-map.github.io/border-poland.geojson';
+        var layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer, projektyJdr, borderLayer;
 
 
         var createLayer = (geojsonData, voltage) => {
@@ -585,7 +573,7 @@
             color: 'orange', // Можна змінити стиль
             weight: 2
         });
-
+        console.log(arcgisLayer);
         fetch(geojsonUrlLine)
             .then(response => response.json())
             .then(geojsonData => {
@@ -639,6 +627,7 @@
                                     }
                                 });
 
+
                                 fetch(geojsonUrlRecons)
                                     .then(response => response.json())
                                     .then(reconsGeojsonData => {
@@ -660,7 +649,7 @@
                                                 `);
                                             }
                                         });
-                        // Додавання контролю для перемикання шарів
+
                                         fetch(geojsonUrlJdr)
                                             .then(response => response.json())
                                             .then(projektyGeojsonData => {
@@ -683,26 +672,48 @@
                                                         `);
                                                     }
                                                 });
+
+                                                map.createPane('borderPane');
+                                                map.getPane('borderPane').style.zIndex = 400;
+
+                                                fetch(geojsonUrlBorder)
+                                                    .then(response => response.json())
+                                                    .then(borderGeojsonData => {
+                                                        borderLayer = L.geoJSON(borderGeojsonData, {
+                                                            pane: 'borderPane',
+                                                            style: {
+                                                                color: 'black', // Колір шару
+                                                                weight: 1, // Товщина ліній
+                                                                fillOpacity: 0
+                                                            },
+                                                            interactive: false
+                                                            
+                                                        
+                                                        });
                         // Додавання контролю для перемикання шарів
                                                 var overlays = {
+                                                    "<span style='color: black;'>Польща</span>": borderLayer,
                                                     "<span style='color: purple;'>400kV Лінії</span>": layer400,
                                                     "<span style='color: green;'>220kV Лінії</span>": layer220,
                                                     "<span style='color: red;'>110kV Лінії</span>": layer110,
                                                     "<span style='color: black;'>Межі операторів</span>": arcgisLayer,
-                                                    "<span style='color: black;'>Нові електростанції</span>": projektyJdr,
                                                     "<span style='color: black;'>PSE підстанції</span>": gpzLayer,// Додаємо шар з ArcGIS
+                                                    "<span style='color: black;'>АЕС</span>": projektyJdr,
                                                     "<span style='color: black;'>PSE проекти GPZ</span>": projektyLayer,
                                                     "<span style='color: red; text-decoration: underline;'>PSE проекти Linii</span>": reconsLayer
                                                 };
 
                                 // Додавання контролю для перемикання шарів
                                 L.control.layers(null, overlays).addTo(map);
+                                borderLayer.addTo(map);
 
                 // Додавання шарів на карту після ініціалізації контролю
                 //layer220.addTo(map); // Додаємо шар 220 на карту
                 //layer400.addTo(map); // Додаємо шар 400 на карту
                 //layer110.addTo(map); // Додаємо новий шар 110 на карту
                //arcgisLayer.addTo(map); // Додаємо шар ArcGIS на карту
+                                })
+                                .catch(error => console.error('Error loading Border GeoJSON:', error));
                             })
                             .catch(error => console.error('Error loading Jdr GeoJSON:', error));
                         })
@@ -713,7 +724,7 @@
                 .catch(error => console.error('Error loading GPZ GeoJSON:', error));
             })
             .catch(error => console.error('Error loading GeoJSON:', error));
-        
+            
 
     </script>
 </body>
