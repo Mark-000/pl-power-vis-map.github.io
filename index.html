@@ -560,6 +560,8 @@
                 onEachFeature: function(feature, layer) {
                     layer.bindPopup(`
                         <b>Name:</b> ${feature.properties.name || 'Unknown'}<br>
+                        <b>circuits:</b> ${feature.properties.circuits || 'Unknown'}<br>
+                        <b>cables:</b> ${feature.properties.cables || 'Unknown'}<br>
                         <b>Voltage:</b> ${feature.properties.voltage || 'Unknown'}
                     `);
                 }
