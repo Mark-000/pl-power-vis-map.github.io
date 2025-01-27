@@ -786,6 +786,32 @@
                                                                         centerPt.y + radius * Math.sin(angle)
                                                                     );
                                                                 });
+                                                            },
+                                                            iconCreateFunction: function (cluster) {
+        // Обчислення суми значень по колонці "Moc [MW]" (або іншій)
+                                                                var sum = 0;
+                                                                cluster.getAllChildMarkers().forEach(function (marker) {
+                                                                    var value = marker.feature.properties["Moc [MW]"]; // Замінити на вашу колонку
+                                                                    if (!isNaN(value)) {
+                                                                        sum += parseFloat(value);
+                                                                    }
+                                                                });
+
+                                                                // Створення іконки для кластеру із сумою
+                                                                return L.divIcon({
+                                                                    html: `<div style="background-color: rgba(0, 123, 255, 0.6); 
+                                                                                        border-radius: 50%; 
+                                                                                        width: 50px; 
+                                                                                        height: 50px; 
+                                                                                        line-height: 50px; 
+                                                                                        text-align: center; 
+                                                                                        color: white; 
+                                                                                        font-weight: bold;">
+                                                                                ${sum.toFixed(2)} MW
+                                                                        </div>`,
+                                                                    className: 'custom-cluster-icon',
+                                                                    iconSize: [50, 50]
+                                                                });
                                                             }
                                                         });
 
