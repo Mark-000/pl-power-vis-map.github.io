@@ -788,27 +788,40 @@
                                                                 });
                                                             },
                                                             iconCreateFunction: function (cluster) {
-        // Обчислення суми значень по колонці "Moc [MW]" (або іншій)
-                                                                var sum = 0;
+                                                                var sumvmerezu = 0;
+                                                                var sumzmerezi = 0;
+
+                                                                // Один прохід для обчислення обох значень
                                                                 cluster.getAllChildMarkers().forEach(function (marker) {
-                                                                    var value = marker.feature.properties["Moc [MW]"]; // Замінити на вашу колонку
-                                                                    if (!isNaN(value)) {
-                                                                        sum += parseFloat(value);
+                                                                    var value1 = marker.feature.properties["Moc przyłączeniowa wprowadzana do sieci\n[MW]2"];
+                                                                    if (!isNaN(value1)) {
+                                                                        sumvmerezu += parseFloat(value1) /1000;
+                                                                    }
+
+                                                                    var value2 = marker.feature.properties["Moc przyłączeniowa pobierana\nz sieci [MW]1"];
+                                                                    if (!isNaN(value2)) {
+                                                                        sumzmerezi += parseFloat(value2) / 1000;
                                                                     }
                                                                 });
 
-                                                                // Створення іконки для кластеру із сумою
+                                                                // Створення іконки
                                                                 return L.divIcon({
-                                                                    html: `<div style="background-color: rgba(0, 123, 255, 0.6); 
-                                                                                        border-radius: 50%; 
-                                                                                        width: 50px; 
-                                                                                        height: 50px; 
-                                                                                        line-height: 50px; 
-                                                                                        text-align: center; 
-                                                                                        color: white; 
-                                                                                        font-weight: bold;">
-                                                                                ${sum.toFixed(2)} MW
-                                                                        </div>`,
+                                                                    html: `
+                                                                        <div style="background-color: rgba(0, 123, 255, 0.3); 
+                                                                                    border-radius: 50%; 
+                                                                                    display: flex;
+                                                                                    justify-content: center;
+                                                                                    align-items: center;
+                                                                                    flex-direction: column;
+                                                                                    width: 50px; 
+                                                                                    height: 50px; 
+                                                                                    text-align: center; 
+                                                                                    color: white; 
+                                                                                    font-weight: bold;">
+                                                                            <div style="color: blue;">${sumvmerezu.toFixed(2)}</div>
+                                                                            <div style="color: red;">${sumzmerezi.toFixed(2)}</div>
+                                                                        </div>
+                                                                    `,
                                                                     className: 'custom-cluster-icon',
                                                                     iconSize: [50, 50]
                                                                 });
@@ -832,7 +845,7 @@
                                                         }
 
                                                         // Завантаження GeoJSON
-                                                        var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/przylaczenie_updated_data.geojson';
+                                                        var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/przylaczenie_updated_data_all.geojson';
 
                                                         fetch(prelunJsonUrl)
                                                             .then(response => response.json())
@@ -855,9 +868,10 @@
                                                                         // Додавання спливаючого вікна для кожної точки
                                                                         layer.bindPopup(`
                                                                             <b>Станція:</b> ${feature.properties.name || 'Невідомо'}<br>
-                                                                            <b>Потужність:</b> ${feature.properties['Moc [MW]'] || 'Невідомо'}<br>
+                                                                            <b>подається в мережу:</b> ${feature.properties['Moc przyłączeniowa wprowadzana do sieci\n[MW]2'] || 'Невідомо'}<br>
+                                                                            <b>споживається з мережі:</b> ${feature.properties['Moc przyłączeniowa pobierana\nz sieci [MW]1'] || 'Невідомо'}<br>
                                                                             <b>Тип:</b> ${feature.properties['Rodzaj instalacji'] || 'Невідомо'}<br>
-                                                                            <b>Дата:</b> ${feature.properties['Data określenia (przed 11.03.2010) / Data doręczenia (po 11.03.2010)\nWarunków Przyłączenia'] || 'Невідомо'}<br>
+                                                                            <b>Дата:</b> ${feature.properties['Data doręczenia Warunków Przyłączenia'] || 'Невідомо'}<br>
                                                                         `);
                                                                     }
                                                                 });
