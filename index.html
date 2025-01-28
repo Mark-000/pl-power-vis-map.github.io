@@ -587,20 +587,40 @@
                             wartosc = wartosc / 1000;
                             const size = Math.sqrt(wartosc) * 2;
                             var tooltip;
-                            if (tiptop == "Łagisza") {
-                                tooltip = L.divIcon({
-                                    className: 'custom-tooltip1',
-                                    html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                    iconSize: [size, size],
-                                    iconAnchor: [size / 0.1, size / 0.03]
-                                });
-                            } else {
-                                tooltip = L.divIcon({
-                                    className: 'custom-tooltip1',
-                                    html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                    iconSize: [size, size],
-                                    iconAnchor: [size / 0.1, -size / 0.1]
-                                });
+                            
+                            switch (tiptop) {
+                                case "Łagisza":
+                                    tooltip = L.divIcon({
+                                        className: 'custom-tooltip1',
+                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                        iconSize: [size, size],
+                                        iconAnchor: [size / 0.1, size / 0.03]
+                                    });
+                                    break;
+                                case "Siersza":
+                                    tooltip = L.divIcon({
+                                        className: 'custom-tooltip1',
+                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                        iconSize: [size, size],
+                                        iconAnchor: [-size / 0.03, size / 0.05]
+                                    });
+                                    break;
+                               case "Rybnik":
+                                    tooltip = L.divIcon({
+                                        className: 'custom-tooltip1',
+                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                        iconSize: [size, size],
+                                        iconAnchor: [size / 0.03, size / 0.08]
+                                    });
+                                    break;
+                                default:
+                                    tooltip = L.divIcon({
+                                        className: 'custom-tooltip1',
+                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                        iconSize: [size, size],
+                                        iconAnchor: [size, -size / 0.1]
+                                    });
+                                    break;
                             }
                             const textMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
                             powerPlantsTooltipMarkers.push(textMarker); // Зберігаємо маркер у глобальну змінну
