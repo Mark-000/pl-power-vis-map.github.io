@@ -21,13 +21,13 @@
             font-family: 'Open Sans', sans-serif !important;
         }
         .export-import-tooltip {
-            background-color: rgba(255, 255, 128, .5);
+            background-color: rgba(255, 255, 128, 0.5);
         }
         .custom-tooltip1 .tooltip-box {
             display: inline-block;
             color: blue;
             white-space: nowrap; /* Текст не переноситься на новий рядок */
-            background: rgba(255, 255, 255, 1); /* Прозорий білий фон */
+            background: rgba(255, 255, 255, 0.5); /* Прозорий білий фон */
              /*border: 1px solid black; Чорна рамка */
             border-radius: 5px; /* Заокруглені кути */
             padding: 0px 2px; /* Відступи всередині боксу */
@@ -52,7 +52,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: 	rgb(235, 224, 224, 0.5);
+            background-color: 	rgb(235, 224, 224, 1);
             width: 100%;
         } 
         .donations-block{
@@ -342,7 +342,9 @@
                 map.timeDimension.options.period = 'PT1H';
 
                 const geoJsonLayer = L.geoJSON(geoJsonData, {
+                    
                     pointToLayer: function (feature, latlng) {
+                        
                         return L.circleMarker(latlng, {
                             radius: 3,
                             color: 'black',
@@ -537,32 +539,14 @@
 
                 const geoJsonLayer = L.geoJSON(geoJsonData, {
                     pointToLayer: function (feature, latlng) {
-                        const wartosc = feature.properties.wartosc || 0;
-                        var size = Math.sqrt(wartosc) * 2;
-                        return L.marker(latlng, {
-                            icon: L.divIcon({
-                                className: 'custom-marker',
-                                html: `<div style="
-                                    width: ${size / 2}px;
-                                    height: ${size / 2}px;
-                                    background-color: #910101;
-                                    opacity: 0.5;
-                                    border: 1px solid black;
-                                    transform: translate(-40%, -40%);
-                                "></div>`
-                            })
+                        return L.circleMarker(latlng, {
+                            radius: 6, // Будь-яке значення, бо воно невидиме
+                            color: "transparent", // Прозора границя
+                            fillColor: "transparent", // Прозорий залив
+                            fillOpacity: 0 // Повна прозорість
                         });
-                    },
-                    onEachFeature: function (feature, layer) {
-                        const wartosc = feature.properties.wartosc || 0;
-                        const maxp = feature.properties.maxPower || 0;
-                        const popupContent = `
-                            <b>Електростанція:</b> ${feature.properties.Elektrownia || 'Невідомо'}<br>
-                            <b>Загальна потужність (MW):</b> ${Math.round(maxp)}<br>
-                            <b>Поточна потужність (MW):</b> ${Math.round(wartosc)}<br>
-                            <b>Час:</b> ${feature.properties.timestamp || 'Невідомо'}`;
-                        layer.bindPopup(popupContent);
                     }
+                    
                 });
 
                 const timeDimensionLayer = L.timeDimension.layer.geoJson(geoJsonLayer, {
@@ -570,62 +554,88 @@
                     addLastPoint: true,
                     duration: 'PT1H'
                 });
-
+                let powerPlantSquareMarkers = [];
                 map.timeDimension.on('timeload', function () {
     // Видаляємо всі попередні маркери
-                    powerPlantsTooltipMarkers.forEach(marker => map.removeLayer(marker));
-                    powerPlantsTooltipMarkers.length = 0;
+                        powerPlantsTooltipMarkers.forEach(marker => map.removeLayer(marker));
+                        powerPlantsTooltipMarkers = []; 
 
-                    // Додаємо нові маркери
-                    geoJsonLayer.eachLayer(function (layer) {
-                        const feature = layer.feature;
-                        const currentTime = map.timeDimension.getCurrentTime();
+                        powerPlantSquareMarkers.forEach(marker => map.removeLayer(marker));
+                        powerPlantSquareMarkers = [];
+                        // Додаємо нові маркери
+                        geoJsonLayer.eachLayer(function (layer) {
+                            const feature = layer.feature;
+                            const currentTime = map.timeDimension.getCurrentTime();
 
-                        if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
-                            var wartosc = feature.properties.wartosc || 0;
-                            const tiptop = feature.properties.Elektrownia;
-                            wartosc = wartosc / 1000;
-                            const size = Math.sqrt(wartosc) * 2;
-                            var tooltip;
-                            
-                            switch (tiptop) {
-                                case "Łagisza":
-                                    tooltip = L.divIcon({
-                                        className: 'custom-tooltip1',
-                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                        iconSize: [size, size],
-                                        iconAnchor: [size / 0.1, size / 0.03]
-                                    });
-                                    break;
-                                case "Siersza":
-                                    tooltip = L.divIcon({
-                                        className: 'custom-tooltip1',
-                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                        iconSize: [size, size],
-                                        iconAnchor: [-size / 0.03, size / 0.05]
-                                    });
-                                    break;
-                               case "Rybnik":
-                                    tooltip = L.divIcon({
-                                        className: 'custom-tooltip1',
-                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                        iconSize: [size, size],
-                                        iconAnchor: [size / 0.03, size / 0.08]
-                                    });
-                                    break;
-                                default:
-                                    tooltip = L.divIcon({
-                                        className: 'custom-tooltip1',
-                                        html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                        iconSize: [size, size],
-                                        iconAnchor: [size, -size / 0.1]
-                                    });
-                                    break;
+                            if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
+                                var wartosc = feature.properties.wartosc || 0;
+                                const tiptop = feature.properties.Elektrownia;
+                                wartosc = wartosc / 1000;
+                                const size = Math.sqrt(wartosc) * 2;
+                                var tooltip;
+                                const squareIcon = L.divIcon({
+                                    className: 'custom-marker',
+                                    html: `<div style="
+                                        width: ${size*17}px;
+                                        height: ${size*17}px;
+                                        background-color: #910101;
+                                        opacity: 0.5;
+                                        border: 1px solid black;
+                                        transform: translate(-50%, -50%);
+                                    "></div>`,
+                                    iconSize: [size, size],
+                                });
+
+                                const squareMarker = L.marker(layer.getLatLng(), { icon: squareIcon }).addTo(map);
+                                powerPlantSquareMarkers.push(squareMarker);
+
+                                // Додаємо pop-up до квадрата
+                                const popupContent = `
+                                    <b>Електростанція:</b> ${feature.properties.Elektrownia || 'Невідомо'}<br>
+                                    <b>Загальна потужність:</b> ${((feature.properties.maxPower || 0) / 1000).toFixed(2)}<br>
+                                    <b>Поточна потужність:</b> ${wartosc.toFixed(2)}<br>
+                                    <b>Час:</b> ${feature.properties.timestamp || 'Невідомо'}`;
+                                squareMarker.bindPopup(popupContent);
+
+                                switch (tiptop) {
+                                    case "Łagisza":
+                                        tooltip = L.divIcon({
+                                            className: 'custom-tooltip1',
+                                            html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                            iconSize: [size, size],
+                                            iconAnchor: [size / 0.1, size / 0.03]
+                                        });
+                                        break;
+                                    case "Siersza":
+                                        tooltip = L.divIcon({
+                                            className: 'custom-tooltip1',
+                                            html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                            iconSize: [size, size],
+                                            iconAnchor: [-size / 0.025, size / 0.05]
+                                        });
+                                        break;
+                                case "Rybnik":
+                                        tooltip = L.divIcon({
+                                            className: 'custom-tooltip1',
+                                            html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                            iconSize: [size, size],
+                                            iconAnchor: [size / 0.03, size / 0.08]
+                                        });
+                                        break;
+                                    default:
+                                        tooltip = L.divIcon({
+                                            className: 'custom-tooltip1',
+                                            html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
+                                            iconSize: [size, size],
+                                            iconAnchor: [size, -size / 0.1]
+                                        });
+                                        break;
+                                }
+                                const textMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
+                                powerPlantsTooltipMarkers.push(textMarker);
+
                             }
-                            const textMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
-                            powerPlantsTooltipMarkers.push(textMarker); // Зберігаємо маркер у глобальну змінну
-                        }
-                    });
+                    }); 
                 });
                 
                 return timeDimensionLayer;
