@@ -927,8 +927,8 @@
                                                                         // Додавання спливаючого вікна для кожної точки
                                                                         layer.bindPopup(`
                                                                             <b>Станція:</b> ${feature.properties.name || 'Невідомо'}<br>
-                                                                            <b>Генерація:</b> ${feature.properties['Moc przyłączeniowa wprowadzana do sieci\n[MW]2'] || 'Невідомо'}<br>
-                                                                            <b>Споживання:</b> ${feature.properties['Moc przyłączeniowa pobierana\nz sieci [MW]1'] || 'Невідомо'}<br>
+                                                                            <b>Генерація:</b> ${feature.properties['Moc przyłączeniowa wprowadzana do sieci\n[MW]2'] || 'Відсутнє'}<br>
+                                                                            <b>Споживання:</b> ${feature.properties['Moc przyłączeniowa pobierana\nz sieci [MW]1'] || 'Відсутнє'}<br>
                                                                             <b>Тип:</b> ${feature.properties['Rodzaj instalacji'] || 'Невідомо'}<br>
                                                                             <b>Дата:</b> ${feature.properties['Data doręczenia Warunków Przyłączenia'] || 'Невідомо'}<br>
                                                                         `);
