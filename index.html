@@ -158,7 +158,7 @@
             border: 2px solid black;
         }
 
-
+        
 
         
     </style>    
@@ -209,6 +209,7 @@
         var overlays = {};
         let exportImportTooltipMarkers = [];
         let powerPlantsTooltipMarkers = [];
+        let powerPlantSquareMarkers = [];
 
         // URLs для GeoJSON файлів
         var exportImportUrl = 'https://storage.googleapis.com/yazadovbavsia/export_import_data.geojson';
@@ -554,7 +555,7 @@
                     addLastPoint: true,
                     duration: 'PT1H'
                 });
-                let powerPlantSquareMarkers = [];
+                
                 map.timeDimension.on('timeload', function () {
     // Видаляємо всі попередні маркери
                         powerPlantsTooltipMarkers.forEach(marker => map.removeLayer(marker));
@@ -666,11 +667,15 @@
                     }
                 });
 
+                        
+
                 map.on('overlayremove', function (event) {
                     if (event.layer === powerPlantsLayer) {
                         // Видаляємо всі підписи
                         powerPlantsTooltipMarkers.forEach(marker => map.removeLayer(marker));
                         powerPlantsTooltipMarkers.length = 0; // Очищення масиву
+                        powerPlantSquareMarkers.forEach(marker => map.removeLayer(marker));
+                        powerPlantSquareMarkers.latlng = 0;
                     }
                 });
 
