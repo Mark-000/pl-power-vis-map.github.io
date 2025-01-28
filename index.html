@@ -6,15 +6,19 @@
     <title>Leaflet TimeDimension Demo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
     <style>
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
+           
         }
+        
         #map {
             height: 100%;
             width: 100%;
+            font-family: 'Open Sans', sans-serif !important;
         }
         .export-import-tooltip {
             background-color: rgba(255, 255, 128, .5);
@@ -202,6 +206,10 @@
             dispNone.classList.add("display-none");
         }
 
+        var overlays = {};
+        let exportImportTooltipMarkers = [];
+        let powerPlantsTooltipMarkers = [];
+
         // URLs для GeoJSON файлів
         var exportImportUrl = 'https://storage.googleapis.com/yazadovbavsia/export_import_data.geojson';
         var powerPlantsUrl = 'https://storage.googleapis.com/yazadovbavsia/elektrownie.geojson';
@@ -233,9 +241,9 @@
 
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'leaflet-legend');
-            div.innerHTML = 
+            div.innerHTML = '<div><i class="purple"></i> 400kV Лінії</div>' +
                             '<div><i class="green"></i> 220kV Лінії</div>' +
-                            '<div><i class="purple"></i> 400kV Лінії</div>' +
+                            
                             '<div><i class="red"></i> 110kV Лінії</div>' +
                             '<div><i class="blue"></i> PSE підстанції</div>' +
                             '<div><i class="black"></i> Проекти GPZ</div>';
@@ -360,18 +368,20 @@
                 });
 
                 map.timeDimension.on('timeload', function () {
-                    tooltipMarkers.forEach(marker => map.removeLayer(marker));
-                    tooltipMarkers = [];
+                    // Видаляємо всі попередні маркери
+                    exportImportTooltipMarkers.forEach(marker => map.removeLayer(marker));
+                    exportImportTooltipMarkers = [];
 
+                    // Додаємо нові маркери
                     geoJsonLayer.eachLayer(function (layer) {
-                        var feature = layer.feature;
-                        var currentTime = map.timeDimension.getCurrentTime();
+                        const feature = layer.feature;
+                        const currentTime = map.timeDimension.getCurrentTime();
 
                         if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
-                            var Export = feature.properties.export;
-                            var Import = feature.properties.import;
-                            console.log(feature.properties);
-                            var tooltip = L.divIcon({
+                            const Export = feature.properties.export;
+                            const Import = feature.properties.import;
+
+                            const tooltip = L.divIcon({
                                 className: 'custom-tooltip',
                                 html: `
                                     <div class="imp-exp-block">
@@ -379,21 +389,23 @@
                                             ${feature.properties.country}
                                         </span>
                                         <span style="font-size: 15px; text-align: center; color: blue; font-weight: bold;">
-                                            ${Math.round(Import)/1000} GW
+                                            ${Math.round(Import) / 1000} GW
                                         </span>
                                         <span style="font-size: 15px; text-align: center; color: red; font-weight: bold;">
-                                            ${Math.round(Export)/1000} GW
+                                            ${Math.round(Export) / 1000} GW
                                         </span>
                                     </div>
                                 `,
                                 iconSize: [100, 50],
                             });
 
-                            var tooltipMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
-                            tooltipMarkers.push(tooltipMarker);
+                            const tooltipMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
+                            exportImportTooltipMarkers.push(tooltipMarker); // Зберігаємо маркер у глобальну змінну
                         }
                     });
                 });
+
+                
 
                 return timeDimensionLayer;
             }).catch((error) => console.error('Error fetching data:', error));
@@ -553,40 +565,42 @@
                 });
 
                 map.timeDimension.on('timeload', function () {
-                    tooltipMarkers.forEach(marker => map.removeLayer(marker));
-                    tooltipMarkers.length = 0;
-                    
+    // Видаляємо всі попередні маркери
+                    powerPlantsTooltipMarkers.forEach(marker => map.removeLayer(marker));
+                    powerPlantsTooltipMarkers.length = 0;
+
+                    // Додаємо нові маркери
                     geoJsonLayer.eachLayer(function (layer) {
                         const feature = layer.feature;
                         const currentTime = map.timeDimension.getCurrentTime();
-                        
+
                         if (feature.properties.time && new Date(feature.properties.time).getTime() === new Date(currentTime).getTime()) {
                             var wartosc = feature.properties.wartosc || 0;
-                            var tiptop = feature.properties.Elektrownia
+                            const tiptop = feature.properties.Elektrownia;
                             wartosc = wartosc / 1000;
-                            var size = Math.sqrt(wartosc) * 2;
+                            const size = Math.sqrt(wartosc) * 2;
                             var tooltip;
-                            if (tiptop == "Łagisza"){
+                            if (tiptop == "Łagisza") {
                                 tooltip = L.divIcon({
                                     className: 'custom-tooltip1',
                                     html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                    iconSize: [size, size], // Дозволяємо автоматично підлаштовувати розмір
-                                    iconAnchor: [size/0.1, size/0.03]
+                                    iconSize: [size, size],
+                                    iconAnchor: [size / 0.1, size / 0.03]
                                 });
                             } else {
                                 tooltip = L.divIcon({
                                     className: 'custom-tooltip1',
                                     html: `<div class="tooltip-box">${wartosc.toFixed(2)}</div>`,
-                                    iconSize: [size, size], // Дозволяємо автоматично підлаштовувати розмір
-                                    iconAnchor: [size/0.1, -size/0.1]
+                                    iconSize: [size, size],
+                                    iconAnchor: [size / 0.1, -size / 0.1]
                                 });
                             }
                             const textMarker = L.marker(layer.getLatLng(), { icon: tooltip }).addTo(map);
-                            tooltipMarkers.push(textMarker);
+                            powerPlantsTooltipMarkers.push(textMarker); // Зберігаємо маркер у глобальну змінну
                         }
                     });
                 });
-
+                
                 return timeDimensionLayer;
             }).catch((error) => console.error('Error fetching data:', error));
         }
@@ -595,8 +609,46 @@
          loadPowerPlantsLayer()
          ])
             .then((layers) => {
-                layers.forEach(layer => layer.addTo(map));
-                
+                var exportImportLayer = layers[0];
+                var powerPlantsLayer = layers[1];
+                overlays["<span style='color: black; font-weight: bold;'>Експорт/Імпорт</span>"] = exportImportLayer;
+                overlays["<span style='color: black; font-weight: bold;'>Електростанції</span>"] = powerPlantsLayer;
+
+                map.on('overlayremove', function (event) {
+                    if (event.layer === exportImportLayer) {
+                        // Видаляємо всі маркери експорту/імпорту
+                        exportImportTooltipMarkers.forEach(marker => map.removeLayer(marker));
+                        exportImportTooltipMarkers = []; // Очищаємо масив
+                    }
+                });
+
+                map.on('overlayadd', function (event) {
+                    if (event.layer === exportImportLayer) {
+                        // Оновлюємо маркери при повторному включенні шару
+                        map.timeDimension.fire('timeload'); // Викликаємо подію timeload
+                    }
+                });
+
+                map.on('overlayremove', function (event) {
+                    if (event.layer === powerPlantsLayer) {
+                        // Видаляємо всі підписи
+                        powerPlantsTooltipMarkers.forEach(marker => map.removeLayer(marker));
+                        powerPlantsTooltipMarkers.length = 0; // Очищення масиву
+                    }
+                });
+
+                map.on('overlayadd', function (event) {
+                    if (event.layer === powerPlantsLayer) {
+                        // Оновлюємо підписи при повторному включенні шару
+                        map.timeDimension.fire('timeload'); // Викликаємо подію timeload
+                    }
+                });
+
+
+                exportImportLayer.addTo(map);
+                powerPlantsLayer.addTo(map);
+
+                L.control.layers(null, overlays).addTo(map);
             })
             .catch((error) => {
                 console.error('Помилка завантаження шарів:', error);
@@ -610,7 +662,7 @@
         var geojsonUrlJdr = 'https://mark-000.github.io/pl-power-vis-map.github.io/Polskie_Elektrownie_Jądrowe.geojson';
         var geojsonUrlBorder = 'https://mark-000.github.io/pl-power-vis-map.github.io/border-poland.geojson';
         
-        var layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer, projektyJdr, borderLayer;
+        var layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer, borderLayer //projektyJdr;
 
 
         var createLayer = (geojsonData, voltage) => {
@@ -725,7 +777,7 @@
                                             }
                                         });
 
-                                        fetch(geojsonUrlJdr)
+                                        /*fetch(geojsonUrlJdr)
                                             .then(response => response.json())
                                             .then(projektyGeojsonData => {
                                                 projektyJdr = L.geoJSON(projektyGeojsonData, {
@@ -746,7 +798,7 @@
                                                             <b>Опис:</b> ${feature.properties.Description || 'Unknown'}<br>
                                                         `);
                                                     }
-                                                });
+                                                });*/
 
                                                 map.createPane('borderPane');
                                                 map.getPane('borderPane').style.zIndex = 400;
@@ -775,7 +827,7 @@
                                                             },
 
                                                             spiderfyShapePositions: function (count, centerPt) {
-        // Рівномірне розташування точок навколо центру
+
                                                                 var radius = 40; // Радіус розташування
                                                                 var angleStep = (2 * Math.PI) / count;
 
@@ -879,21 +931,22 @@
                                                                 // Додавання шару до кластерної групи
                                                                 geoJsonClusterGroup.addLayer(gprelunJsonLayer);      
                         // Додавання контролю для перемикання шарів
-                                                var overlays = {
+                                                overlays = {
+                                                    
                                                     "<span style='color: black;'>Польща</span>": borderLayer,
                                                     "<span style='color: purple;'>400kV Лінії</span>": layer400,
                                                     "<span style='color: green;'>220kV Лінії</span>": layer220,
                                                     "<span style='color: red;'>110kV Лінії</span>": layer110,
                                                     "<span style='color: black;'>Межі операторів</span>": arcgisLayer,
-                                                    "<span style='color: black;'>PSE підстанції</span>": gpzLayer,// Додаємо шар з ArcGIS
                                                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
-                                                    "<span style='color: black;'>АЕС</span>": projektyJdr,
+                                                    "<span style='color: black;'>PSE підстанції</span>": gpzLayer,
+                                                    //"<span style='color: black;'>АЕС</span>": projektyJdr,
                                                     "<span style='color: black;'>PSE проекти GPZ</span>": projektyLayer,
-                                                    "<span style='color: red; text-decoration: underline;'>PSE проекти Linii</span>": reconsLayer
+                                                    "<span style='color: red; text-decoration: underline;'>PSE проекти лінії</span>": reconsLayer
                                                 };
                                                 
                                 // Додавання контролю для перемикання шарів
-                                L.control.layers(null, overlays).addTo(map);
+                                //L.control.layers(null, overlays).addTo(map);
                                 borderLayer.addTo(map);
 
                 // Додавання шарів на карту після ініціалізації контролю
@@ -913,8 +966,8 @@
                     .catch(error => console.error('Error loading Projekty GeoJSON:', error));
                 })
                 .catch(error => console.error('Error loading GPZ GeoJSON:', error));
-            })
-            .catch(error => console.error('Error loading GeoJSON:', error));
+           // })
+           // .catch(error => console.error('Error loading GeoJSON:', error));
             
 
     </script>
