@@ -424,21 +424,21 @@
         function loadPowerPlantsLayer() {
             const tooltipMarkers = [];
             const coordinates = {
-                                "Bełchatów": [19.325833,51.2675],
-                                "Kozienice": [21.464444, 51.665278,],
-                                "Opole": [17.883889, 50.751389],
-                                "Jaworzno 3": [19.206667, 50.208611],
-                                "Połaniec": [21.333528, 50.435111],
-                                "Rybnik": [18.526278, 50.133083],
-                                "Turów": [14.912056, 50.94725],
-                                "Dolna Odra": [14.463452, 53.20592],
-                                "Pątnów 2": [18.236111, 52.301111],
-                                "Łaziska 3": [18.846417, 50.132778],
-                                "Łagisza": [19.1475, 50.349444],
-                                "Ostrołęka B": [21.613056, 53.104167],
-                                "Siersza": [19.4625, 50.206111],
-                                "Skawina": [19.803889, 49.975889],
-                                "EC Stalowa Wola": [22.075967, 50.550439]
+                                "Bełchatów": [19.325833,51.2675, 5102],
+                                "Kozienice": [21.464444, 51.665278, 4016],
+                                "Opole": [17.883889, 50.751389, 3342],
+                                "Jaworzno 3": [19.206667, 50.208611, 2255],
+                                "Połaniec": [21.333528, 50.435111, 1882],
+                                "Rybnik": [18.526278, 50.133083, 900],
+                                "Turów": [14.912056, 50.94725, 2029],
+                                "Dolna Odra": [14.463452, 53.20592, 903],
+                                "Pątnów 2": [18.236111, 52.301111, 474],
+                                "Łaziska 3": [18.846417, 50.132778, 905],
+                                "Łagisza": [19.1475, 50.349444, 460],
+                                "Ostrołęka B": [21.613056, 53.104167, 681],
+                                "Siersza": [19.4625, 50.206111, 306],
+                                "Skawina": [19.803889, 49.975889, 330],
+                                "EC Stalowa Wola": [22.075967, 50.550439, 450]
                             };
 
             const geoJsonData = {
@@ -492,6 +492,10 @@
 
                     updatedGroupedData.forEach(item => {
                         item.coordinates = coordinates[item.Elektrownia] || null;
+                        if (item.coordinates) {
+                        // Додаємо максимальну потужність в properties
+                        item.maxPower = item.coordinates[2];
+                }
                     });
 
                     const finalData = updatedGroupedData.filter(item => item.coordinates);
@@ -512,6 +516,7 @@
                             "Elektrownia": item.Elektrownia,
                             "Kod JW": item["Kod JW"],
                             "Tryb pracy": item["Tryb pracy"],
+                            "maxPower": item.maxPower, 
                             "wartosc": item.wartosc,
                             "Doba handlowa": item["Doba handlowa"],
                             "Data publikacji": item["Data publikacji"],
@@ -550,9 +555,11 @@
                     },
                     onEachFeature: function (feature, layer) {
                         const wartosc = feature.properties.wartosc || 0;
+                        const maxp = feature.properties.maxPower || 0;
                         const popupContent = `
                             <b>Електростанція:</b> ${feature.properties.Elektrownia || 'Невідомо'}<br>
-                            <b>Потужність (MW):</b> ${Math.round(wartosc)}<br>
+                            <b>Загальна потужність (MW):</b> ${Math.round(maxp)}<br>
+                            <b>Поточна потужність (MW):</b> ${Math.round(wartosc)}<br>
                             <b>Час:</b> ${feature.properties.timestamp || 'Невідомо'}`;
                         layer.bindPopup(popupContent);
                     }
