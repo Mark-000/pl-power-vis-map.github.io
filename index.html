@@ -214,6 +214,12 @@
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
     <script>
+        
+        document.addEventListener("keydown", function(event) {
+            if (event.key.toLowerCase() === "i" || event.key.toLowerCase() === "ш") { // Перевіряємо, чи натиснута літера "i"
+                alert("Rodzaj instalacji:\n PV - instalacja fotowoltaiczna \nFW - farma wiatrowa \nMFW - morska farma wiatrowa\nJW - konwencjonalna jednostka węglowa\nBG - blok gazowy\nBGP - blok gazowo-parowy\nJBM - blok biomasowy\nMEE - magazyn energii elektrycznej\nEJ - elektrownia jądrowa\nSD - system dystrybucyjny\nODB - instalacja odbiorcza");
+            }
+        });
 
         function clossebut(){
             const dispNone = document.getElementById("donation")
