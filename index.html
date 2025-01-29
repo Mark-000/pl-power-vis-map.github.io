@@ -114,10 +114,12 @@
             margin: 10px;
             
             display: flex;
-            flex-direction: column;
+            flex-direction: column;        
             align-content: center;
+            justify-content: center;
             box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
         }
+        
         .leaflet-legend div{
             display: flex;
             flex-direction: row;
@@ -141,6 +143,18 @@
             background: #8700b0;
         }
 
+        .leaflet-legend .DC {
+            background: #0572a1;
+        }
+        .leaflet-legend .proect400{
+            background: transparent;
+            border: 2px dashed #e3d132;
+        }
+        .leaflet-legend .proect220{
+            background: transparent;
+            border: 2px dashed #00f597;
+        }
+
         .leaflet-legend .red {
             background: red;
         }
@@ -158,7 +172,6 @@
             border-radius: 50%;
             border: 2px solid black;
         }
-
         
 
         
@@ -243,10 +256,13 @@
 
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'leaflet-legend');
-            div.innerHTML = '<div><i class="purple"></i> 400kV Лінії</div>' +
+            
+            div.innerHTML = '<div><i class="DC"></i> Лінії DC</div>' +
+                            '<div><i class="purple"></i> 400kV Лінії</div>' +
                             '<div><i class="green"></i> 220kV Лінії</div>' +
-                            
                             '<div><i class="red"></i> 110kV Лінії</div>' +
+                            '<div><i class="proect400"></i> 400kV Проекти</div>' +
+                            '<div><i class="proect220"></i> 220kV Проекти</div>' +
                             '<div><i class="blue"></i> PSE підстанції</div>' +
                             '<div><i class="black"></i> Проекти GPZ</div>';
             return div;
@@ -705,7 +721,7 @@
         var geojsonUrlJdr = 'https://mark-000.github.io/pl-power-vis-map.github.io/Polskie_Elektrownie_Jądrowe.geojson';
         var geojsonUrlBorder = 'https://mark-000.github.io/pl-power-vis-map.github.io/border-poland.geojson';
         
-        var layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer, borderLayer //projektyJdr;
+        var layer450, layer220, layer400, layer110, arcgisLayer, projektyLayer, reconsLayer, borderLayer //projektyJdr;
 
 
         var createLayer = (geojsonData, voltage) => {
@@ -721,8 +737,13 @@
 
             return L.geoJSON(filteredGeojson, {
                 style: function(feature) {
-                    return { color: voltage === "220" ? 'green' : voltage === "400" ? '#8700b0' : 'red', weight: 1,
-                             weight: voltage === "220" ? 2 : voltage === "400" ? 2 : 1
+                    return { 
+                        color: voltage === "220" ? 'green' : 
+                            voltage === "450" ? '#0572a1' : 
+                            voltage === "400" ? '#8700b0' : 'red', 
+                        weight: voltage === "220" ? 2 : 
+                            voltage === "400" ? 2 : 
+                            voltage === "450" ? 2 : 1
                     };
                 },
                 onEachFeature: function(feature, layer) {
@@ -748,6 +769,7 @@
             .then(response => response.json())
             .then(geojsonData => {
                 // Створення шарів для 220, 400, 110
+                layer450 = createLayer(geojsonData, "450");
                 layer220 = createLayer(geojsonData, "220");
                 layer400 = createLayer(geojsonData, "400");
                 layer110 = createLayer(geojsonData, "110"); // Новий шар для 110 кВ
@@ -805,11 +827,11 @@
                                             style: function(feature) {
                                                 // Логіка для зміни кольору залежно від значення voltage
                                                 if (feature.properties.voltage && feature.properties.voltage.includes('220')) {
-                                                    return { color: 'green', weight: 3, dashArray: '10' }; // Зелений для 220
+                                                    return { color: '#00f597', weight: 3, dashArray: '10' }; // Зелений для 220
                                                 } else if (feature.properties.voltage && feature.properties.voltage.includes('400')) {
-                                                    return { color: 'purple', weight: 3, dashArray: '10' }; // Червоний для 400
+                                                    return { color: '#e3d132', weight: 3, dashArray: '10' }; // Червоний для 400
                                                 } else {
-                                                    return { color: '#1b00c7', weight: 3, dashArray: '10' }; // Фіолетовий для всього іншого
+                                                    return { color: '#0572a1', weight: 3, dashArray: '10' }; // Фіолетовий для всього іншого
                                                 }
                                             },
                                             onEachFeature: function(feature, layer) {
@@ -977,6 +999,7 @@
                                                 overlays = {
                                                     
                                                     "<span style='color: black;'>Польща</span>": borderLayer,
+                                                    "<span style='color: #0572a1;'>Лінії DC</span>": layer450,
                                                     "<span style='color: purple;'>400kV Лінії</span>": layer400,
                                                     "<span style='color: green;'>220kV Лінії</span>": layer220,
                                                     "<span style='color: red;'>110kV Лінії</span>": layer110,
