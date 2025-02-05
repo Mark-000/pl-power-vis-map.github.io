@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UA-power-map</title>
+    <title>Leaflet TimeDimension Demo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
@@ -307,6 +307,26 @@
                                                 `);
                                             }
                                         });
+                                        var geojsonukrline110 = "https://mark-000.github.io/pl-power-vis-map.github.io/line-ua-110-150.geojson"
+                                fetch(geojsonukrline110)
+                                    .then(response => response.json())
+                                    .then(reconsGeojsonData => {
+                                        var Layer110 = L.geoJSON(reconsGeojsonData, {
+                                            style: function(feature) {
+                                                // Логіка для зміни кольору залежно від значення voltage
+                                                if (feature.properties.voltage && feature.properties.voltage.includes('110')) {
+                                                    return { color: '#b89023', weight: 1.5, opacity: 1 }; // Зелений для 220
+                                                }  else {
+                                                    return { color: '#b89023', weight: 1.5, opacity: 1 }; // Фіолетовий для всього іншого
+                                                }
+                                            },
+                                            onEachFeature: function(feature, layer) {
+                                                layer.bindPopup(`
+                                                    <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                                                    <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}
+                                                `);
+                                            }
+                                        });
                                         var geojsonUrlBorder = 'https://mark-000.github.io/pl-power-vis-map.github.io/Ukraine_Border.geojson';
                                         map.createPane('borderPane');
                                                //map.getPane('borderPane').style.zIndex = 400;
@@ -354,14 +374,14 @@
                                                                         PUALayer = L.geoJSON(projektyGeojsonData, {
                                                                             pointToLayer: function(feature, latlng) {
                                                                                 var size = feature.properties.power/1500; // Розмір квадрата (можна змінити на потрібний)
-                                                                                
+                                                                                const size2 = Math.sqrt(size) * 2;
                                                                                 const squareIcon = L.divIcon({
                                                                                     className: 'custom-marker',
                                                                                     html: `<div style="
-                                                                                        width: ${size * 17}px;
-                                                                                        height: ${size * 17}px;
+                                                                                        width: ${size2 * 17}px;
+                                                                                        height: ${size2 * 17}px;
                                                                                         background-color: #910101;
-                                                                                        opacity: 0.8;
+                                                                                        opacity: 0.7;
                                                                                         border: 1px solid black;
                                                                                         transform: translate(-50%, -50%);
                                                                                         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -391,6 +411,7 @@
                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
                     "<span style='color: black;'>Електростанції</span>": PUALayer,
                     "<span style='color: black;'>Лінії</span>": reconsLayer,
+                    "<span style='color: black;'>Лінії 110</span>": Layer110,
                 };
                 
                 L.control.layers(null, overlays).addTo(map);
@@ -410,6 +431,8 @@
 
     })
     .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
                                                        
     </script>
 </body>
