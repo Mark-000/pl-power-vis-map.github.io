@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaflet TimeDimension Demo</title>
+    <title>UA-power-map</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
@@ -347,6 +347,40 @@
                                                                         `);
                                                                     }
                                                                 });
+                                                                var geojsonUrlPUA = 'https://mark-000.github.io/pl-power-vis-map.github.io/p-stations-ua.geojson';
+                                                                fetch(geojsonUrlPUA)
+                                                                    .then(response => response.json())
+                                                                    .then(projektyGeojsonData => {
+                                                                        PUALayer = L.geoJSON(projektyGeojsonData, {
+                                                                            pointToLayer: function(feature, latlng) {
+                                                                                var size = feature.properties.power/1500; // Розмір квадрата (можна змінити на потрібний)
+                                                                                
+                                                                                const squareIcon = L.divIcon({
+                                                                                    className: 'custom-marker',
+                                                                                    html: `<div style="
+                                                                                        width: ${size * 17}px;
+                                                                                        height: ${size * 17}px;
+                                                                                        background-color: #910101;
+                                                                                        opacity: 0.8;
+                                                                                        border: 1px solid black;
+                                                                                        transform: translate(-50%, -50%);
+                                                                                        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                                                                                    "></div>`,
+                                                                                    iconSize: [size * 17, size * 17], // Можна підлаштувати розміри
+                                                                                    iconAnchor: [size, size], // Центрування іконки
+                                                                                });
+
+                                                                                return L.marker(latlng, { icon: squareIcon });
+                                                                            },
+                                                                            onEachFeature: function(feature, layer) {
+                                                                                layer.bindPopup(`
+                                                                                    <b style='font-size: 15px;'> ${feature.properties.station || 'Unknown'}</b><br>
+                                                                                    <b>Тип:</b> ${feature.properties.type || 'Unknown'}<br>
+                                                                                    <b>Потужність:</b> ${feature.properties.power || 'Unknown'}
+                                                                                `);
+                                                                            }
+                                                                        });
+                                                                
 
                 // Додавання шару до кластерної групи 
                
@@ -355,6 +389,7 @@
                     "<span style='color: black;'>Адміністративні межі</span>": borderLayer,
                     "<span style='color: black;'>НЕК підстанції</span>": NEKLayer,
                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
+                    "<span style='color: black;'>Електростанції</span>": PUALayer,
                     "<span style='color: black;'>Лінії</span>": reconsLayer,
                 };
                 
@@ -370,7 +405,8 @@
             .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
         })
         .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-
+    })
+    .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 
     })
     .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
