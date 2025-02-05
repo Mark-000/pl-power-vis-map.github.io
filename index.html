@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
     <title>Power map lobby</title>
     <style>
         * {
@@ -15,6 +18,7 @@
             height: 100%;
             display: flex;
             overflow: hidden; /* Забороняє прокрутку */
+            font-family: "Audiowide", serif;
         }
         .container {
             width: 100%;
@@ -52,10 +56,21 @@
             background-position: left center;
             
         }
+        .text-overlay {
+            position: absolute;
+            top: 20px; /* Відстань від верхнього краю */
+            left: 50%;
+            transform: translateX(-50%); /* Центрує текст по горизонталі */
+            font-size: 3rem;
+            color: white;
+            font-weight: bold;
+            z-index: 15;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="text-overlay">EnergyMap</div> 
         <a href="https://mark-000.github.io/pl-power-vis-map.github.io/export-power-map.html" class="half left"></a>
         <a href="https://mark-000.github.io/pl-power-vis-map.github.io/map-trafic-ua.html" class="half right"></a>
     </div>
