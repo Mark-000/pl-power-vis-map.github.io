@@ -291,13 +291,13 @@
                                             style: function(feature) {
                                                 // Логіка для зміни кольору залежно від значення voltage
                                                 if (feature.properties.voltage && feature.properties.voltage.includes('220')) {
-                                                    return { color: 'green', weight: 3, opacity: 1 }; // Зелений для 220
+                                                    return { color: 'green', weight: 2.5, opacity: 1 }; // Зелений для 220
                                                 } else if (feature.properties.voltage && feature.properties.voltage.includes('400')) {
-                                                    return { color: '#f505fa', weight: 3, opacity: 1 }; // Червоний для 400
+                                                    return { color: '#f505fa', weight: 2.5, opacity: 1 }; // Червоний для 400
                                                 }else if (feature.properties.voltage && feature.properties.voltage.includes('750')) {
-                                                    return { color: '#ba1806', weight: 3, opacity: 1 }; // Червоний для 400
+                                                    return { color: '#ba1806', weight: 2.5, opacity: 1 }; // Червоний для 400
                                                 } else {
-                                                    return { color: '#0572a1', weight: 3, opacity: 1 }; // Фіолетовий для всього іншого
+                                                    return { color: '#0572a1', weight: 2.5, opacity: 1 }; // Фіолетовий для всього іншого
                                                 }
                                             },
                                             onEachFeature: function(feature, layer) {
