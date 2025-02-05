@@ -1,0 +1,101 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "station": "Хмельницька АЕС",
+                "type": "АЕС",
+                "power": 2000,
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.646674883254835,
+                    50.30083143297026
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "station": "Рівненська АЕС",
+                "type": "АЕС",
+                "power": 2835,
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.896666697407106,
+                    51.32500667624349
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "station": "Добротвірська ТЕС",
+                "type": "ТЕС",
+                "power": 500,
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.37527779734621,
+                    50.2141941339146
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "station": "Бурштинська ТЕС",
+                "type": "ТЕС",
+                "power": 2400,
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.661655968456067,
+                    49.2108192535668
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "station": "Дністровська ГЕС",
+                "type": "ГЕС",
+                "power": 702,
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    27.45500084602159,
+                    48.59333926786929
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "station": "Дністровська ГАЕС",
+                "type": "ГАЕС",
+                "power": 1296,
+                "description": ""
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    27.473332997254712,
+                    48.513632292981065
+                ]
+            }
+        }
+    ]
+}
