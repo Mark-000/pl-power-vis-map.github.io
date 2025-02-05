@@ -1,0 +1,421 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.79861729484361,
+                    49.876145926309476
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Львів західна\"",
+                "Location": "Ямельня",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.528609218114518,
+                    49.91558464564323
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Яворів\"",
+                "Location": "Новояворівськ",
+                "Power": null,
+                "Transformers": "Т1 - 200,0 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.14663914492818,
+                    49.46034259539152
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Розділ\"",
+                "Location": "Берездівці",
+                "Power": null,
+                "Transformers": "АТ 330/110 кВ - 2х125 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.881111097294003,
+                    49.24872312804875
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Стрий\"",
+                "Location": "Верчани",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.419732926132497,
+                    49.30010491513476
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Борислав\"",
+                "Location": "Борислав",
+                "Power": null,
+                "Transformers": "АТ 220/110 кВ - 2х125 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.249967810793905,
+                    49.386208847650444
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 750 кВ \"Західноукраїнська\"",
+                "Location": "Бородчиці",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.05802341081962,
+                    49.86343009464988
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Львів-2\"",
+                "Location": "Львів",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.031378168484792,
+                    49.74395820173097
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Львів Південна\"",
+                "Location": "Солонка",
+                "Power": null,
+                "Transformers": "– АТ 330/220 кВ - 2х240 МВ; – АТ 330/110 кВ - 200 МВ + 125 МВ; – АТ 220/110 кВ - 200 МВ + 125 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.44052341079446,
+                    49.395924045674185
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Дрогобич\"",
+                "Location": "Лішня",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.19361109737297,
+                    50.70563710718342
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Нововолинськ\"",
+                "Location": "Будятичі",
+                "Power": null,
+                "Transformers": "Т2 – 200,0 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.323301110865433,
+                    50.702852516987775
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Луцьк південна\"",
+                "Location": "Луцьк",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.71638889739977,
+                    51.191429215641605
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Ковель\"",
+                "Location": "Ковель",
+                "Power": null,
+                "Transformers": "Т1 – 125,0 МВ; Т2 – 125,0 МВ; Т3 – 250,0 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.575544868433784,
+                    48.79449384557577
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Богородчани\"",
+                "Location": "Похівка",
+                "Power": null,
+                "Transformers": "Т1 – 125,0 МВ; Т2 – 125,0 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.346399626121553,
+                    49.09533397353394
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Калуш\"",
+                "Location": "Верхня",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.75832256843924,
+                    48.89726449089794
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Івано-Франківськ\"",
+                "Location": "Микитинці",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.19498926842949,
+                    48.71225048862487
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Воловець\"",
+                "Location": "Воловець",
+                "Power": null,
+                "Transformers": "АТ 220/110 кВ - 2х125 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.62360036841371,
+                    48.41671651700004
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 400 кВ \"Мукачево\"",
+                "Location": "Нове Давидково",
+                "Power": null,
+                "Transformers": "Т1 – 200,0 МВ (220/110/35 кВ); Т2 – 200,0 МВ (220/110/35 кВ); Т3 – 3×133,0 МВ (400/220/35 кВ)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.325555597235844,
+                    48.156154014679416
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 220 кВ \"Хуст-2\"",
+                "Location": "Хуст",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.113322568537583,
+                    50.712249346308376
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Грабів\"",
+                "Location": "Грабів",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.266121826176725,
+                    50.11863858885827
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Радивилів\"",
+                "Location": "Радивилів",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.22443366853374,
+                    50.64140247948511
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Рівне\"",
+                "Location": "Рівне",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.634422939635233,
+                    49.489763987115865
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Тернопільська\"",
+                "Location": "Велика Березовиця",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.629711468425672,
+                    48.642806127679094
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Кам’янець-Подільська\" ",
+                "Location": "Мала Слобідка",
+                "Power": null,
+                "Transformers": "Т1 – 200,0 МВ; Т2 – 200,0 МВ"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    27.057756339670775,
+                    50.14617294992934
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Шепетівка\"",
+                "Location": "Шепетівка",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.931655968466735,
+                    49.40863899470559
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Хмельницька\"",
+                "Location": "Хмельницький",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.800277797250683,
+                    48.4380840425701
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Чернівецька\"",
+                "Location": "Кіцмань",
+                "Power": null,
+                "Transformers": "Т1 – 200,0 МВ; Т2 – 200,0 МВ"
+            }
+        }
+    ]
+}
