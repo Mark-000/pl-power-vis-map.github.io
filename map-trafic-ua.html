@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet TimeDimension Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #map {
+            
+            height: 100%;
+            width: 100%;
+            font-family: 'Open Sans', sans-serif !important;
+        }
+        .export-import-tooltip{
+            background-color: rgba(255, 255, 128, .5);
+            
+        }
+        .imp-exp-block{
+            display: flex;
+            align-items: center;
+            align-content: center;
+            flex-direction: column;
+            background-color: white; ;
+            margin-top: 30%;
+        }
+        .leaflet-control{
+            
+            background: white;
+            border: none !important;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px !important;
+        }
+        .leaflet-control-layers-list{
+            margin: 5px;
+        }
+
+        .leaflet-legend {
+            background: white;
+            padding: 10px;
+            margin: 10px;
+            
+            display: flex;
+            flex-direction: column;        
+            align-content: center;
+            justify-content: center;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        }
+        .leaflet-legend .l750{
+            background: #ba1806;
+        }
+        .leaflet-legend .l400{
+            background: #f505fa;
+        }
+        .leaflet-legend .l330{
+            background: #0572a1;
+        }
+        .leaflet-legend .l220{
+            background: green;
+        }
+        
+        .leaflet-legend div{
+            display: flex;
+            flex-direction: row;
+            margin: 8px;
+        }
+
+        .leaflet-legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            
+            opacity: 0.7;
+        }
+        .leaflet-legend .ves {
+            background: blue;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+        .leaflet-legend .ses {
+            background: purple;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+        .leaflet-legend .uze{
+            background: orange;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+        .leaflet-legend .all{
+            background: gray;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+        .custom-tooltip {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid black;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .transperent{
+            background-color: #0572a1;
+        }
+        .leaflet-tooltip.custom-tooltip1{
+            margin-top: 1.5px;
+            background-color: rgba(255, 255, 255, 0);
+            box-shadow: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .leaflet-tooltip.custom-tooltip1:before {
+            display: none !important; /* Вимикає стрілочку */
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="map"></div>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+   
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+    <!-- JavaScript для MarkerCluster -->
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+    <script>
+        // URLs для GeoJSON файлів
+       
+
+        // Створення карти
+        var map = L.map('map', {
+            zoom: 7,
+            center: [49.763967421708514, 27.982313845924605],
+
+        });
+
+        var legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'leaflet-legend');
+            
+            div.innerHTML = '<div><i class="l750"></i>750кВ</div>' +
+                            '<div><i class="l400"></i> 400кВ</div>' +
+                            '<div><i class="l330"></i> 330кВ</div>' +
+                            '<div><i class="l220"></i> 220кВ</div>' +
+                            '<div><i class="ves"></i> ВЕС</div>' +
+                            '<div><i class="ses"></i> СЕС</div>' +
+                            '<div><i class="uze"></i> УЗЕ</div>' +
+                            '<div><i class="all"></i> Інші</div>' 
+                            
+            return div;
+        };
+
+        // Додавання плиток карти (OpenStreetMap)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(map);
+        var tooltipMarkers = [];
+        // Функція для завантаження та створення шару для експорту/імпорту
+        
+    
+
+        var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/ukr-pidst.geojson';
+        var geoJsonClusterGroup = L.markerClusterGroup({
+                                                            spiderfyOnMaxZoom: true, // Розпакування кластерів при максимальному масштабі
+                                                            showCoverageOnHover: false, // Відключення області кластеру при наведенні
+                                                            zoomToBoundsOnClick: true, // Автозбільшення при кліку на кластер
+                                                            
+                                                            spiderLegPolylineOptions: {
+                                                                weight: 0,
+                                                            },
+
+                                                            spiderfyShapePositions: function (count, centerPt) {
+
+                                                                var radius = 40; // Радіус розташування
+                                                                var angleStep = (2 * Math.PI) / count;
+
+                                                                return Array.from({ length: count }, (_, i) => {
+                                                                    var angle = i * angleStep;
+                                                                    return new L.Point(
+                                                                        centerPt.x + radius * Math.cos(angle),
+                                                                        centerPt.y + radius * Math.sin(angle)
+                                                                    );
+                                                                });
+                                                            },iconCreateFunction: function (cluster) {
+                                                                var sumvmerezu = 0;
+                                                              
+
+                                                                // Один прохід для обчислення обох значень
+                                                                cluster.getAllChildMarkers().forEach(function (marker) {
+                                                                    var value1 = marker.feature.properties["Розрахункова потужність (за ТУ), МВт"];
+                                                                    if (!isNaN(value1)) {
+                                                                        sumvmerezu += parseFloat(Math.round(value1));
+                                                                    
+                                                                    }
+                                                                });
+
+                                                                // Створення іконки
+                                                                return L.divIcon({
+                                                                    html: `
+                                                                        <div style="background-color: rgba(0, 123, 255, 0.6); 
+                                                                                    font-size: 15px;
+                                                                                    border-radius: 50%; 
+                                                                                    display: flex;
+                                                                                    justify-content: center;
+                                                                                    align-items: center;
+                                                                                    flex-direction: column;
+                                                                                    width: 50px; 
+                                                                                    height: 50px; 
+                                                                                    text-align: center; 
+                                                                                    color: white; 
+                                                                                    font-weight: bold;">
+                                                                            <div style="color: black;">${sumvmerezu}</div>
+                                                                            
+                                                                        </div>
+                                                                    `,
+                                                                    className: 'custom-cluster-icon',
+                                                                    iconSize: [50, 50]
+                                                                });
+                                                            }
+                                                          
+                                                        });
+
+        // Функція для визначення кольору залежно від Rodzaj instalacji
+        function getColorByInstallationType(type) {
+            if (type === 'СЕС') {
+                return 'purple'; // Фіолетовий
+            } else if (type === 'ВЕС') {
+                return 'blue'; // Синій
+            } else if (type === 'УЗЕ') {
+                return 'orange'; // Помаранчевий
+            } else {
+                return 'gray'; // Сірий (для інших значень)
+            }
+        }
+
+        fetch(prelunJsonUrl)
+            .then(response => response.json())
+            .then(geojsonData => {
+                var gprelunJsonLayer = L.geoJSON(geojsonData, {
+                    pointToLayer: function (feature, latlng) {
+                    var color = getColorByInstallationType(feature.properties['Вид джерела енергії']);
+                    var marker = L.circleMarker(latlng, {
+                        radius: 8,
+                        fillColor: color,
+                        color: color,
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 1
+                    });
+
+                    // Додавання підпису
+                    marker.bindTooltip(`
+                        
+                        ${feature.properties['Розрахункова потужність (за ТУ), МВт'] || 'Невідомо'}<br>
+                    `, {
+                        permanent: true,
+                        direction: 'top',
+                        className: 'custom-tooltip1'
+                    });
+                    marker.bindPopup(`
+                        <b>ПС 220-750 кВ:</b> ${feature.properties['ПС 220-750 кВ'] || 'Невідомо'}<br>
+                        <b>Потужність:</b> ${feature.properties['Розрахункова потужність (за ТУ), МВт'] || 'Невідомо'} МВт<br>
+                    `);
+
+                    return marker;
+                }
+                });
+               
+                var geojsonukrline = "https://mark-000.github.io/pl-power-vis-map.github.io/ukr-line-filter-all.geojson"
+                fetch(geojsonukrline)
+                                    .then(response => response.json())
+                                    .then(reconsGeojsonData => {
+                                        var reconsLayer = L.geoJSON(reconsGeojsonData, {
+                                            style: function(feature) {
+                                                // Логіка для зміни кольору залежно від значення voltage
+                                                if (feature.properties.voltage && feature.properties.voltage.includes('220')) {
+                                                    return { color: 'green', weight: 3, opacity: 1 }; // Зелений для 220
+                                                } else if (feature.properties.voltage && feature.properties.voltage.includes('400')) {
+                                                    return { color: '#f505fa', weight: 3, opacity: 1 }; // Червоний для 400
+                                                }else if (feature.properties.voltage && feature.properties.voltage.includes('750')) {
+                                                    return { color: '#ba1806', weight: 3, opacity: 1 }; // Червоний для 400
+                                                } else {
+                                                    return { color: '#0572a1', weight: 3, opacity: 1 }; // Фіолетовий для всього іншого
+                                                }
+                                            },
+                                            onEachFeature: function(feature, layer) {
+                                                layer.bindPopup(`
+                                                    <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                                                    <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}
+                                                `);
+                                            }
+                                        });
+                                        var geojsonUrlBorder = 'https://mark-000.github.io/pl-power-vis-map.github.io/Ukraine_Border.geojson';
+                                        map.createPane('borderPane');
+                                               //map.getPane('borderPane').style.zIndex = 400;
+
+                                                fetch(geojsonUrlBorder)
+                                                    .then(response => response.json())
+                                                    .then(borderGeojsonData => {
+                                                        borderLayer = L.geoJSON(borderGeojsonData, {
+                                                            pane: 'borderPane',
+                                                            style: {
+                                                                color: '#595857', // Колір шару
+                                                                weight: 1, // Товщина ліній
+                                                                fillOpacity: 0
+                                                            },
+                                                            interactive: false
+                                                        });
+
+                                                        var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/nek-substations.geojson';
+                                                        fetch(geojsonUrlNEK)
+                                                            .then(response => response.json())
+                                                            .then(projektyGeojsonData => {
+                                                                NEKLayer = L.geoJSON(projektyGeojsonData, {
+                                                                    pointToLayer: function(feature, latlng) {
+                                                                        return L.circleMarker(latlng, {
+                                                                            radius: 6, // Радіус точки
+                                                                            fillColor: "black", // Колір заповнення
+                                                                            color: "yellow", // Колір обведення
+                                                                            weight: 1, // Товщина обведення
+                                                                            opacity: 1, // Прозорість обведення
+                                                                            fillOpacity: 1 // Прозорість заповнення
+                                                                        });
+                                                                    },
+                                                                    onEachFeature: function(feature, layer) {
+                                                                        layer.bindPopup(`
+                                                                            <b>Підстанція:</b> ${feature.properties.Substation || 'Unknown'}<br>
+                                                                            <b>Локація:</b> ${feature.properties.Location || 'Unknown'}<br>
+                                                                            <b>Трансформатори:</b> ${feature.properties.Transformers || 'Unknown'}
+                                                                        `);
+                                                                    }
+                                                                });
+
+                // Додавання шару до кластерної групи 
+               
+                geoJsonClusterGroup.addLayer(gprelunJsonLayer);                     
+                var overlays = {
+                    "<span style='color: black;'>Адміністративні межі</span>": borderLayer,
+                    "<span style='color: black;'>НЕК підстанції</span>": NEKLayer,
+                    "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
+                    "<span style='color: black;'>Лінії</span>": reconsLayer,
+                };
+                
+                L.control.layers(null, overlays).addTo(map);
+                
+                reconsLayer.addTo(map);
+                geoJsonClusterGroup.addTo(map);
+                borderLayer.addTo(map);
+                legend.addTo(map)
+            })
+            .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+            })
+            .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+        })
+        .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+
+
+    })
+    .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                                       
+    </script>
+</body>
+</html>
