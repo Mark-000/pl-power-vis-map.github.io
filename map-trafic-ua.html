@@ -515,9 +515,11 @@
                                                                                     });
 
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
-
+                                                                                         var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
+                                                                                         var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
                                                                                    
-                                                                        
+                                                                                         
+
                                                                 
 
                 // Додавання шару до кластерної групи 
@@ -530,14 +532,16 @@
                     "<span style='color: black;'>Електростанції</span>": PUALayer,
                     "<span style='color: black;'>Лінії 220+</span>": reconsLayer,
                     "<span style='color: black;'>Лінії 110</span>": Layer110,
-                    "<span style='color: black;'>Львів 700м</span>": buflvivLayer,
-                    "<span style='color: black;'>Волинь 700м</span>": volinLayer,
-                    "<span style='color: black;'>Закарпаття 700м</span>": zakarpatskLayer,
-                    "<span style='color: black;'>Рівне 700м</span>": rivneLayer,
-                    "<span style='color: black;'>Тернопіль 700м</span>": ternopilLayer,
-                    "<span style='color: black;'>Франківськ 700м</span>": frankivskLayer,
-                    "<span style='color: black;'>Чернівці 700м</span>": chernivciLayer,
-                    "<span style='color: black;'>Хмельницьк 700м</span>": hmelnitskLayer,
+                    "<span style='color: #c9b65f;'>Львів 700м</span>": buflvivLayer,
+                    "<span style='color: #c9b65f;'>Волинь 700м</span>": volinLayer,
+                    "<span style='color: #c9b65f;'>Закарпаття 700м</span>": zakarpatskLayer,
+                    "<span style='color: #c9b65f;'>Рівне 700м</span>": rivneLayer,
+                    "<span style='color: #c9b65f;'>Тернопіль 700м</span>": ternopilLayer,
+                    "<span style='color: #c9b65f;'>Франківськ 700м</span>": frankivskLayer,
+                    "<span style='color: #c9b65f;'>Чернівці 700м</span>": chernivciLayer,
+                    "<span style='color: #c9b65f;'>Хмельницьк 700м</span>": hmelnitskLayer,
+                    "<span style='color: black;'>Рамсарська конвенція</span>": waterPolyLayer,
+                    "<span style='color: black;'>Природно-заповідний фонд</span>": dzkPzfLayer,
                 };
                 
                 // Додавання контролу шарів з можливістю перемикання
