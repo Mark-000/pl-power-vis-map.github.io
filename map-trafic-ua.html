@@ -414,7 +414,97 @@
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
                                                                                     buflvivLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        pane: 'borderPane',
+                                                                                        style: {
+                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlvolin = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_volin.geojson';
+                                                                            fetch(geojsonUrlvolin)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    volinLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlzakarpatsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_zakarpatsk.geojson';
+                                                                            fetch(geojsonUrlzakarpatsk)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    zakarpatskLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlrivne = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_rivne.geojson';
+                                                                            fetch(geojsonUrlrivne)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    rivneLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlternopil = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_ternopil.geojson';
+                                                                            fetch(geojsonUrlternopil)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    ternopilLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlfrankivsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_frankivsk.geojson';
+                                                                            fetch(geojsonUrlfrankivsk)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    frankivskLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlchernivci = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_chernivci.geojson';
+                                                                            fetch(geojsonUrlchernivci)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    chernivciLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlhmelnitsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_hmelnitsk.geojson';
+                                                                            fetch(geojsonUrlhmelnitsk)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    hmelnitskLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
                                                                                             color: '#c9b65f', // Колір шару
                                                                                             weight: 1, // Товщина ліній
@@ -441,6 +531,13 @@
                     "<span style='color: black;'>Лінії 220+</span>": reconsLayer,
                     "<span style='color: black;'>Лінії 110</span>": Layer110,
                     "<span style='color: black;'>Львів 700м</span>": buflvivLayer,
+                    "<span style='color: black;'>Волинь 700м</span>": volinLayer,
+                    "<span style='color: black;'>Закарпаття 700м</span>": zakarpatskLayer,
+                    "<span style='color: black;'>Рівне 700м</span>": rivneLayer,
+                    "<span style='color: black;'>Тернопіль 700м</span>": ternopilLayer,
+                    "<span style='color: black;'>Франківськ 700м</span>": frankivskLayer,
+                    "<span style='color: black;'>Чернівці 700м</span>": chernivciLayer,
+                    "<span style='color: black;'>Хмельницьк 700м</span>": hmelnitskLayer,
                 };
                 
                 // Додавання контролу шарів з можливістю перемикання
@@ -464,6 +561,20 @@
 
     })
     .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
