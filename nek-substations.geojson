@@ -416,6 +416,22 @@
                 "Power": null,
                 "Transformers": "Т1 – 200,0 МВ; Т2 – 200,0 МВ"
             }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.38665596854101,
+                    50.77586719386841
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 330 кВ \"Луцьк-Північна\"",
+                "Location": "Луцьк",
+                "Power": null,
+                "Transformers": null
+            }
         }
     ]
 }
