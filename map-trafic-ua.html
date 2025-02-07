@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaflet TimeDimension Demo</title>
+    <title>UA energy</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
@@ -517,9 +517,20 @@
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
                                                                                          var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
                                                                                          var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
-                                                                                   
-                                                                                         
-
+                                                                            
+                                                                                         var geojsonUrlemerald = 'https://mark-000.github.io/pl-power-vis-map.github.io/amerald_zahid.geojson';
+                                                                            fetch(geojsonUrlemerald)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    emeraldLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#3b8f51', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
                                                                 
 
                 // Додавання шару до кластерної групи 
@@ -542,6 +553,7 @@
                     "<span style='color: #c9b65f;'>Хмельницьк 700м</span>": hmelnitskLayer,
                     "<span style='color: black;'>Рамсарська конвенція</span>": waterPolyLayer,
                     "<span style='color: black;'>Природно-заповідний фонд</span>": dzkPzfLayer,
+                    "<span style='color: black;'>Смарагдова мережа</span>": emeraldLayer,
                 };
                 
                 // Додавання контролу шарів з можливістю перемикання
@@ -565,6 +577,8 @@
 
     })
     .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
