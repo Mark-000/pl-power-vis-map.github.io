@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UA energy</title>
+    <title>Leaflet TimeDimension Demo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
+
+    
     <style>
         html, body {
             margin: 0;
@@ -137,12 +139,18 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
-   
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://jjimenezshaw.github.io/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.js"></script>
+
     <!-- JavaScript для MarkerCluster -->
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+
 
     <script>
         // URLs для GeoJSON файлів
@@ -155,7 +163,7 @@
 
         });
 
-        var legend = L.control({ position: 'bottomright' });
+        var legend = L.control({ position: 'bottomleft' });
 
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'leaflet-legend');
@@ -513,6 +521,19 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
+                                                                                    var geojsonUrlaerodromi = 'https://mark-000.github.io/pl-power-vis-map.github.io/aerodromi_buffers.geojson';
+                                                                            fetch(geojsonUrlaerodromi)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    aerodromiLayer = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: '#22d4f0', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
 
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
                                                                                          var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
@@ -551,6 +572,7 @@
                     "<span style='color: #c9b65f;'>Франківськ 700м</span>": frankivskLayer,
                     "<span style='color: #c9b65f;'>Чернівці 700м</span>": chernivciLayer,
                     "<span style='color: #c9b65f;'>Хмельницьк 700м</span>": hmelnitskLayer,
+                    "<span style='color: #c9b65f;'>Приаеродромна територія</span>": aerodromiLayer,
                     "<span style='color: #2c6929;'>Рамсарська конвенція</span>": waterPolyLayer,
                     "<span style='color: #2c6929;'>Природно-заповідний фонд</span>": dzkPzfLayer,
                     "<span style='color: #2c6929;'>Смарагдова мережа</span>": emeraldLayer,
@@ -577,6 +599,8 @@
 
     })
     .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
