@@ -126,6 +126,9 @@
         .leaflet-tooltip.custom-tooltip1:before {
             display: none !important; /* Вимикає стрілочку */
         }
+        .info-control {
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -198,7 +201,7 @@
                 container.title = "Натисніть для інформації";
                 
                 container.onclick = function() {
-                    alert("Натисніть правою кнопкою миші на карту для отримання кадастрових даних.");
+                    alert("Для отримання кадастрових даних натисніть правою кнопкою миші на карту.\nПісля натискання буде завантажено тайл з кадастровими даними.\nДля очищення карти натисніть на колесико миші.");
                 };
         
                 return container;
@@ -206,7 +209,7 @@
         });
         
         // Додаємо елемент на карту
-        var infoControl = new L.Control.Info({ position: "topright" });
+        var infoControl = new L.Control.Info({ position: "topleft" });
         map.addControl(infoControl);
     
 
