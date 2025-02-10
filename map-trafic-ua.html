@@ -191,7 +191,23 @@
         osmLayer.addTo(map);
 
 
-       
+       L.Control.Info = L.Control.extend({
+            onAdd: function(map) {
+                var container = L.DomUtil.create("div", "info-control");
+                container.innerHTML = "ℹ";
+                container.title = "Натисніть для інформації";
+                
+                container.onclick = function() {
+                    alert("Натисніть правою кнопкою миші на карту для отримання кадастрових даних.");
+                };
+        
+                return container;
+            }
+        });
+        
+        // Додаємо елемент на карту
+        var infoControl = new L.Control.Info({ position: "topright" });
+        map.addControl(infoControl);
     
 
         var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/ukr-pidst.geojson';
