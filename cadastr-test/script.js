@@ -27,7 +27,7 @@ map.on("contextmenu", async function (e) {
         console.log("✅ MVT тайл отримано!", arrayBuffer);
 
         // Декодуємо MVT
-        const tile = new VectorTile(new Pbf(arrayBuffer));
+        const tile = new window.VectorTile(new window.Pbf(arrayBuffer));
         console.log("📦 Розпакований MVT:", tile);
 
         L.marker([lat, lng]).addTo(map).bindPopup("📌 Точка вибору").openPopup();
