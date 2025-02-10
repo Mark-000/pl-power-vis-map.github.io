@@ -93,5 +93,18 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("❌ Помилка:", error);
         }
     });
+    map.on("mousedown", function (e) {
+    if (e.originalEvent.button === 1) { // Перевіряємо, чи натиснуто колесико (button 1)
+        e.originalEvent.preventDefault();
+
+        if (cadastralLayer) {
+            map.removeLayer(cadastralLayer);
+            cadastralLayer = null;
+            console.log("🧹 Кадастровий шар видалено!");
+        }
+    }
 });
+
+});
+
 
