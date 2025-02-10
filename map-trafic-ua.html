@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Eclipse1979/Leaflet.infoButton/dist/L.Control.InfoButton.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/Eclipse1979/Leaflet.infoButton/dist/L.Control.InfoButton.min.js"></script>
+   
     
     <style>
         html, body {
@@ -192,16 +191,7 @@
         osmLayer.addTo(map);
 
 
-       var infoButton = new L.control.infoButton({
-            title: "ℹ Інформація", // Заголовок кнопки
-            html: `
-                <h4>Як користуватись картою</h4>
-                <p>🔹 Натисніть правою кнопкою миші на карту, щоб отримати кадастрові дані.</p>
-                <p>🔹 Після натискання буде завантажений тайл з кадастровими даними.</p>
-                <p>🔹 Для очищення карти натисніть на колесико миші.</p>
-            `,
-            position: "topright" // Розташування кнопки (можна змінити)
-        }).addTo(map);
+       
     
 
         var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/ukr-pidst.geojson';
