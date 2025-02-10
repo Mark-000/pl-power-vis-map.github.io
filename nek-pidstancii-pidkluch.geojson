@@ -6,7 +6,7 @@
       "properties": {
         "pidstancia": "ПС 330 кВ \"Львів західна\"",
         "potuznist35": 25.0,
-        "potuznist110": NaN
+        "potuznist110": 0
       },
       "geometry": {
         "type": "Point",
@@ -35,7 +35,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 220 кВ \"Стрий\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 300.0
       },
       "geometry": {
@@ -65,7 +65,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 220 кВ \"Луцьк південна\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 100.0
       },
       "geometry": {
@@ -80,7 +80,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 220 кВ \"Луцьк північна\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 200.0
       },
       "geometry": {
@@ -110,7 +110,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 220 кВ \"Калуш\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 200.0
       },
       "geometry": {
@@ -125,7 +125,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 220 кВ \"Воловець\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 100.0
       },
       "geometry": {
@@ -140,7 +140,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 400 кВ \"Мукачево\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 300.0
       },
       "geometry": {
@@ -155,7 +155,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 330 кВ \"Грабів\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 250.0
       },
       "geometry": {
@@ -170,7 +170,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 330 кВ \"Радивилів\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 150.0
       },
       "geometry": {
@@ -186,7 +186,7 @@
       "properties": {
         "pidstancia": "ПС 330 кВ \"Рівне\"",
         "potuznist35": 50.0,
-        "potuznist110": NaN
+        "potuznist110": 0
       },
       "geometry": {
         "type": "Point",
@@ -200,7 +200,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 330 кВ \"Тернопільська\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 200.0
       },
       "geometry": {
@@ -215,7 +215,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 330 кВ \"Кам’янець-Подільська\" ",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 150.0
       },
       "geometry": {
@@ -245,7 +245,7 @@
       "type": "Feature",
       "properties": {
         "pidstancia": "ПС 330 кВ \"Хмельницька\"",
-        "potuznist35": NaN,
+        "potuznist35": 0,
         "potuznist110": 200.0
       },
       "geometry": {
