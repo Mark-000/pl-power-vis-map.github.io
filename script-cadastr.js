@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`📍 Клік: ${lat}, ${lng}`);
 
         // Конвертуємо в координати тайлу
-        const zoom = 16;
+        const zoom = 15;
         const x = Math.floor((lng + 180) / 360 * Math.pow(2, zoom));
         const y = Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
 
