@@ -536,7 +536,7 @@
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
                                                                                          var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
                                                                                          var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
-                                                                            
+                                                                                         var cadastrLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/parcels/{z}/{x}/{y}.png');
                                                                                          var geojsonUrlemerald = 'https://mark-000.github.io/pl-power-vis-map.github.io/amerald_zahid.geojson';
                                                                             fetch(geojsonUrlemerald)
                                                                                 .then(response => response.json())
@@ -557,6 +557,7 @@
                 geoJsonClusterGroup.addLayer(gprelunJsonLayer);                     
                 var overlays = {
                     "<span style='color: black;'>Адміністративні межі</span>": borderLayer,
+                    "<span style='color: black;'>Кадастр підкладка</span>": cadastrLayer,
                     "<span style='color: black;'>НЕК підстанції</span>": NEKLayer,
                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
                     "<span style='color: black;'>Електростанції</span>": PUALayer,
