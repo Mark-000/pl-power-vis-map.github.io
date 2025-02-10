@@ -1,7 +1,8 @@
 // Імпортуємо бібліотеки через модулі
 import L from "https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js";
-import { VectorTile } from "https://unpkg.com/@mapbox/vector-tile@1.3.1/dist/vector-tile.js";
-import Pbf from "https://unpkg.com/pbf@3.2.1/dist/pbf.js";
+import { VectorTile } from "https://cdn.skypack.dev/@mapbox/vector-tile";
+import Pbf from "https://cdn.skypack.dev/pbf";
+
 
 
 // Створюємо карту
