@@ -149,13 +149,6 @@
 
     <!-- JavaScript для MarkerCluster -->
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
-    <script>
-        (async function() {
-            window.Pbf = (await import("https://cdn.skypack.dev/pbf")).default;
-            window.VectorTile = (await import("https://cdn.skypack.dev/@mapbox/vector-tile")).VectorTile;
-        })();
-    </script>
 
     <script>
         // URLs для GeoJSON файлів
@@ -628,6 +621,15 @@
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
                                                        
     </script>
+
+    <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
+    <script>
+        (async function() {
+            window.Pbf = (await import("https://cdn.skypack.dev/pbf")).default;
+            window.VectorTile = (await import("https://cdn.skypack.dev/@mapbox/vector-tile")).VectorTile;
+        })();
+    </script>
+    
     <script defer src="./script-cadastr.js"></script>
 </body>
 </html>
