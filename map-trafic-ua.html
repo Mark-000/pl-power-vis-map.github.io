@@ -625,7 +625,7 @@ fetch(geojsonUrlNEK)
 
                 marker.bindPopup(`
                     <b>ПС:</b> ${feature.properties.pidstancia}<br>
-                    <b>Потужність по 35:</b> ${power} МВт<br>
+                    <b>Потужність по 35кв:</b> ${power} МВт<br>
                 `);
 
                 return marker;
@@ -635,6 +635,7 @@ fetch(geojsonUrlNEK)
 
         // Шар для potuznist110
         var clusterGroup110 = L.markerClusterGroup({
+            showCoverageOnHover: false,
             iconCreateFunction: function(cluster) {
                 let markers = cluster.getAllChildMarkers();
                 let totalPower = markers.reduce((sum, marker) => sum + (marker.options.power || 0), 0);
@@ -692,7 +693,7 @@ fetch(geojsonUrlNEK)
                     });
                     marker.bindPopup(`
                         <b>ПС:</b> ${feature.properties.pidstancia}<br>
-                        <b>Потужність по 110:</b> ${power} МВт<br>
+                        <b>Потужність по 110кв:</b> ${power} МВт<br>
                     `);
                     marker.options.power = power;
                     return marker;
@@ -701,19 +702,21 @@ fetch(geojsonUrlNEK)
         clusterGroup110.addLayer(layerPotuznist110);                                                      
 
                 // Додавання шару до кластерної групи 
-               
                 geoJsonClusterGroup.addLayer(gprelunJsonLayer);                     
                 var overlays = {
                     "<span style='color: black;'>Адміністративні межі</span>": borderLayer,
                     "<span style='color: black;'>Кадастр підкладка</span>": cadastrLayer,
+
                     "<span style='color: black;'>НЕК підстанції</span>": NEKLayer,
                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
-                    "<span style='color: black;'>Потужність 35 кВ</span>": layerPotuznist35,
-                    "<span style='color: black;'>Потужність 110 кВ</span>": clusterGroup110,
+
+                    "<span style='color: black;'>Потужність по 35кВ</span>": layerPotuznist35,
+                    "<span style='color: black;'>Потужність по 110кВ</span>": clusterGroup110,
                     
                     "<span style='color: black;'>Електростанції</span>": PUALayer,
                     "<span style='color: black;'>Лінії 220+</span>": reconsLayer,
                     "<span style='color: black;'>Лінії 110</span>": Layer110,
+
                     "<span style='color: #c9b65f;'>Львів 700м</span>": buflvivLayer,
                     "<span style='color: #c9b65f;'>Волинь 700м</span>": volinLayer,
                     "<span style='color: #c9b65f;'>Закарпаття 700м</span>": zakarpatskLayer,
@@ -723,6 +726,7 @@ fetch(geojsonUrlNEK)
                     "<span style='color: #c9b65f;'>Чернівці 700м</span>": chernivciLayer,
                     "<span style='color: #c9b65f;'>Хмельницьк 700м</span>": hmelnitskLayer,
                     "<span style='color: #c9b65f;'>Приаеродромна територія</span>": aerodromiLayer,
+
                     "<span style='color: #2c6929;'>Рамсарська конвенція</span>": waterPolyLayer,
                     "<span style='color: #2c6929;'>Природно-заповідний фонд</span>": dzkPzfLayer,
                     "<span style='color: #2c6929;'>Смарагдова мережа</span>": emeraldLayer,
