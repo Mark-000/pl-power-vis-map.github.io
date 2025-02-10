@@ -73,11 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         const popupContent = `
                             <div style="font-family: Arial, sans-serif; font-size: 14px;">
                                 <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">Інформація про ділянку</h4>
-                                <p><b>Кадастровий номер:</b> ${props.cadnum || "Немає даних"}</p>
-                                <p><b>Власність:</b> ${props.ownership || "Немає даних"}</p>
-                                <p><b>Цільове призначення:</b> ${props.purpose || "Немає даних"}</p>
-                                <p><b>Категорія:</b> ${props.category || "Немає даних"}</p>
-                                <p><a href="https://kadastr.live/parcel/${props.cadnum}" target="_blank" style="color: blue; text-decoration: underline;">🔗 Деталі ділянки</a></p>
+                                <div><b>Кадастровий номер:</b> ${props.cadnum || "Немає даних"}</div>
+                                <div><b>Власність:</b> ${props.ownership || "Немає даних"}</div>
+                                <div><b>Цільове призначення:</b> ${props.purpose || "Немає даних"}</div>
+                                <div><b>Категорія:</b> ${props.category || "Немає даних"}</div>
+                                <div>🔗<a href="https://kadastr.live/parcel/${props.cadnum}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></p>
                             </div>
                         `;
                     
