@@ -12,11 +12,15 @@
     <!-- Завантажуємо Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- Завантажуємо залежності для роботи з MVT -->
-    <script src="https://cdn.skypack.dev/pbf"></script>
-    <script src="https://cdn.skypack.dev/@mapbox/vector-tile"></script>
+    <!-- Завантажуємо бібліотеки через IIFE -->
+    <script>
+        (async function() {
+            window.Pbf = (await import("https://cdn.skypack.dev/pbf")).default;
+            window.VectorTile = (await import("https://cdn.skypack.dev/@mapbox/vector-tile")).VectorTile;
+        })();
+    </script>
 
-    <!-- Підключаємо власний скрипт -->
-    <script src="./script.js"></script>
+    <!-- Підключаємо власний скрипт (чекаємо завантаження Pbf та VectorTile) -->
+    <script defer src="./script.js"></script>
 </body>
 </html>
