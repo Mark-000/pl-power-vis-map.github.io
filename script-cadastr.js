@@ -69,9 +69,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 onEachFeature: function (feature, layer) {
                     // Додаємо popup з інформацією при кліку
                     layer.on("click", function (e) {
+                        const props = feature.properties || {}; // Отримуємо властивості
+                        const popupContent = `
+                            <div style="font-family: Arial, sans-serif; font-size: 14px;">
+                                <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">Інформація про ділянку</h4>
+                                <p><b>Кадастровий номер:</b> ${props.cadnum || "Немає даних"}</p>
+                                <p><b>Площа:</b> ${props.ownership || "Немає даних"}</p>
+                                <p><b>Цільове призначення:</b> ${props.purpose || "Немає даних"}</p>
+                                <p><b>🏙Населений пункт:</b> ${props.category || "Немає даних"}</p>
+                                <p><a href="https://kadastr.live/parcel/${cadnum}" target="_blank" style="color: blue; text-decoration: underline;">🔗 Деталі ділянки</a></p>
+                            </div>
+                        `;
+                    
                         L.popup()
                             .setLatLng(e.latlng)
-                            .setContent(`<b>Інформація про ділянку:</b><br>${JSON.stringify(feature.properties, null, 2)}`)
+                            .setContent(popupContent)
                             .openOn(map);
                     });
                 }
