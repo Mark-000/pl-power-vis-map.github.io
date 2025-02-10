@@ -1,7 +1,7 @@
 // Імпортуємо бібліотеки через модулі
 import L from "https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js";
 import Pbf from "https://unpkg.com/pbf@3.2.1/dist/pbf.js";
-import { VectorTile } from "https://unpkg.com/@mapbox/vector-tile";
+import { VectorTile } from "https://unpkg.com/@mapbox/vector-tile@1.3.1/dist/vector-tile.js";
 
 // Створюємо карту
 const map = L.map("map").setView([49.8074, 23.9319], 16);
