@@ -1,47 +1,85 @@
-// Імпортуємо бібліотеки через модулі
-import L from "https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js";
-import { VectorTile } from "https://unpkg.com/@mapbox/vector-tile@1.3.1/dist/vector-tile.js";
-import Pbf from "https://unpkg.com/pbf@3.2.1/dist/pbf.js";
 
 
+// Чекаємо, поки завантажаться Pbf і VectorTile
+(async function () {
+    window.Pbf = (await import("https://cdn.skypack.dev/pbf")).default;
+    window.VectorTile = (await import("https://cdn.skypack.dev/@mapbox/vector-tile")).VectorTile;
 
+    console.log("✅ Бібліотеки завантажено!");
+})();
 
-// Створюємо карту
-const map = L.map("map").setView([49.8074, 23.9319], 16);
+// Обробник кліку правою кнопкою
+let cadastralLayer = null; // Глобальна змінна для полігонів
 
-// Додаємо базову карту OpenStreetMap
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap contributors"
-}).addTo(map);
+document.addEventListener("DOMContentLoaded", () => {
+    map.on("contextmenu", async function (e) {
+        const { lat, lng } = e.latlng;
+        console.log(`📍 Клік: ${lat}, ${lng}`);
 
-// Функція для обчислення X/Y координат тайлу
-function getTileCoordinates(lon, lat, zoom) {
-    const x = Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
-    const y = Math.floor(
-        (1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom)
-    );
-    return { x, y };
-}
+        // Конвертуємо в координати тайлу
+        const zoom = 16;
+        const x = Math.floor((lng + 180) / 360 * Math.pow(2, zoom));
+        const y = Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
 
-// Подія: Клік правою кнопкою миші
-map.on("contextmenu", async function (e) {
-    const zoom = 16;
-    const lat = e.latlng.lat;
-    const lon = e.latlng.lng;
-    const tile = getTileCoordinates(lon, lat, zoom);
+        console.log(`🗺️ Тайл: (${x}, ${y}) на рівні ${zoom}`);
 
-    const url = `https://cdn.kadastr.live/tiles/maps/kadastr/${zoom}/${tile.x}/${tile.y}.pbf`;
+        // Формуємо URL запиту до кадастру
+        const url = `https://cdn.kadastr.live/tiles/maps/kadastr/${zoom}/${x}/${y}.pbf`;
 
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Помилка завантаження тайлу: ${response.status}`);
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Помилка завантаження: ${response.status}`);
 
-        const buffer = await response.arrayBuffer();
-        const tileData = new VectorTile(new Pbf(buffer));
+            const arrayBuffer = await response.arrayBuffer();
+            console.log("✅ MVT тайл отримано!", arrayBuffer);
 
-        console.log("✅ MVT-тайл завантажено:", tileData);
+            // Декодуємо PBF (Vector Tile)
+            const tile = new VectorTile(new Pbf(arrayBuffer));
 
-    } catch (error) {
-        console.error("❌ Помилка:", error);
-    }
+            // Перетворюємо в GeoJSON
+            const features = [];
+            for (let layerName in tile.layers) {
+                let layer = tile.layers[layerName];
+                for (let i = 0; i < layer.length; i++) {
+                    let feature = layer.feature(i).toGeoJSON(x, y, zoom);
+                    features.push(feature);
+                }
+            }
+
+            const geoJsonData = {
+                type: "FeatureCollection",
+                features: features
+            };
+
+            console.log("🛰️ Отримані дані у форматі GeoJSON:", JSON.stringify(geoJsonData, null, 2));
+
+            // ❌ Видаляємо попередній шар перед додаванням нового
+            if (cadastralLayer) {
+                map.removeLayer(cadastralLayer);
+            }
+
+            // Додаємо новий шар полігонів
+            cadastralLayer = L.geoJSON(geoJsonData, {
+                style: {
+                    color: "red",
+                    weight: 2,
+                    fillColor: "rgba(255,0,0,0.3)",
+                    fillOpacity: 0.5
+                },
+                onEachFeature: function (feature, layer) {
+                    // Додаємо popup з інформацією при кліку
+                    layer.on("click", function (e) {
+                        L.popup()
+                            .setLatLng(e.latlng)
+                            .setContent(`<b>Інформація про ділянку:</b><br>${JSON.stringify(feature.properties, null, 2)}`)
+                            .openOn(map);
+                    });
+                }
+            }).addTo(map);
+
+        } catch (error) {
+            console.error("❌ Помилка:", error);
+        }
+    });
 });
+
