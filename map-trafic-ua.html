@@ -189,6 +189,27 @@
 
     // За замовчуванням буде використовуватися OpenStreetMap
         osmLayer.addTo(map);
+
+
+        L.Control.InfoPanel = L.Control.extend({
+            onAdd: function(map) {
+                let div = L.DomUtil.create("div", "info-panel");
+                div.innerHTML = `
+                    <h4>ℹ Інформація</h4>
+                    <div>Для отримання кадастрових даних натисніть правою кнопкою миші на карту.</div>
+                    <div>Після натискання буде завантажено тайл з кадастровими даними.</div>
+                    <div>Для очищення карти натисніть на колесико миші.</div>
+                `;
+                return div;
+            },
+            onRemove: function(map) {}
+        });
+        
+        // Додаємо панель на карту
+        L.control.infoPanel = function(opts) {
+            return new L.Control.InfoPanel(opts);
+        };
+        L.control.infoPanel({ position: "topright" }).addTo(map);
     
 
         var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/ukr-pidst.geojson';
