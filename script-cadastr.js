@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <p><b>Власність:</b> ${props.ownership || "Немає даних"}</p>
                                 <p><b>Цільове призначення:</b> ${props.purpose || "Немає даних"}</p>
                                 <p><b>Категорія:</b> ${props.category || "Немає даних"}</p>
-                                <p><a href="https://kadastr.live/parcel/${cadnum}" target="_blank" style="color: blue; text-decoration: underline;">🔗 Деталі ділянки</a></p>
+                                <p><a href="https://kadastr.live/parcel/${props.cadnum}" target="_blank" style="color: blue; text-decoration: underline;">🔗 Деталі ділянки</a></p>
                             </div>
                         `;
                     
