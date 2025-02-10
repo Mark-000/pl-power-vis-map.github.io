@@ -1,11 +1,3 @@
-// Ініціалізація карти
-const map = L.map("map").setView([49.807405, 23.931917], 16);
-
-// Додаємо базовий шар (OpenStreetMap)
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
-}).addTo(map);
-
 // Додаємо обробник кліку правою кнопкою
 map.on("contextmenu", async function (e) {
     const { lat, lng } = e.latlng;
@@ -47,12 +39,15 @@ map.on("contextmenu", async function (e) {
             features: features
         };
 
+        // 👉 ЛОГУЄМО ОТРИМАНІ ДАНІ
+        console.log("🛰️ Отримані дані у форматі GeoJSON:", JSON.stringify(geoJsonData, null, 2));
+
         // Додаємо полігони на карту
         L.geoJSON(geoJsonData, {
             style: {
-                color: "red",  // Червоні контури
+                color: "red",
                 weight: 2,
-                fillColor: "rgba(255,0,0,0.3)",  // Напівпрозоре заповнення
+                fillColor: "rgba(255,0,0,0.3)",
                 fillOpacity: 0.5
             }
         }).addTo(map);
