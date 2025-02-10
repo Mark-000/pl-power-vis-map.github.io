@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ukraine map</title>
+    <title>Leaflet TimeDimension Demo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
@@ -129,6 +129,17 @@
             font-weight: bold;
         }
         .leaflet-tooltip.custom-tooltip1:before {
+            display: none !important; /* Вимикає стрілочку */
+        }
+        .leaflet-tooltip.custom-tooltip110{
+            margin-top: 1.5px;
+            background-color: rgba(255, 255, 255, 0);
+            box-shadow: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .leaflet-tooltip.custom-tooltip110:before {
             display: none !important; /* Вимикає стрілочку */
         }
         .info-control {
@@ -580,7 +591,113 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                
+
+var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/nek-pidstancii-pidkluch.geojson';
+
+fetch(geojsonUrlNEK)
+    .then(response => response.json())
+    .then(projektyGeojsonData => {
+        // Шар для potuznist35
+        var layerPotuznist35 = L.geoJSON(projektyGeojsonData, {
+            filter: function(feature) {
+                return feature.properties.potuznist35 != null && feature.properties.potuznist35 > 0;
+            },
+            pointToLayer: function(feature, latlng) {
+                let power = feature.properties.potuznist35;
+
+                let marker = L.circleMarker(latlng, {
+                    radius: Math.sqrt(power) * 1.2, // Розмір точки залежить від потужності
+                    fillColor: "blue",
+                    color: "black",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+
+                let tooltipOffset = -Math.sqrt(power) * 1.2; 
+
+                marker.bindTooltip(`${power}`, {
+                    permanent: true,
+                    direction: 'top',
+                    className: 'custom-tooltip110', // Змінено на правильний клас
+                    offset: [0, tooltipOffset]
+                });
+
+                marker.bindPopup(`
+                    <b>ПС:</b> ${feature.properties.pidstancia}<br>
+                    <b>Потужність по 35:</b> ${power} МВт<br>
+                `);
+
+                return marker;
+            }
+        });
+
+
+        // Шар для potuznist110
+        var clusterGroup110 = L.markerClusterGroup({
+            iconCreateFunction: function(cluster) {
+                let markers = cluster.getAllChildMarkers();
+                let totalPower = markers.reduce((sum, marker) => sum + (marker.options.power || 0), 0);
+                
+                return L.divIcon({
+                    html: `<div style="background-color: green;
+                                font-size: 15px;
+                                border-radius: 50%; 
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                flex-direction: column;
+                                width: 50px; 
+                                height: 50px; 
+                                text-align: center; 
+                                color: white; 
+                                font-weight: bold;">
+                        ${totalPower}
+                    </div>`,
+                    className: 'custom-cluster',
+                    iconSize: [40, 40]
+                });
+            }
+        });
+
+// Завантажуємо GeoJSON
+fetch(geojsonUrlNEK)
+    .then(response => response.json())
+    .then(projektyGeojsonData => {
+        var layerPotuznist110 = L.geoJSON(projektyGeojsonData, {
+            filter: function(feature) {
+                return feature.properties.potuznist110 != null && feature.properties.potuznist110 > 0;
+            },
+            pointToLayer: function(feature, latlng) {
+                let power = feature.properties.potuznist110;
+
+                let marker = L.circleMarker(latlng, {
+                    radius: Math.sqrt(power) * 1.2, // Розмір точки залежить від потужності
+                    fillColor: "green",
+                    color: "black",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                })
+                let tooltipOffset = -Math.sqrt(power) * 1.2; 
+                
+                marker.bindTooltip(`
+                        ${power}<br>
+                    `, {
+                        permanent: true,
+                        direction: 'top',
+                        className: 'custom-tooltip110',
+                        offset: [0, tooltipOffset]
+                    });
+                    marker.bindPopup(`
+                        <b>ПС:</b> ${feature.properties.pidstancia}<br>
+                        <b>Потужність по 110:</b> ${power} МВт<br>
+                    `);
+                    marker.options.power = power;
+                    return marker;
+            }
+        });
+        clusterGroup110.addLayer(layerPotuznist110);                                                      
 
                 // Додавання шару до кластерної групи 
                
@@ -590,6 +707,9 @@
                     "<span style='color: black;'>Кадастр підкладка</span>": cadastrLayer,
                     "<span style='color: black;'>НЕК підстанції</span>": NEKLayer,
                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
+                    "<span style='color: black;'>Потужність 35 кВ</span>": layerPotuznist35,
+                    "<span style='color: black;'>Потужність 110 кВ</span>": clusterGroup110,
+                    
                     "<span style='color: black;'>Електростанції</span>": PUALayer,
                     "<span style='color: black;'>Лінії 220+</span>": reconsLayer,
                     "<span style='color: black;'>Лінії 110</span>": Layer110,
@@ -650,7 +770,11 @@
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                                       
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                                     
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
