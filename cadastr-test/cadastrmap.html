@@ -12,6 +12,14 @@
     <!-- Завантажуємо Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <script>
+        var map = L.map("map").setView([49.807405, 23.931917], 16);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
+        }).addTo(map);
+    </script>
+
     <!-- Завантажуємо бібліотеки через IIFE -->
     <script>
         (async function() {
