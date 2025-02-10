@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cadastralLayer = L.geoJSON(geoJsonData, {
                 style: {
                     color: "red",
-                    weight: 2,
+                    weight: 1,
                     fillColor: "rgba(255,0,0,0.3)",
                     fillOpacity: 0.5
                 },
