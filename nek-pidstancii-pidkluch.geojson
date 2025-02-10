@@ -1,0 +1,260 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Львів західна\"",
+        "potuznist35": 25.0,
+        "potuznist110": NaN
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.79861729484361,
+          49.876145926309476
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 220 кВ \"Розділ\"",
+        "potuznist35": 50.0,
+        "potuznist110": 150.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.14663914492818,
+          49.46034259539152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 220 кВ \"Стрий\"",
+        "potuznist35": NaN,
+        "potuznist110": 300.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.881111097294003,
+          49.24872312804875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 220 кВ \"Борислав\"",
+        "potuznist35": 50.0,
+        "potuznist110": 200.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.419732926132497,
+          49.30010491513476
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 220 кВ \"Луцьк південна\"",
+        "potuznist35": NaN,
+        "potuznist110": 100.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.323301110865433,
+          50.702852516987775
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 220 кВ \"Луцьк північна\"",
+        "potuznist35": NaN,
+        "potuznist110": 200.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.386847491182877,
+          50.77514869524676
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Ковель\"",
+        "potuznist35": 50.0,
+        "potuznist110": 200.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.71638889739977,
+          51.191429215641605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 220 кВ \"Калуш\"",
+        "potuznist35": NaN,
+        "potuznist110": 200.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.346399626121553,
+          49.09533397353394
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 220 кВ \"Воловець\"",
+        "potuznist35": NaN,
+        "potuznist110": 100.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.19498926842949,
+          48.71225048862487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 400 кВ \"Мукачево\"",
+        "potuznist35": NaN,
+        "potuznist110": 300.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.62360036841371,
+          48.41671651700004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Грабів\"",
+        "potuznist35": NaN,
+        "potuznist110": 250.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.113322568537583,
+          50.712249346308376
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Радивилів\"",
+        "potuznist35": NaN,
+        "potuznist110": 150.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.266121826176725,
+          50.11863858885827
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Рівне\"",
+        "potuznist35": 50.0,
+        "potuznist110": NaN
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.22443366853374,
+          50.64140247948511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Тернопільська\"",
+        "potuznist35": NaN,
+        "potuznist110": 200.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.634422939635233,
+          49.489763987115865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Кам’янець-Подільська\" ",
+        "potuznist35": NaN,
+        "potuznist110": 150.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.629711468425672,
+          48.642806127679094
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Шепетівка\"",
+        "potuznist35": 50.0,
+        "potuznist110": 200.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.057756339670775,
+          50.14617294992934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pidstancia": "ПС 330 кВ \"Хмельницька\"",
+        "potuznist35": NaN,
+        "potuznist110": 200.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.931655968466735,
+          49.40863899470559
+        ]
+      }
+    }
+  ]
+}
