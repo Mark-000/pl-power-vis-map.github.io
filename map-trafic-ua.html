@@ -789,17 +789,25 @@ fetch(geojsonUrlNEK)
             },
             pointToLayer: function(feature, latlng) {
                 let power = feature.properties.potuznist110;
+                let pidstancia = feature.properties.pidstancia.toLowerCase(); // Приводимо до нижнього регістру для порівняння
+
+                // Перевірка на наявність слів "розділ" або "західна"
+                let fillColor = "green"; // За замовчуванням зелений
+                if (pidstancia.includes("стрий") || pidstancia.includes("калуш") || pidstancia.includes("воловець") || pidstancia.includes("тернопільська" || pidstancia.includes("хмельницька"))) {
+                    fillColor = "yellow"; // Змінюємо колір на жовтий, якщо умови виконуються
+                }
 
                 let marker = L.circleMarker(latlng, {
                     radius: Math.sqrt(power) * 1.2, // Розмір точки залежить від потужності
-                    fillColor: "green",
+                    fillColor: fillColor,
                     color: "black",
                     weight: 1,
                     opacity: 1,
                     fillOpacity: 0.8
-                })
-                let tooltipOffset = -Math.sqrt(power) * 1.2; 
-                
+                });
+
+                let tooltipOffset = -Math.sqrt(power) * 1.2;
+
                 marker.bindTooltip(`
                         ${power}<br>
                     `, {
@@ -808,14 +816,16 @@ fetch(geojsonUrlNEK)
                         className: 'custom-tooltip110',
                         offset: [0, tooltipOffset]
                     });
-                    marker.bindPopup(`
+                marker.bindPopup(`
                         <b>ПС:</b> ${feature.properties.pidstancia}<br>
                         <b>Потужність по 110кв:</b> ${power} МВт<br>
                     `);
-                    marker.options.power = power;
-                    return marker;
+                marker.options.power = power;
+                return marker;
             }
         });
+
+
         clusterGroup110.addLayer(layerPotuznist110);                                                      
 
                 // Додавання шару до кластерної групи 
