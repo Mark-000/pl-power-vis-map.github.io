@@ -173,6 +173,10 @@
     <!-- JavaScript для MarkerCluster -->
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
+    <!--line-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+    <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.js"></script>
+
     <script>
         // URLs для GeoJSON файлів
        
@@ -231,6 +235,16 @@
         // Додаємо елемент на карту
         var infoControl = new L.Control.Info({ position: "topleft" });
         map.addControl(infoControl);
+
+        var infoControl = new L.Control.Info({ position: "topleft" });
+        map.addControl(infoControl);
+
+        var measureControl = new L.Control.Measure({
+            position: "topleft",
+            primaryLengthUnit: "kilometers",  // Одиниці вимірювання
+            primaryAreaUnit: "hectares"
+        });
+        map.addControl(measureControl);
     
 
         var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/ukr-pidst.geojson';
