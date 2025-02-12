@@ -249,8 +249,10 @@
 
         var measureControl = new L.Control.Measure({
             position: "topleft",
-            primaryLengthUnit: "kilometers",  // Одиниці вимірювання
-            primaryAreaUnit: "hectares"
+            primaryLengthUnit: "meters",
+            secondaryLengthUnit: "kilometers", // Одиниці вимірювання
+            primaryAreaUnit: "hectares",
+            secondaryAreaUnit: "sqmeters"
         });
         map.addControl(measureControl);
     
