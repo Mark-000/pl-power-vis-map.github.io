@@ -42,7 +42,7 @@
         .leaflet-control-layers-list{
             margin: 5px;
         }
-        .leaflet-control-layers-list label:hover{
+        .leaflet-control-layers-list .leaflet-layerstree-header:hover{
             /*text-decoration: underline;*/
             background-color: rgb(240, 240, 240);
             cursor: pointer;
@@ -169,6 +169,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://jjimenezshaw.github.io/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.js"></script>
+
+    
     
     <!-- JavaScript для MarkerCluster -->
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
@@ -181,6 +183,9 @@
     <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/rainbowvis.js@1.1.1/rainbowvis.js"></script>
     <script src="https://unpkg.com/geoblaze"></script>
+    <!--derevo-->
+    <link rel="stylesheet" href="L.Control.Layers.Tree.css">
+    <script src="L.Control.Layers.Tree.js"></script>
 
 
     <script>
@@ -887,44 +892,80 @@ fetch(geojsonUrlNEK)
           
                 
 //----------------------------------------------------------------shari-----------------------------------------------------------------
-                var overlays = {
-                    "<span style='color: black;'>Адміністративні межі</span>": borderLayer,
-                    "<span style='color: black;'>Кадастр підкладка</span>": cadastrLayer,
-                    "<span style='color: black;'>14.01 маленькі</span>": small_14_01,
-
-                    "<span style='color: black;'>НЕК підстанції</span>": NEKLayer,
-                    "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
-
-                    "<span style='color: black;'>Потужність по 35кВ</span>": layerPotuznist35,
-                    "<span style='color: black;'>Потужність по 110кВ</span>": clusterGroup110,
-                    "<span style='color: black;'>50км для проектів</span>": buffer50pidstLayer,
-                    
-                    "<span style='color: black;'>Електростанції</span>": PUALayer,
-                    "<span style='color: black;'>Лінії 220+</span>": reconsLayer,
-                    "<span style='color: black;'>Лінії 110</span>": Layer110,
-
-                    "<span style='color: #c9b65f;'>Львів обмеження</span>": buflvivLayer,
-                    "<span style='color: #c9b65f;'>Волинь обмеження</span>": volinLayer,
-                    "<span style='color: #c9b65f;'>Закарпаття обмеження</span>": zakarpatskLayer,
-                    "<span style='color: #c9b65f;'>Рівне обмеження</span>": rivneLayer,
-                    "<span style='color: #c9b65f;'>Тернопіль обмеження</span>": ternopilLayer,
-                    "<span style='color: #c9b65f;'>Франківськ обмеження</span>": frankivskLayer,
-                    "<span style='color: #c9b65f;'>Чернівці обмеження</span>": chernivciLayer,
-                    "<span style='color: #c9b65f;'>Хмельницьк обмеження</span>": hmelnitskLayer,
-                    "<span style='color: #c9b65f;'>Приаеродромна обмеження</span>": aerodromiLayer,
-
-                    "<span style='color: #2c6929;'>Рамсарська конвенція</span>": waterPolyLayer,
-                    "<span style='color: #2c6929;'>Природно-заповідний фонд</span>": dzkPzfLayer,
-                    "<span style='color: #2c6929;'>Смарагдова мережа</span>": emeraldLayer,
-
-                   // "<span style='color: black;'>Вітер</span>": layerwtif,
+                // Структура дерева шарів
+                var baseTree = {
+                    label: "<b>Базові карти</b>",
+                    children: [
+                        { label: "OpenStreetMap", layer: osmLayer, radioGroup: "basemap" },
+                        { label: "Google Map", layer: googleLayer, radioGroup: "basemap" }
+                    ]
                 };
-                
-                // Додавання контролу шарів з можливістю перемикання
-                L.control.layers({
-                    "<span style='color: black;'>OpenStreetMap</span>": osmLayer,
-                    "<span style='color: black;'>Google Map</span>": googleLayer
-                }, overlays).addTo(map);
+
+                // Дерево шарів
+                var overlaysTree = {
+                    label: "<b>Шари</b>",
+                    selectAllCheckbox: true,  // Додає чекбокс для вибору всіх шарів
+                    children: [
+                        { label: "Адміністративні межі", layer: borderLayer },
+                        { label: "Кадастр підкладка", layer: cadastrLayer },
+                        { 
+                            label: "<b>Електромережі</b>", 
+                            children: [
+                                { label: "НЕК підстанції", layer: NEKLayer },
+                                { label: "Підключення", layer: geoJsonClusterGroup },
+                                { label: "Потужність по 35кВ", layer: layerPotuznist35 },
+                                { label: "Потужність по 110кВ", layer: clusterGroup110 },
+                                { label: "Лінії 220+", layer: reconsLayer },
+                                { label: "Лінії 110", layer: Layer110 }
+                            ]
+                        },
+                        { 
+                            label: "<b>Проекти</b>", 
+                            collapsed: true,
+                            children: [
+                                { label: "14.01 маленькі", layer: small_14_01 },
+                                { label: "50км для проектів", layer: buffer50pidstLayer }
+                            ]
+                        },
+                        { 
+                            label: "<b>Обмеження</b>",
+                            collapsed: true, 
+                            children: [
+                                { label: "Львів", layer: buflvivLayer },
+                                { label: "Волинь", layer: volinLayer },
+                                { label: "Закарпаття", layer: zakarpatskLayer },
+                                { label: "Рівне", layer: rivneLayer },
+                                { label: "Тернопіль", layer: ternopilLayer },
+                                { label: "Франківськ", layer: frankivskLayer },
+                                { label: "Чернівці", layer: chernivciLayer },
+                                { label: "Хмельницьк", layer: hmelnitskLayer },
+                                { label: "Приаеродромна", layer: aerodromiLayer },
+
+                            ]
+                        },
+                        { 
+                            label: "<b>Природоохоронні території</b>", 
+                            collapsed: true,  // ❗ Згорнута група
+                            children: [
+                                { label: "<span>Рамсарська конвенція</span>", layer: waterPolyLayer },
+                                { label: "<span>Природно-заповідний фонд</span>", layer: dzkPzfLayer },
+                                { label: "<span>Смарагдова мережа</span>", layer: emeraldLayer }
+                            ]
+                        }
+                        
+                    ]
+                };
+
+                // Додаємо контроль шарів
+                var layerControl = L.control.layers.tree(baseTree, overlaysTree, {
+                    namedToggle: false,  
+                    selectorBack: false, 
+                    closedSymbol: "▶",  
+                    openedSymbol: "▼",  
+                    collapsed: true
+
+                }).addTo(map);
+
                 
                 reconsLayer.addTo(map);
                 geoJsonClusterGroup.addTo(map);
