@@ -417,7 +417,7 @@
                                                             },
                                                             interactive: false
                                                         });
-
+                                                        
                                                         var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/nek-substations.geojson';
                                                         fetch(geojsonUrlNEK)
                                                             .then(response => response.json())
@@ -474,15 +474,17 @@
                                                                                 `);
                                                                             }
                                                                         });
+                                                                        var opacity700 = 0.6
+                                                                        var color700 = '#3d3d3d'
                                                                         var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_lviv.geojson';
                                                                             fetch(geojsonUrlLvivbuf)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
                                                                                     buflvivLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -493,9 +495,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     volinLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -506,9 +508,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     zakarpatskLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -519,9 +521,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     rivneLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -532,9 +534,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     ternopilLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -545,9 +547,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     frankivskLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -558,9 +560,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     chernivciLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -571,9 +573,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     hmelnitskLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#c9b65f', // Колір шару
+                                                                                            color: color700, // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: opacity700
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
