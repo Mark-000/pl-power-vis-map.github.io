@@ -633,7 +633,7 @@ fetch(geotiffUrlw)
                 georaster: georaster,
                 opacity: 0.6,
                 pixelValuesToColorFn: vals => {
-                    if (isNaN(vals[0]) || vals[0] <= 0) {
+                    if (isNaN(vals[0]) || vals[0] <= 0 || vals[0] <= 7) {
                         return null;
                     } else {
                         const value = Math.round(vals[0] * 1.3);
