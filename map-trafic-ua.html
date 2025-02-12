@@ -356,6 +356,7 @@
                     return marker;
                 }
                 });
+                geoJsonClusterGroup.addLayer(gprelunJsonLayer); 
                
                 var geojsonukrline = "https://mark-000.github.io/pl-power-vis-map.github.io/ukr-line-filter-all.geojson"
                 fetch(geojsonukrline)
@@ -417,6 +418,22 @@
                                                             },
                                                             interactive: false
                                                         });
+
+                                        var geojsonUrlbuffer50kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffer-for-proekty-50km.geojson';
+                                        
+                                               //map.getPane('borderPane').style.zIndex = 400;
+
+                                                fetch(geojsonUrlbuffer50kmpidst)
+                                                    .then(response => response.json())
+                                                    .then(borderGeojsonData => {
+                                                        buffer50pidstLayer = L.geoJSON(borderGeojsonData, {
+                                                            style: {
+                                                                color: '#f5076a', // Колір шару
+                                                                weight: 2, // Товщина ліній
+                                                                fillOpacity: 0,
+                                                            },
+                                                            interactive: false
+                                                        });
                                                         
                                                         var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/nek-substations.geojson';
                                                         fetch(geojsonUrlNEK)
@@ -474,6 +491,9 @@
                                                                                 `);
                                                                             }
                                                                         });
+
+//----------------------------------------------------------------ekologia-----------------------------------------------------------------
+
                                                                         var opacity700 = 0.8
                                                                         var color700 = 'black'
                                                                         var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_lviv.geojson';
@@ -611,9 +631,9 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
+//----------------------------------------------------------------tif-----------------------------------------------------------------
 
-
-                                                                                    var geotiffUrlw = "https://mark-000.github.io/pl-power-vis-map.github.io/UKR_wind-speed_100m-.tif";  
+var geotiffUrlw = "https://mark-000.github.io/pl-power-vis-map.github.io/UKR_wind-speed_100m-.tif";  
 var layerwtif;
 var popupActive = false;
 
@@ -707,7 +727,7 @@ fetch(geotiffUrlw)
 
 
 
-
+//---------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -834,16 +854,50 @@ fetch(geojsonUrlNEK)
         clusterGroup110.addLayer(layerPotuznist110);                                                      
 
                 // Додавання шару до кластерної групи 
-                geoJsonClusterGroup.addLayer(gprelunJsonLayer);                     
+
+
+
+        var geojsonUrsmall_14_01 = 'https://mark-000.github.io/pl-power-vis-map.github.io/14-01-zahid-small.geojson';
+
+        fetch(geojsonUrsmall_14_01)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                small_14_01 = L.geoJSON(projektyGeojsonData, {
+                    style: function(feature) {
+                        return {
+                            fillColor: "blue", // Колір заповнення полігону
+                            color: "black", // Колір обведення
+                            weight: 3, // Товщина обведення
+                            opacity: 1, // Прозорість обведення
+                            fillOpacity: 0.6 // Прозорість заповнення
+                        };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Номер:</b> ${feature.properties["landuse.cadnum"] || 'Unknown'}<br>
+                            <b>Площа:</b> ${feature.properties.area || 'Unknown'}<br>
+                            <b>Використання:</b> ${feature.properties.use || 'Unknown'}<br>
+                            <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
+                            <b>Власність:</b> ${feature.properties.area || 'ownership'}<br>
+                        `);
+                    }
+                });
+            
+
+          
+                
+//----------------------------------------------------------------shari-----------------------------------------------------------------
                 var overlays = {
                     "<span style='color: black;'>Адміністративні межі</span>": borderLayer,
                     "<span style='color: black;'>Кадастр підкладка</span>": cadastrLayer,
+                    "<span style='color: black;'>14.01 маленькі</span>": small_14_01,
 
                     "<span style='color: black;'>НЕК підстанції</span>": NEKLayer,
                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
 
                     "<span style='color: black;'>Потужність по 35кВ</span>": layerPotuznist35,
                     "<span style='color: black;'>Потужність по 110кВ</span>": clusterGroup110,
+                    "<span style='color: black;'>50км для проектів</span>": buffer50pidstLayer,
                     
                     "<span style='color: black;'>Електростанції</span>": PUALayer,
                     "<span style='color: black;'>Лінії 220+</span>": reconsLayer,
@@ -915,7 +969,11 @@ fetch(geojsonUrlNEK)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                                     
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                                    
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
