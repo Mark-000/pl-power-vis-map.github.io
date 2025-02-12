@@ -416,6 +416,38 @@
                 "Power": null,
                 "Transformers": null
             }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.31393936982767,
+                    50.09456174172366
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 750 кВ \"Львівська\" (проєктована)",
+                "Location": "Грушів",
+                "Power": null,
+                "Transformers": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.32078064162424,
+                    48.55615472451292
+                ]
+            },
+            "properties": {
+                "Substation": "ПС 400 кВ \"Ужгород\" (проєктована)",
+                "Location": "Ужгород",
+                "Power": null,
+                "Transformers": null
+            }
         }
     ]
 }
