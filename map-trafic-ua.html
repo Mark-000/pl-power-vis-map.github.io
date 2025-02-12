@@ -476,7 +476,7 @@
                                                                         });
                                                                         var opacity700 = 0.8
                                                                         var color700 = 'black'
-                                                                        var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_lviv.geojson';
+                                                                        var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_lviv.geojson';
                                                                             fetch(geojsonUrlLvivbuf)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -489,7 +489,7 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                                    var geojsonUrlvolin = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_volin.geojson';
+                                                                                    var geojsonUrlvolin = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_volin.geojson';
                                                                             fetch(geojsonUrlvolin)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -502,7 +502,7 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                                    var geojsonUrlzakarpatsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_zakarpatsk.geojson';
+                                                                                    var geojsonUrlzakarpatsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_zakarpatsk.geojson';
                                                                             fetch(geojsonUrlzakarpatsk)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -515,7 +515,7 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                                    var geojsonUrlrivne = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_rivne.geojson';
+                                                                                    var geojsonUrlrivne = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_rivne.geojson';
                                                                             fetch(geojsonUrlrivne)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -528,7 +528,7 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                                    var geojsonUrlternopil = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_ternopil.geojson';
+                                                                                    var geojsonUrlternopil = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_ternopil.geojson';
                                                                             fetch(geojsonUrlternopil)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -541,7 +541,7 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                                    var geojsonUrlfrankivsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_frankivsk.geojson';
+                                                                                    var geojsonUrlfrankivsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_frankivsk.geojson';
                                                                             fetch(geojsonUrlfrankivsk)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -554,7 +554,7 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                                    var geojsonUrlchernivci = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_chernivci.geojson';
+                                                                                    var geojsonUrlchernivci = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_chernivci.geojson';
                                                                             fetch(geojsonUrlchernivci)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -567,7 +567,7 @@
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
-                                                                                    var geojsonUrlhmelnitsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffered_areas_hmelnitsk.geojson';
+                                                                                    var geojsonUrlhmelnitsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_hmelnitsk.geojson';
                                                                             fetch(geojsonUrlhmelnitsk)
                                                                                 .then(response => response.json())
                                                                                 .then(borderGeojsonData => {
@@ -849,15 +849,15 @@ fetch(geojsonUrlNEK)
                     "<span style='color: black;'>Лінії 220+</span>": reconsLayer,
                     "<span style='color: black;'>Лінії 110</span>": Layer110,
 
-                    "<span style='color: #c9b65f;'>Львів 700м</span>": buflvivLayer,
-                    "<span style='color: #c9b65f;'>Волинь 700м</span>": volinLayer,
-                    "<span style='color: #c9b65f;'>Закарпаття 700м</span>": zakarpatskLayer,
-                    "<span style='color: #c9b65f;'>Рівне 700м</span>": rivneLayer,
-                    "<span style='color: #c9b65f;'>Тернопіль 700м</span>": ternopilLayer,
-                    "<span style='color: #c9b65f;'>Франківськ 700м</span>": frankivskLayer,
-                    "<span style='color: #c9b65f;'>Чернівці 700м</span>": chernivciLayer,
-                    "<span style='color: #c9b65f;'>Хмельницьк 700м</span>": hmelnitskLayer,
-                    "<span style='color: #c9b65f;'>Приаеродромна територія</span>": aerodromiLayer,
+                    "<span style='color: #c9b65f;'>Львів обмеження</span>": buflvivLayer,
+                    "<span style='color: #c9b65f;'>Волинь обмеження</span>": volinLayer,
+                    "<span style='color: #c9b65f;'>Закарпаття обмеження</span>": zakarpatskLayer,
+                    "<span style='color: #c9b65f;'>Рівне обмеження</span>": rivneLayer,
+                    "<span style='color: #c9b65f;'>Тернопіль обмеження</span>": ternopilLayer,
+                    "<span style='color: #c9b65f;'>Франківськ обмеження</span>": frankivskLayer,
+                    "<span style='color: #c9b65f;'>Чернівці обмеження</span>": chernivciLayer,
+                    "<span style='color: #c9b65f;'>Хмельницьк обмеження</span>": hmelnitskLayer,
+                    "<span style='color: #c9b65f;'>Приаеродромна обмеження</span>": aerodromiLayer,
 
                     "<span style='color: #2c6929;'>Рамсарська конвенція</span>": waterPolyLayer,
                     "<span style='color: #2c6929;'>Природно-заповідний фонд</span>": dzkPzfLayer,
