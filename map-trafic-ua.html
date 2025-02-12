@@ -624,8 +624,8 @@ fetch(geotiffUrlw)
             const max = Math.round(georaster.maxs[0]);
 
             const rainbow = new Rainbow();
-            rainbow.setNumberRange(1,10);
-            rainbow.setSpectrum('blue','#048dcc','#04cc97','#04cc33','yellow','red',)
+            rainbow.setNumberRange(1,11);
+            rainbow.setSpectrum('blue','#048dcc','#04cc97','#04cc33','yellow','red')
            // rainbow.setSpectrum('#8B00FF', '#7A00FF', '#6900FF', '#5700FF', '#4500FF', '#3300FF', '#2A00FF', '#1E00FF', '#1300FF', '#0700FF', '#00EEFF', '#00FFA1', '#01FF33', '#A4FF00', '#FFEE00', '#FF0000');
             map.createPane('customPane');
             map.getPane('customPane').style.zIndex = 250;
