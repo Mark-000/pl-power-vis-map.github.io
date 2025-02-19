@@ -249,8 +249,10 @@
 
         var measureControl = new L.Control.Measure({
             position: "topleft",
-            primaryLengthUnit: "kilometers",  // Одиниці вимірювання
-            primaryAreaUnit: "hectares"
+            primaryLengthUnit: "meters",
+            secondaryLengthUnit: "kilometers", // Одиниці вимірювання
+            primaryAreaUnit: "hectares",
+            secondaryAreaUnit: "sqmeters"
         });
         map.addControl(measureControl);
     
@@ -915,6 +917,7 @@ fetch(geojsonUrlNEK)
                                 { label: "Підключення", layer: geoJsonClusterGroup },
                                 { label: "Потужність по 35кВ", layer: layerPotuznist35 },
                                 { label: "Потужність по 110кВ", layer: clusterGroup110 },
+                                { label: "Електростанції", layer: PUALayer },
                                 { label: "Лінії 220+", layer: reconsLayer },
                                 { label: "Лінії 110", layer: Layer110 }
                             ]
