@@ -891,6 +891,29 @@ fetch(geojsonUrlNEK)
                 });
             
 
+                var geojsonUrlAnimal = 'https://mark-000.github.io/pl-power-vis-map.github.io/animals.geojson';
+                    fetch(geojsonUrlAnimal)
+                        .then(response => response.json())
+                        .then(projektyGeojsonData => {
+                            animalLayer = L.geoJSON(projektyGeojsonData, {
+                                pointToLayer: function(feature, latlng) {
+                                    return L.circleMarker(latlng, {
+                                        radius: 4, // Радіус точки
+                                        fillColor: "red", // Колір заповнення
+                                        color: "black", // Колір обведення
+                                        weight: 1, // Товщина обведення
+                                        opacity: 1, // Прозорість обведення
+                                        fillOpacity: 1 // Прозорість заповнення
+                                    });
+                                },
+                                onEachFeature: function(feature, layer) {
+                                    layer.bindPopup(`
+                                        <b>Назва:</b> ${feature.properties.scientificName || 'Unknown'}<br>
+                                        <b>Клас:</b> ${feature.properties.class || 'Unknown'}<br>
+                                        <b>Дата:</b> ${feature.properties.eventDate || 'Unknown'}
+                                    `);
+                                }
+                            });
           
                 
 //----------------------------------------------------------------shari-----------------------------------------------------------------
@@ -947,9 +970,10 @@ fetch(geojsonUrlNEK)
                             ]
                         },
                         { 
-                            label: "<b>Природоохоронні території</b>", 
+                            label: "<b>Природоохоронні дані</b>", 
                             collapsed: true,  // ❗ Згорнута група
                             children: [
+                                { label: "<span>Охорона тварин</span>", layer: animalLayer },
                                 { label: "<span>Рамсарська конвенція</span>", layer: waterPolyLayer },
                                 { label: "<span>Природно-заповідний фонд</span>", layer: dzkPzfLayer },
                                 { label: "<span>Смарагдова мережа</span>", layer: emeraldLayer }
@@ -1017,7 +1041,9 @@ fetch(geojsonUrlNEK)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                                    
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                                   
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
