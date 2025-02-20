@@ -626,7 +626,7 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     aerodromiLayer16 = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: 'red', // Колір шару
+                                                                                            color: '#cf4b44', // Колір шару
                                                                                             weight: 1, // Товщина ліній
                                                                                             fillOpacity: 0.3
                                                                                         },
@@ -902,6 +902,27 @@ fetch(geojsonUrlNEK)
                         `);
                     }
                 });
+
+                var geojsonUrlkonkurenty16 = 'https://mark-000.github.io/pl-power-vis-map.github.io/konkurenty_buffers_16.geojson';
+                            fetch(geojsonUrlkonkurenty16)
+                                .then(response => response.json())
+                                .then(borderGeojsonData => {
+                                    console.log(geojsonUrlkonkurenty16)
+                                    konkurentyLayer16 = L.geoJSON(borderGeojsonData, {
+                                        style: function(feature) {
+                                        return {
+                                            color: 'purple', // Колір шару
+                                            weight: 1, // Товщина ліній
+                                            fillOpacity: 0.5
+                                        };
+                                        },
+                                        onEachFeature: function(feature, layer) {
+                                            layer.bindPopup(`
+                                                <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                                            `);
+                                        }
+                                        
+                                    });
             
 
                 var geojsonUrlAnimal = 'https://mark-000.github.io/pl-power-vis-map.github.io/animalss.geojson';
@@ -937,6 +958,10 @@ fetch(geojsonUrlNEK)
                                 `);
                             }
                         })
+
+                        
+                                         // Встановлюємо zIndex, щоб шар був під іншими
+
           
                 
 //----------------------------------------------------------------shari-----------------------------------------------------------------
@@ -972,6 +997,7 @@ fetch(geojsonUrlNEK)
                             label: "<b>Проекти</b>", 
                             collapsed: true,
                             children: [
+                                { label: "Конкуренти", layer: konkurentyLayer16 },
                                 { label: "14.01 маленькі", layer: small_14_01 },
                                 { label: "50км для проектів", layer: buffer50pidstLayer }
                             ]
@@ -997,7 +1023,7 @@ fetch(geojsonUrlNEK)
                             label: "<b>Природоохоронні дані</b>", 
                             collapsed: true,  // ❗ Згорнута група
                             children: [
-                                { label: "<span>Охорона птахи, кажани</span>", layer: animalLayer },
+                                { label: "<span>Птахи, кажани (ЧК)</span>", layer: animalLayer },
                                 { label: "<span>Рамсарська конвенція</span>", layer: waterPolyLayer },
                                 { label: "<span>Природно-заповідний фонд</span>", layer: dzkPzfLayer },
                                 { label: "<span>Смарагдова мережа</span>", layer: emeraldLayer }
@@ -1069,7 +1095,9 @@ fetch(geojsonUrlNEK)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                                     
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                                   
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
