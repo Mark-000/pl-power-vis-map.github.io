@@ -682,7 +682,7 @@ fetch(geotiffUrlw)
                         return '#' + rainbow.colourAt(value);
                     }
                 },
-                resolution: 512,
+                resolution: 128,
                 pane: 'customPane'  
             });
 
@@ -959,6 +959,40 @@ fetch(geojsonUrlNEK)
                             }
                         })
 
+                        var geojsonUrlpidstobl = 'https://mark-000.github.io/pl-power-vis-map.github.io/obl-pidstancii-all-zahid.geojson';
+                fetch(geojsonUrlpidstobl)
+                    .then(response => response.json())
+                    .then(projektyGeojsonData => {
+                        // Фільтруємо дані: тільки де клас = 'Aves' або ряд = 'Chiroptera'
+                        /*let filteredData = {
+                            type: "FeatureCollection",
+                            features: projektyGeojsonData.features.filter(feature => 
+                                feature.properties.class === "Aves" || feature.properties.family === "Vespertilionidae" || feature.properties.family === "Rhinolophidae"
+                            )
+                        };*/
+
+                        // Створюємо шар з відфільтрованими даними
+                        oblpidstLayer = L.geoJSON(projektyGeojsonData, {
+                            pointToLayer: function(feature, latlng) {
+                                return L.circleMarker(latlng, {
+                                    radius: 4, 
+                                    fillColor: "blue",
+                                    color: "black",
+                                    weight: 1,
+                                    opacity: 1,
+                                    fillOpacity: 1
+                                });
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.bindPopup(`
+                                    <b>Назва:</b> ${feature.properties.full_name || feature.properties.name || 'Unknown'}<br>
+                                    <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}<br>
+                                    <b>Потужність:</b> ${feature.properties.rating || 'Unknown'}<br>
+                                    <b>Оператор:</b> ${feature.properties.operator || 'Unknown'}
+                                `);
+                            }
+                        })
+
                         
                                          // Встановлюємо zIndex, щоб шар був під іншими
 
@@ -989,6 +1023,7 @@ fetch(geojsonUrlNEK)
                                 { label: "Потужність по 35кВ", layer: layerPotuznist35 },
                                 { label: "Потужність по 110кВ", layer: clusterGroup110 },
                                 { label: "Електростанції", layer: PUALayer },
+                                { label: "Обл підстанції", layer: oblpidstLayer },
                                 { label: "Лінії 220+", layer: reconsLayer },
                                 { label: "Лінії 110", layer: Layer110 }
                             ]
@@ -1059,6 +1094,8 @@ fetch(geojsonUrlNEK)
 
     })
     .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
