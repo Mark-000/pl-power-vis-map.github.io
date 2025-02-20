@@ -501,7 +501,7 @@
 
 //----------------------------------------------------------------ekologia-----------------------------------------------------------------
 
-                                                                        var opacity700 = 0.8
+                                                                        var opacity700 = 0.4
                                                                         var color700 = 'black'
                                                                         var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_lviv.geojson';
                                                                             fetch(geojsonUrlLvivbuf)
@@ -615,10 +615,23 @@
                                                                                         style: {
                                                                                             color: '#22d4f0', // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
+                                                                                            fillOpacity: 0.05
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                                                                                    });
+                                                                                    var geojsonUrlaerodromi16 = 'https://mark-000.github.io/pl-power-vis-map.github.io/aerodromi_buffers_16.geojson';
+                                                                            fetch(geojsonUrlaerodromi16)
+                                                                                .then(response => response.json())
+                                                                                .then(borderGeojsonData => {
+                                                                                    aerodromiLayer16 = L.geoJSON(borderGeojsonData, {
+                                                                                        style: {
+                                                                                            color: 'red', // Колір шару
+                                                                                            weight: 1, // Товщина ліній
+                                                                                            fillOpacity: 0.3
+                                                                                        },
+                                                                                        interactive: false,
+                                                                                        zIndex: -998  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
 
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
@@ -892,28 +905,38 @@ fetch(geojsonUrlNEK)
             
 
                 var geojsonUrlAnimal = 'https://mark-000.github.io/pl-power-vis-map.github.io/animalss.geojson';
-                    fetch(geojsonUrlAnimal)
-                        .then(response => response.json())
-                        .then(projektyGeojsonData => {
-                            animalLayer = L.geoJSON(projektyGeojsonData, {
-                                pointToLayer: function(feature, latlng) {
-                                    return L.circleMarker(latlng, {
-                                        radius: 4, // Радіус точки
-                                        fillColor: "red", // Колір заповнення
-                                        color: "black", // Колір обведення
-                                        weight: 1, // Товщина обведення
-                                        opacity: 1, // Прозорість обведення
-                                        fillOpacity: 1 // Прозорість заповнення
-                                    });
-                                },
-                                onEachFeature: function(feature, layer) {
-                                    layer.bindPopup(`
-                                        <b>Назва:</b> ${feature.properties.scientificName || 'Unknown'}<br>
-                                        <b>Клас:</b> ${feature.properties.class || 'Unknown'}<br>
-                                        <b>Дата:</b> ${feature.properties.eventDate || 'Unknown'}
-                                    `);
-                                }
-                            });
+                fetch(geojsonUrlAnimal)
+                    .then(response => response.json())
+                    .then(projektyGeojsonData => {
+                        // Фільтруємо дані: тільки де клас = 'Aves' або ряд = 'Chiroptera'
+                        let filteredData = {
+                            type: "FeatureCollection",
+                            features: projektyGeojsonData.features.filter(feature => 
+                                feature.properties.class === "Aves" || feature.properties.family === "Vespertilionidae" || feature.properties.family === "Rhinolophidae"
+                            )
+                        };
+
+                        // Створюємо шар з відфільтрованими даними
+                        animalLayer = L.geoJSON(filteredData, {
+                            pointToLayer: function(feature, latlng) {
+                                return L.circleMarker(latlng, {
+                                    radius: 4, 
+                                    fillColor: "red",
+                                    color: "black",
+                                    weight: 1,
+                                    opacity: 1,
+                                    fillOpacity: 1
+                                });
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.bindPopup(`
+                                    <b>Назва:</b> ${feature.properties.scientificName || 'Unknown'}<br>
+                                    <b>Клас:</b> ${feature.properties.class || 'Unknown'}<br>
+                                    <b>Ряд:</b> ${feature.properties.order || 'Unknown'}<br>
+                                    <b>Дата:</b> ${feature.properties.eventDate || 'Unknown'}
+                                `);
+                            }
+                        })
           
                 
 //----------------------------------------------------------------shari-----------------------------------------------------------------
@@ -965,7 +988,8 @@ fetch(geojsonUrlNEK)
                                 { label: "Франківськ", layer: frankivskLayer },
                                 { label: "Чернівці", layer: chernivciLayer },
                                 { label: "Хмельницьк", layer: hmelnitskLayer },
-                                { label: "Приаеродромна", layer: aerodromiLayer },
+                                { label: "Приаеродромна 50км", layer: aerodromiLayer },
+                                { label: "Приаеродромна 16км", layer: aerodromiLayer16 },
 
                             ]
                         },
@@ -973,7 +997,7 @@ fetch(geojsonUrlNEK)
                             label: "<b>Природоохоронні дані</b>", 
                             collapsed: true,  // ❗ Згорнута група
                             children: [
-                                { label: "<span>Охорона тварин</span>", layer: animalLayer },
+                                { label: "<span>Охорона птахи, кажани</span>", layer: animalLayer },
                                 { label: "<span>Рамсарська конвенція</span>", layer: waterPolyLayer },
                                 { label: "<span>Природно-заповідний фонд</span>", layer: dzkPzfLayer },
                                 { label: "<span>Смарагдова мережа</span>", layer: emeraldLayer }
@@ -1043,7 +1067,9 @@ fetch(geojsonUrlNEK)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                                   
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                                     
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
