@@ -502,7 +502,7 @@
 //----------------------------------------------------------------ekologia-----------------------------------------------------------------
 
                                                                         var opacity700 = 0.3
-                                                                        var color700 = 'black'
+                                                                        var color700 = '#42e3f5'
                                                                         var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_lviv.geojson';
                                                                             fetch(geojsonUrlLvivbuf)
                                                                                 .then(response => response.json())
@@ -613,9 +613,9 @@
                                                                                 .then(borderGeojsonData => {
                                                                                     aerodromiLayer = L.geoJSON(borderGeojsonData, {
                                                                                         style: {
-                                                                                            color: '#22d4f0', // Колір шару
+                                                                                            color: '#cf4b44', // Колір шару
                                                                                             weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.05
+                                                                                            fillOpacity: 0
                                                                                         },
                                                                                         interactive: false,
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
@@ -1085,7 +1085,8 @@ fetch(geojsonUrlNEK)
 
                 
                 reconsLayer.addTo(map);
-                geoJsonClusterGroup.addTo(map);
+                clusterGroup110.addTo(map);
+                //geoJsonClusterGroup.addTo(map);
                 borderLayer.addTo(map);
                 legend.addTo(map)
             })
