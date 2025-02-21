@@ -414,7 +414,7 @@ map.on('pm:drawstart', function (e) {
                     className: 'distance-tooltip'
                 })
                     .setLatLng(middleLatLng) // Центр лінії
-                    .setContent(`Відстань: ${totalDistance.toFixed(2)} м`)
+                    .setContent(`${totalDistance.toFixed(2)} м`)
                     .addTo(map);
             }
 
