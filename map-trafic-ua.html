@@ -47,18 +47,36 @@
             background-color: rgb(240, 240, 240);
             cursor: pointer;
         }
+        /*-------------------legend---------------*/
 
         .leaflet-legend {
             background: white;
-            padding: 10px;
+            padding: 5px;
             margin: 10px;
-            
+            max-width: 200px;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;        
             align-content: center;
             justify-content: center;
             box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
         }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            /* Вирівнювання по центру */
+            gap: 8px; /* Відступ між іконкою та текстом */
+
+        }
+
+        .legend-icon {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+
         .leaflet-legend .l750{
             background: #ba1806;
         }
@@ -78,24 +96,26 @@
         .leaflet-legend div{
             display: flex;
             flex-direction: row;
-            margin: 8px;
+            margin: 5px;
         }
 
         .leaflet-legend i {
-            width: 18px;
-            height: 18px;
+            min-width: 18px;
+            min-height: 18px;
+            max-width: 18px;
+            max-height: 18px;
             float: left;
             margin-right: 8px;
             
             opacity: 0.7;
         }
         .leaflet-legend .ves {
-            background: blue;
+            background: green;
             border-radius: 50%;
             border: 2px solid black;
         }
         .leaflet-legend .ses {
-            background: purple;
+            background: yellow;
             border-radius: 50%;
             border: 2px solid black;
         }
@@ -150,12 +170,12 @@
             cursor: pointer;
         }
         .legend i {
-    display: inline-block;
-    width: 20px;
-    height: 15px;
-    margin-right: 8px;
-    border: 1px solid black;
-}
+            display: inline-block;
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
@@ -211,12 +231,18 @@
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'leaflet-legend');
             
-            div.innerHTML = '<div><i class="l750"></i>750кВ</div>' +
-                            '<div><i class="l400"></i> 400кВ</div>' +
-                            '<div><i class="l330"></i> 330кВ</div>' +
-                            '<div><i class="l220"></i> 220кВ</div>' +
-                            '<div><i class="l110"></i> 110кВ</div>' 
-                            
+                            div.innerHTML = `
+                                <div><i class="l750"></i>АЕС</div>
+                                <div><i class="l110"></i>ТЕС</div>
+                                <div><i class="l330"></i>ГЕС</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#8B1A10" d="M200-440v-80h560v80H200Z"/></svg>750кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#EA33F7" d="M200-440v-80h560v80H200Z"/></svg> 400кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#2854C5" d="M200-440v-80h560v80H200Z"/></svg> 330кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#48752C" d="M200-440v-80h560v80H200Z"/></svg> 220кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#EAC452" d="M200-440v-80h560v80H200Z"/></svg> 110кВ</div>
+                                <div><i class="ves"></i> Доступна потужність</div>
+                                <div><i class="ses"></i> Доступна потужність із технічними обмеженнями приєднання</div>
+                            `;                
             return div;
         };
 
@@ -474,14 +500,33 @@
                                                                     .then(projektyGeojsonData => {
                                                                         PUALayer = L.geoJSON(projektyGeojsonData, {
                                                                             pointToLayer: function(feature, latlng) {
-                                                                                var size = feature.properties.power/1500; // Розмір квадрата (можна змінити на потрібний)
+                                                                                var size = feature.properties.power / 1500; // Розмір квадрата (можна змінити на потрібний)
                                                                                 const size2 = Math.sqrt(size) * 2;
+
+                                                                                // Встановлюємо колір залежно від типу станції
+                                                                                var color;
+                                                                                switch (feature.properties.type) {
+                                                                                    case 'АЕС':
+                                                                                        color = '#8B1A10'; // Червоний для АЕС
+                                                                                        break;
+                                                                                    case 'ТЕС':
+                                                                                        color = '#b89023'; // Жовтий для ТЕС
+                                                                                        break;
+                                                                                    case 'ГЕС':
+                                                                                    case 'ГАЕС':
+                                                                                        color = '#0572a1'; // Синій для ГЕС або ГЕАС
+                                                                                        break;
+                                                                                    default:
+                                                                                        color = 'black'; // Колір за замовчуванням
+                                                                                        break;
+                                                                                }
+
                                                                                 const squareIcon = L.divIcon({
                                                                                     className: 'custom-marker',
                                                                                     html: `<div style="
                                                                                         width: ${size2 * 15}px;
                                                                                         height: ${size2 * 15}px;
-                                                                                        background-color: #910101;
+                                                                                        background-color: ${color};
                                                                                         opacity: 0.7;
                                                                                         border: 1px solid black;
                                                                                         transform: translate(-50%, -50%);
@@ -501,6 +546,7 @@
                                                                                 `);
                                                                             }
                                                                         });
+                                                                    
 
 //----------------------------------------------------------------ekologia-----------------------------------------------------------------
 
