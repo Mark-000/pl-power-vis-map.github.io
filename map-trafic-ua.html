@@ -248,6 +248,10 @@
     <link rel="stylesheet" href="L.Control.Layers.Tree.css">
     <script src="L.Control.Layers.Tree.js"></script>
 
+    <!-- draw tool-------->
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+
 
     <script>
         // URLs для GeoJSON файлів
@@ -307,7 +311,7 @@
                 return container;
             }
         });
-        
+
         // Додаємо елемент на карту
         var infoControl = new L.Control.Info({ position: "topleft" });
         map.addControl(infoControl);
@@ -327,6 +331,109 @@
         });
 
         map.addControl(measureControl);
+
+        
+        // Додаємо елемент на карту
+        map.pm.addControls({
+            position: 'topleft', // Розташування панелі
+            drawCircle: true,
+            drawRectangle: false,
+            drawPolygon: false, // Вимкнути малювання кіл
+            drawMarker: false, // Вимкнути точки
+            drawCircleMarker: false, // Вимкнути круглі маркери
+            drawText: true, // Вимкнути текст
+            measureControl: true,
+            editMode: false, // Вимикає режим редагування
+            cutPolygon: false
+        });
+
+        // 4. Включаємо режим вимірювання довжини/площі
+        map.pm.setGlobalOptions({
+            measureControl: true,  // Додає кнопку вимірювання
+            allowSelfIntersection: true, // Вимикає перетин самих себе
+            cutPolygon: false, // Вимикає вирізання полігонів
+            editMode: false 
+        });
+
+        map.pm.setPathOptions({
+            color: 'red',        // Колір ліній
+            fillColor: 'blue',   // Колір заповнення полігонів
+            fillOpacity: 0.4,    // Прозорість полігонів
+            weight: 4           // Товщина ліній
+        });
+        let distanceTooltip;
+
+map.on('pm:drawstart', function (e) {
+    if (e.workingLayer instanceof L.Polyline) {
+        let startLatLng = null;
+
+        // Оновлюємо тултіп під час малювання
+        let moveListener = function (event) {
+            let latlngs = e.workingLayer.getLatLngs();
+            if (latlngs.length > 0) {
+                let currentLatLng = event.latlng;
+                let distance = latlngs[0].distanceTo(currentLatLng); // Відстань від першої точки до поточної
+
+                // Видаляємо старий тултіп
+                if (distanceTooltip) {
+                    map.removeLayer(distanceTooltip);
+                }
+
+                // Створюємо новий тултіп біля курсора
+                distanceTooltip = L.tooltip({
+                    permanent: false,
+                    direction: 'top',
+                    className: 'distance-tooltip'
+                })
+                    .setLatLng(currentLatLng) // Позиція тултіпа біля курсора
+                    .setContent(`Відстань: ${distance.toFixed(2)} м`)
+                    .addTo(map);
+            }
+        };
+
+        map.on('mousemove', moveListener); // Додаємо слухача для події mousemove
+
+        // Після завершення малювання лінії
+        map.once('pm:drawend', function () { // Використовуємо `once` для того, щоб обробляти подію тільки один раз
+            // Отримуємо координати лінії
+            let latlngs = e.workingLayer.getLatLngs();
+            if (latlngs.length > 1) {
+                let firstLatLng = latlngs[0];
+                let lastLatLng = latlngs[latlngs.length - 1];
+                let middleLatLng = L.latLng(
+                    (firstLatLng.lat + lastLatLng.lat) / 2,
+                    (firstLatLng.lng + lastLatLng.lng) / 2
+                );
+
+                let totalDistance = firstLatLng.distanceTo(lastLatLng); // Загальна відстань
+
+                // Створюємо тултіп, який залишатиметься над лінією
+                distanceTooltip = L.tooltip({
+                    permanent: true,
+                    direction: 'top',
+                    className: 'distance-tooltip'
+                })
+                    .setLatLng(middleLatLng) // Центр лінії
+                    .setContent(`Відстань: ${totalDistance.toFixed(2)} м`)
+                    .addTo(map);
+            }
+
+            // Видаляємо тултіп після завершення малювання
+            if (distanceTooltip) {
+                map.removeLayer(distanceTooltip);
+            }
+
+            map.off('mousemove', moveListener); // Вимикаємо оновлення тултіпа після завершення малювання
+        });
+    }
+});
+
+
+
+
+
+
+
 
         
 
