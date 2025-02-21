@@ -114,6 +114,11 @@
             border-radius: 50%;
             border: 2px solid black;
         }
+        .leaflet-legend .z700 {
+            background: rgba(15, 207, 207, 0.479);
+            border-radius: 50%;
+            border: 2px solid rgb(0, 247, 255);
+        }
         .leaflet-legend .ses {
             background: yellow;
             border-radius: 50%;
@@ -176,6 +181,35 @@
             margin-right: 8px;
             border: 1px solid black;
         }
+
+        .layer-measureboundary {
+    stroke: red !important; /* Червоний колір */
+    stroke-width: 4px !important; /* Товщина */
+    opacity: 0.8 !important; /* Прозорість */
+}
+
+/* Стилізація кінцевої лінії (результат вимірювання) */
+.layer-measure-resultline {
+    stroke: rgb(255, 0, 0) !important; /* Синій колір */
+    stroke-width: 4px !important; /* Товщина */
+    opacity: 1 !important;
+}
+
+/* Стилізація площі вимірювання */
+.layer-measure-resultarea {
+    fill: rgba(192, 70, 77, 0.3) !important; /* Прозорий зелений */
+    stroke: rgb(255, 0, 0) !important; /* Обведення зелене */
+    stroke-width: 4px !important;
+}
+
+/* Стилізація точок вимірювання */
+.layer-measurevertex {
+    fill: rgb(255, 0, 0) !important;
+    stroke: black !important;
+    stroke-width: 4px;
+    r: 6px; /* Радіус точки */
+}
+        
     </style>
 </head>
 <body>
@@ -240,6 +274,7 @@
                                 <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#2854C5" d="M200-440v-80h560v80H200Z"/></svg> 330кВ</div>
                                 <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#48752C" d="M200-440v-80h560v80H200Z"/></svg> 220кВ</div>
                                 <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#EAC452" d="M200-440v-80h560v80H200Z"/></svg> 110кВ</div>
+                                <div><i class="z700"></i> СЗЗ</div>
                                 <div><i class="uze"></i> ВЕС конкурентів</div>
                                 <div><i class="ves"></i> Доступна потужність</div>
                                 <div><i class="ses"></i> Доступна потужність із технічними обмеженнями приєднання</div>
@@ -282,9 +317,14 @@
             primaryLengthUnit: "meters",
             secondaryLengthUnit: "kilometers", // Одиниці вимірювання
             primaryAreaUnit: "hectares",
-            secondaryAreaUnit: "sqmeters"
+            secondaryAreaUnit: "sqmeters",
+            
         });
+
         map.addControl(measureControl);
+
+
+
     
 
         var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/ukr-pidst.geojson';
