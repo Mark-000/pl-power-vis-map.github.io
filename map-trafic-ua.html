@@ -378,51 +378,49 @@
             weight: 2           // Товщина ліній
         });
         let distanceTooltip;
-        
-                                                                        
 
 map.on('pm:drawstart', function (e) {
     if (e.workingLayer instanceof L.Polyline) {
-        let startLatLng = null;
+        let totalDistance = 0;
+        let lastLatLng = null;
 
-        // Оновлюємо тултіп під час малювання
         let moveListener = function (event) {
             let latlngs = e.workingLayer.getLatLngs();
             if (latlngs.length > 0) {
                 let currentLatLng = event.latlng;
-                let distance = latlngs[0].distanceTo(currentLatLng); // Відстань від першої точки до поточної
 
-                // Видаляємо старий тултіп
+                if (lastLatLng !== null) {
+                    totalDistance += lastLatLng.distanceTo(currentLatLng); 
+                }
+
+                lastLatLng = currentLatLng;
+
                 if (distanceTooltip) {
                     map.removeLayer(distanceTooltip);
                 }
 
-                // Створюємо новий тултіп біля курсора
                 distanceTooltip = L.tooltip({
                     permanent: false,
                     direction: 'top',
                     className: 'distance-tooltip'
                 })
-                    .setLatLng(currentLatLng) // Позиція тултіпа біля курсора
-                    .setContent(`Відстань: ${distance.toFixed(2)} м`)
+                    .setLatLng(currentLatLng)
+                    .setContent(`Відстань: ${totalDistance.toFixed(2)} м`)
                     .addTo(map);
             }
         };
 
-        map.on('mousemove', moveListener); // Додаємо слухача для події mousemove
+        map.on('mousemove', moveListener);
 
-        // Після завершення малювання лінії
-        map.once('pm:drawend', function () { // Використовуємо `once` для того, щоб обробляти подію тільки один раз
-            // Отримуємо координати лінії
-            
-            map.removeLayer(distanceTooltip);
-            
-
-            map.off('mousemove', moveListener); // Вимикаємо оновлення тултіпа після завершення малювання
+        map.once('pm:drawend', function () {
+            if (distanceTooltip) {
+                map.removeLayer(distanceTooltip);
+            }
+            map.off('mousemove', moveListener);
         });
     }
-
 });
+
 map.on('pm:drawstart', function (e) {
     if (e.workingLayer instanceof L.Circle) {
         let centerLatLng = e.workingLayer.getLatLng();
