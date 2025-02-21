@@ -214,6 +214,15 @@
     stroke-width: 4px;
     r: 6px; /* Радіус точки */
 }
+
+
+
+
+.leaflet-pm-text {
+    font-size: 20px;  /* Задайте бажаний розмір шрифту */
+    font-weight: bold; /* Можна також змінити товщину шрифту */
+    color: red; /* Колір шрифту */
+}
         
     </style>
 </head>
@@ -278,15 +287,15 @@
                                 <div><i class="l750"></i>АЕС</div>
                                 <div><i class="l110"></i>ТЕС</div>
                                 <div><i class="l330"></i>ГЕС</div>
-                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#8B1A10" d="M200-440v-80h560v80H200Z"/></svg>750 кВ</div>
-                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#EA33F7" d="M200-440v-80h560v80H200Z"/></svg> 400 кВ</div>
-                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#2854C5" d="M200-440v-80h560v80H200Z"/></svg> 330 кВ</div>
-                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#48752C" d="M200-440v-80h560v80H200Z"/></svg> 220 кВ</div>
-                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#EAC452" d="M200-440v-80h560v80H200Z"/></svg> 110 кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#8B1A10" d="M200-440v-80h560v80H200Z"/></svg>750кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#EA33F7" d="M200-440v-80h560v80H200Z"/></svg> 400кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#2854C5" d="M200-440v-80h560v80H200Z"/></svg> 330кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#48752C" d="M200-440v-80h560v80H200Z"/></svg> 220кВ</div>
+                                <div class="legend-item"><svg class="legend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="#EAC452" d="M200-440v-80h560v80H200Z"/></svg> 110кВ</div>
                                 <div><i class="z700"></i> СЗЗ</div>
                                 <div><i class="uze"></i> ВЕС конкурентів</div>
-                                <div><i class="ves"></i> Доступна потужність 110 кВ</div>
-                                <div><i class="p35"></i> Доступна потужність 35 кВ</div>
+                                <div><i class="ves"></i> Доступна потужність 110кВ</div>
+                                <div><i class="p35"></i> Доступна потужність 35кВ</div>
                                 <div><i class="ses"></i> Доступна потужність із технічними обмеженнями приєднання</div>
                             `;                
             return div;
@@ -358,16 +367,19 @@
             measureControl: true,  // Додає кнопку вимірювання
             allowSelfIntersection: true, // Вимикає перетин самих себе
             cutPolygon: false, // Вимикає вирізання полігонів
-            editMode: false 
+            editMode: false,
+            rotateMode: false,
         });
 
         map.pm.setPathOptions({
             color: 'red',        // Колір ліній
-            fillColor: 'blue',   // Колір заповнення полігонів
+            fillColor: 'red',   // Колір заповнення полігонів
             fillOpacity: 0,    // Прозорість полігонів
             weight: 2           // Товщина ліній
         });
         let distanceTooltip;
+        
+                                                                        
 
 map.on('pm:drawstart', function (e) {
     if (e.workingLayer instanceof L.Polyline) {
@@ -402,37 +414,97 @@ map.on('pm:drawstart', function (e) {
         // Після завершення малювання лінії
         map.once('pm:drawend', function () { // Використовуємо `once` для того, щоб обробляти подію тільки один раз
             // Отримуємо координати лінії
-            let latlngs = e.workingLayer.getLatLngs();
-            if (latlngs.length > 1) {
-                let firstLatLng = latlngs[0];
-                let lastLatLng = latlngs[latlngs.length - 1];
-                let middleLatLng = L.latLng(
-                    (firstLatLng.lat + lastLatLng.lat) / 2,
-                    (firstLatLng.lng + lastLatLng.lng) / 2
-                );
-
-                let totalDistance = firstLatLng.distanceTo(lastLatLng); // Загальна відстань
-
-                // Створюємо тултіп, який залишатиметься над лінією
-                distanceTooltip = L.tooltip({
-                    permanent: true,
-                    direction: 'top',
-                    className: 'distance-tooltip'
-                })
-                    .setLatLng(middleLatLng) // Центр лінії
-                    .setContent(`${totalDistance.toFixed(2)} м`)
-                    .addTo(map);
-            }
-
-            // Видаляємо тултіп після завершення малювання
-            if (distanceTooltip) {
-                map.removeLayer(distanceTooltip);
-            }
+            
+            map.removeLayer(distanceTooltip);
+            
 
             map.off('mousemove', moveListener); // Вимикаємо оновлення тултіпа після завершення малювання
         });
     }
+
 });
+map.on('pm:drawstart', function (e) {
+    if (e.workingLayer instanceof L.Circle) {
+        let centerLatLng = e.workingLayer.getLatLng();
+
+        // Оновлюємо тултіп під час малювання
+        let moveListener = function (event) {
+            let currentLatLng = event.latlng;
+            let radius = centerLatLng.distanceTo(currentLatLng); // Відстань від центру кола до поточної точки
+
+            // Видаляємо старий тултіп
+            if (distanceTooltip) {
+                map.removeLayer(distanceTooltip);
+            }
+
+            // Створюємо новий тултіп біля курсора
+            distanceTooltip = L.tooltip({
+                permanent: false,
+                direction: 'top',
+                className: 'distance-tooltip'
+            })
+                .setLatLng(currentLatLng) // Позиція тултіпа біля курсора
+                .setContent(`Радіус: ${radius.toFixed(2)} м`)
+                .addTo(map);
+        };
+
+        map.on('mousemove', moveListener); // Додаємо слухача для події mousemove
+
+        // Після завершення малювання кола
+        map.once('pm:drawend', function () { // Використовуємо `once` для того, щоб обробляти подію тільки один раз
+            // Отримуємо радіус кола
+            
+            map.removeLayer(distanceTooltip);
+            
+
+            map.off('mousemove', moveListener); // Вимикаємо оновлення тултіпа після завершення малювання
+        });
+    }
+
+});
+map.on('pm:drawstart', function (e) {
+    if (e.workingLayer instanceof L.Circle) {
+        let centerLatLng = null;
+
+        // Слухач події для визначення центру кола
+        map.on('click', function setCenter(event) {
+            centerLatLng = event.latlng; // Встановлюємо центр кола на перше натискання на карту
+            map.off('click', setCenter); // Вимикаємо слухача після визначення центру
+
+            // Оновлюємо тултіп під час малювання
+            let moveListener = function (event) {
+                let currentLatLng = event.latlng;
+                let radius = centerLatLng.distanceTo(currentLatLng); // Відстань від центру кола до поточної точки
+
+                // Видаляємо старий тултіп
+                if (distanceTooltip) {
+                    map.removeLayer(distanceTooltip);
+                }
+
+                // Створюємо новий тултіп біля курсора
+                distanceTooltip = L.tooltip({
+                    permanent: false,
+                    direction: 'top',
+                    className: 'distance-tooltip'
+                })
+                    .setLatLng(currentLatLng) // Позиція тултіпа біля курсора
+                    .setContent(`Радіус: ${radius.toFixed(2)} м`)
+                    .addTo(map);
+            };
+
+            map.on('mousemove', moveListener); // Додаємо слухача для події mousemove після встановлення центру
+
+            // Після завершення малювання кола
+            map.once('pm:drawend', function () { // Використовуємо `once` для того, щоб обробляти подію тільки один раз
+                map.removeLayer(distanceTooltip);
+                map.off('mousemove', moveListener); // Вимикаємо оновлення тултіпа після завершення малювання
+            });
+        });
+    }
+});
+
+
+
 
 
 
