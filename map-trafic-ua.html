@@ -379,9 +379,10 @@
             fillOpacity: 0,    // Прозорість полігонів
             weight: 2           // Товщина ліній
         });
-        let distanceTooltip;
 
-      map.on('pm:drawstart', function (e) {
+        let distanceTooltip;
+    
+        map.on('pm:drawstart', function (e) {
             if (e.workingLayer instanceof L.Polyline) {
                 let totalDistance = 0;
                 let lastLatLng = null;
@@ -416,6 +417,10 @@
                 });
             }
         });
+
+
+
+
 map.on('pm:drawstart', function (e) {
     if (e.workingLayer instanceof L.Circle) {
         let centerLatLng = null;
@@ -456,8 +461,6 @@ map.on('pm:drawstart', function (e) {
         });
     }
 });
-
-
 
 
 
@@ -1165,7 +1168,7 @@ fetch(geojsonUrlNEK)
                 small_14_01 = L.geoJSON(projektyGeojsonData, {
                     style: function(feature) {
                         return {
-                            fillColor: "blue", // Колір заповнення полігону
+                            fillColor: "purple", // Колір заповнення полігону
                             color: "black", // Колір обведення
                             weight: 3, // Товщина обведення
                             opacity: 1, // Прозорість обведення
@@ -1179,6 +1182,28 @@ fetch(geojsonUrlNEK)
                             <b>Використання:</b> ${feature.properties.use || 'Unknown'}<br>
                             <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
                             <b>Власність:</b> ${feature.properties.ownership || 'ownership'}<br>
+                        `);
+                    }
+                });
+                var geojsonKonkurentyzahidvitr = 'https://mark-000.github.io/pl-power-vis-map.github.io/vitr-zahidnii-2z3c.geojson';
+
+        fetch(geojsonKonkurentyzahidvitr)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                vitr_zahid = L.geoJSON(projektyGeojsonData, {
+                    style: function(feature) {
+                        return {
+                            fillColor: "blue", // Колір заповнення полігону
+                            color: "black", // Колір обведення
+                            weight: 3, // Товщина обведення
+                            opacity: 1, // Прозорість обведення
+                            fillOpacity: 0.6 // Прозорість заповнення
+                        };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Номер:</b> ${feature.properties.cadnum || 'Unknown'}<br>
+                            <b>LN:</b> ${feature.properties.LN || 'Unknown'}<br>
                         `);
                     }
                 });
@@ -1318,6 +1343,7 @@ fetch(geojsonUrlNEK)
                             collapsed: true,
                             children: [
                                 { label: "Конкуренти", layer: konkurentyLayer16 },
+                                { label: "Вітропарк західний", layer: vitr_zahid },
                                 { label: "14.01 маленькі", layer: small_14_01 },
                                 { label: "50км для проектів", layer: buffer50pidstLayer }
                             ]
@@ -1418,7 +1444,9 @@ fetch(geojsonUrlNEK)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                                 
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                                
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
