@@ -380,47 +380,41 @@
         });
         let distanceTooltip;
 
-map.on('pm:drawstart', function (e) {
-    if (e.workingLayer instanceof L.Polyline) {
-        let totalDistance = 0;
-        let lastLatLng = null;
+      map.on('pm:drawstart', function (e) {
+            if (e.workingLayer instanceof L.Polyline) {
+                let totalDistance = 0;
+                let lastLatLng = null;
 
-        let moveListener = function (event) {
-            let latlngs = e.workingLayer.getLatLngs();
-            if (latlngs.length > 0) {
-                let currentLatLng = event.latlng;
+                e.workingLayer.on('pm:vertexadded', function (event) {
+                    let latlngs = e.workingLayer.getLatLngs();
+                    let currentLatLng = latlngs[latlngs.length - 1]; 
 
-                if (lastLatLng !== null) {
-                    totalDistance += lastLatLng.distanceTo(currentLatLng); 
-                }
+                    if (lastLatLng !== null) {
+                        totalDistance += lastLatLng.distanceTo(currentLatLng);
+                    }
+                    lastLatLng = currentLatLng;
 
-                lastLatLng = currentLatLng;
+                    if (distanceTooltip) {
+                        map.removeLayer(distanceTooltip);
+                    }
 
-                if (distanceTooltip) {
-                    map.removeLayer(distanceTooltip);
-                }
+                    distanceTooltip = L.tooltip({
+                        permanent: false,
+                        direction: 'top',
+                        className: 'distance-tooltip'
+                    })
+                        .setLatLng(currentLatLng)
+                        .setContent(`${totalDistance.toFixed(2)} м`)
+                        .addTo(map);
+                });
 
-                distanceTooltip = L.tooltip({
-                    permanent: false,
-                    direction: 'top',
-                    className: 'distance-tooltip'
-                })
-                    .setLatLng(currentLatLng)
-                    .setContent(`Відстань: ${totalDistance.toFixed(2)} м`)
-                    .addTo(map);
+                map.once('pm:drawend', function () {
+                    if (distanceTooltip) {
+                        map.removeLayer(distanceTooltip);
+                    }
+                });
             }
-        };
-
-        map.on('mousemove', moveListener);
-
-        map.once('pm:drawend', function () {
-            if (distanceTooltip) {
-                map.removeLayer(distanceTooltip);
-            }
-            map.off('mousemove', moveListener);
         });
-    }
-});
 map.on('pm:drawstart', function (e) {
     if (e.workingLayer instanceof L.Circle) {
         let centerLatLng = null;
