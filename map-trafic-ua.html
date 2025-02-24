@@ -421,46 +421,6 @@ map.on('pm:drawstart', function (e) {
         });
     }
 });
-
-map.on('pm:drawstart', function (e) {
-    if (e.workingLayer instanceof L.Circle) {
-        let centerLatLng = e.workingLayer.getLatLng();
-
-        // Оновлюємо тултіп під час малювання
-        let moveListener = function (event) {
-            let currentLatLng = event.latlng;
-            let radius = centerLatLng.distanceTo(currentLatLng); // Відстань від центру кола до поточної точки
-
-            // Видаляємо старий тултіп
-            if (distanceTooltip) {
-                map.removeLayer(distanceTooltip);
-            }
-
-            // Створюємо новий тултіп біля курсора
-            distanceTooltip = L.tooltip({
-                permanent: false,
-                direction: 'top',
-                className: 'distance-tooltip'
-            })
-                .setLatLng(currentLatLng) // Позиція тултіпа біля курсора
-                .setContent(`Радіус: ${radius.toFixed(2)} м`)
-                .addTo(map);
-        };
-
-        map.on('mousemove', moveListener); // Додаємо слухача для події mousemove
-
-        // Після завершення малювання кола
-        map.once('pm:drawend', function () { // Використовуємо `once` для того, щоб обробляти подію тільки один раз
-            // Отримуємо радіус кола
-            
-            map.removeLayer(distanceTooltip);
-            
-
-            map.off('mousemove', moveListener); // Вимикаємо оновлення тултіпа після завершення малювання
-        });
-    }
-
-});
 map.on('pm:drawstart', function (e) {
     if (e.workingLayer instanceof L.Circle) {
         let centerLatLng = null;
