@@ -1223,6 +1223,7 @@ fetch(geojsonUrlNEK)
                                         onEachFeature: function(feature, layer) {
                                             layer.bindPopup(`
                                                 <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                                                <b>Потужність:</b> ${feature.properties.height || 'Unknown'}<br>
                                             `);
                                         }
                                         
