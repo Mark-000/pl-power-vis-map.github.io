@@ -729,7 +729,7 @@ map.on('pm:drawstart', function (e) {
                                                                                 layer.bindPopup(`
                                                                                     <b style='font-size: 15px;'> ${feature.properties.station || 'Unknown'}</b><br>
                                                                                     <b>Тип:</b> ${feature.properties.type || 'Unknown'}<br>
-                                                                                    <b>Потужність:</b> ${feature.properties.power || 'Unknown'}
+                                                                                    <b>Потужність:</b> ${feature.properties.power || 'Unknown'} МВт
                                                                                 `);
                                                                             }
                                                                         });
@@ -1223,7 +1223,7 @@ fetch(geojsonUrlNEK)
                                         onEachFeature: function(feature, layer) {
                                             layer.bindPopup(`
                                                 <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
-                                                <b>Потужність:</b> ${feature.properties.height || 'Unknown'}<br>
+                                                <b>Потужність:</b> ${feature.properties.height || 'Unknown'} МВт<br>
                                             `);
                                         }
                                         
