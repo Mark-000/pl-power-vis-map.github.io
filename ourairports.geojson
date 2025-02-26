@@ -1,0 +1,1565 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.9561,
+                    49.8125
+                ]
+            },
+            "properties": {
+                "id": "6481",
+                "name": "Lviv International Airport",
+                "type": "large_airport",
+                "municipality": "Lviv",
+                "icao_code": "UKLL",
+                "iata_code": "LWO",
+                "region": "Lviv Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Lviv_International_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.263399,
+                    48.6343
+                ]
+            },
+            "properties": {
+                "id": "6485",
+                "name": "Uzhhorod International Airport",
+                "type": "medium_airport",
+                "municipality": "Uzhhorod",
+                "icao_code": "UKLU",
+                "iata_code": "UDJ",
+                "region": "Zakarpattia Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Uzhhorod_International_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.686100006103516,
+                    48.88420104980469
+                ]
+            },
+            "properties": {
+                "id": "6480",
+                "name": "Ivano-Frankivsk International Airport",
+                "type": "medium_airport",
+                "municipality": "Ivano-Frankivsk",
+                "icao_code": "UKLI",
+                "iata_code": "IFO",
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Ivano-Frankivsk_International_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.98080062866211,
+                    48.259300231933594
+                ]
+            },
+            "properties": {
+                "id": "6482",
+                "name": "Chernivtsi International Airport",
+                "type": "medium_airport",
+                "municipality": "Chernivtsi",
+                "icao_code": "UKLN",
+                "iata_code": "CWC",
+                "region": "Chernivtsi Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Chernivtsi_International_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.141599655151367,
+                    50.60710144042969
+                ]
+            },
+            "properties": {
+                "id": "6483",
+                "name": "Rivne International Airport",
+                "type": "medium_airport",
+                "municipality": "Rivne",
+                "icao_code": "UKLR",
+                "iata_code": "RWN",
+                "region": "Rivne Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Rivne_International_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.933399,
+                    49.359699
+                ]
+            },
+            "properties": {
+                "id": "6420",
+                "name": "Khmelnytskyi Airport",
+                "type": "medium_airport",
+                "municipality": "Khmelnytskyi",
+                "icao_code": "UKLH",
+                "iata_code": "HMJ",
+                "region": "Khmelnytskyi Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Khmelnytskyi_Ruzhichnaya_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.7001,
+                    49.5242
+                ]
+            },
+            "properties": {
+                "id": "6484",
+                "name": "Ternopil International Airport",
+                "type": "small_airport",
+                "municipality": "Ternopil",
+                "icao_code": "UKLT",
+                "iata_code": "TNL",
+                "region": "Ternopil Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Ternopil_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.613778,
+                    49.242531
+                ]
+            },
+            "properties": {
+                "id": "30535",
+                "name": "Vinnytsia/Gavyryshivka International Airport",
+                "type": "medium_airport",
+                "municipality": "Vinnitsa",
+                "icao_code": "UKWW",
+                "iata_code": "VIN",
+                "region": "Vinnytsia Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Havryshivka_Vinnytsia_International_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.7383,
+                    50.158298
+                ]
+            },
+            "properties": {
+                "id": "44432",
+                "name": "Ozerne Air Base",
+                "type": "medium_airport",
+                "municipality": "Zhytomyr",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Ozerne_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.498503,
+                    48.25318
+                ]
+            },
+            "properties": {
+                "id": "332720",
+                "name": "Kosino Spa Resort Airiield",
+                "type": "small_airport",
+                "municipality": "Koson'",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zakarpattia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.686896,
+                    48.398499
+                ]
+            },
+            "properties": {
+                "id": "35039",
+                "name": "Mukachevo Air Base",
+                "type": "closed",
+                "municipality": "Mukacheve",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zakarpattia Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Mukachevo_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.334579,
+                    49.550654
+                ]
+            },
+            "properties": {
+                "id": "35070",
+                "name": "Novyi Kalyniv Air Base",
+                "type": "small_airport",
+                "municipality": "Sambir",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Sambir_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.568044,
+                    49.366803
+                ]
+            },
+            "properties": {
+                "id": "321481",
+                "name": "Drohobych Airfield",
+                "type": "small_airport",
+                "municipality": "Drohobych",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.6689,
+                    49.7379
+                ]
+            },
+            "properties": {
+                "id": "6419",
+                "name": "Jagellon Airfield",
+                "type": "small_airport",
+                "municipality": "Gorodok",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.690052,
+                    49.831848
+                ]
+            },
+            "properties": {
+                "id": "44437",
+                "name": "Tsuniv Airfield",
+                "type": "small_airport",
+                "municipality": "Gorodok",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.786699295043945,
+                    49.24330139160156
+                ]
+            },
+            "properties": {
+                "id": "35089",
+                "name": "Stryi Air Base",
+                "type": "small_airport",
+                "municipality": "Stryi",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Stryi_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.9648804,
+                    50.3771921
+                ]
+            },
+            "properties": {
+                "id": "315689",
+                "name": "Aerodrom Belz",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.035789,
+                    50.120551
+                ]
+            },
+            "properties": {
+                "id": "315692",
+                "name": "Turynka",
+                "type": "closed",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.198299,
+                    49.2883
+                ]
+            },
+            "properties": {
+                "id": "35022",
+                "name": "Liubsha Air Base",
+                "type": "closed",
+                "municipality": "Kalush",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Liubsha_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.278632,
+                    48.755572
+                ]
+            },
+            "properties": {
+                "id": "533487",
+                "name": "Lukvitsa Airfield",
+                "type": "small_airport",
+                "municipality": "Lukvitsa",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.45199966430664,
+                    50.9109992980957
+                ]
+            },
+            "properties": {
+                "id": "34999",
+                "name": "Zhovtneve Air Base",
+                "type": "small_airport",
+                "municipality": "Volodymyr-Volynskyi",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Volyn Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Khovtnevoy"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.4743705,
+                    50.4734613
+                ]
+            },
+            "properties": {
+                "id": "315690",
+                "name": "Zhalizhnia",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.476531,
+                    48.788823
+                ]
+            },
+            "properties": {
+                "id": "332158",
+                "name": "Pidhirya Airfield",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.618763,
+                    51.021679
+                ]
+            },
+            "properties": {
+                "id": "320856",
+                "name": "Turiisk Airfield",
+                "type": "small_airport",
+                "municipality": "Radovychi",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Volyn Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.619849,
+                    49.360802
+                ]
+            },
+            "properties": {
+                "id": "568286",
+                "name": "Luchyntsi Airstrip",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.833452,
+                    50.464547
+                ]
+            },
+            "properties": {
+                "id": "533488",
+                "name": "Mar'yanivka Airfield",
+                "type": "small_airport",
+                "municipality": "Mar'yanivka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Volyn Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.14064,
+                    48.306675
+                ]
+            },
+            "properties": {
+                "id": "320733",
+                "name": "Smodna Airfield",
+                "type": "small_airport",
+                "municipality": "Smodna",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.17,
+                    50.130001
+                ]
+            },
+            "properties": {
+                "id": "34958",
+                "name": "Brody Air Base",
+                "type": "small_airport",
+                "municipality": "Brody",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Brody_%28air_base%29"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.217443,
+                    48.78682
+                ]
+            },
+            "properties": {
+                "id": "332951",
+                "name": "Pidverbtsi Airstrip",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.3482913971,
+                    50.788683025299996
+                ]
+            },
+            "properties": {
+                "id": "35028",
+                "name": "Lutsk Air Base",
+                "type": "small_airport",
+                "municipality": "Lutsk",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Volyn Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Lutsk_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.487165,
+                    50.678404
+                ]
+            },
+            "properties": {
+                "id": "28146",
+                "name": "Lutsk Airport",
+                "type": "small_airport",
+                "municipality": "Lutsk",
+                "icao_code": "UKLC",
+                "iata_code": "UCK",
+                "region": "Volyn Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Lutsk_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.838414,
+                    50.444987
+                ]
+            },
+            "properties": {
+                "id": "34982",
+                "name": "Dubno Air Base",
+                "type": "small_airport",
+                "municipality": "Dubno",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Rivne Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Dubno_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.022577,
+                    48.81223
+                ]
+            },
+            "properties": {
+                "id": "342153",
+                "name": "Aeroclub Swallow",
+                "type": "small_airport",
+                "municipality": "Borschiv",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ternopil Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.116193,
+                    49.84537
+                ]
+            },
+            "properties": {
+                "id": "321716",
+                "name": "Lanivtsi Airstrip",
+                "type": "small_airport",
+                "municipality": "Lanivtsi",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ternopil Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.2177308,
+                    50.4681472
+                ]
+            },
+            "properties": {
+                "id": "320590",
+                "name": "Lidavo Airstrip",
+                "type": "small_airport",
+                "municipality": "Lidavo",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Rivne Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.609471,
+                    48.695631
+                ]
+            },
+            "properties": {
+                "id": "321214",
+                "name": "Kam'yanets'-Podil's'kyi Airfield",
+                "type": "small_airport",
+                "municipality": "Kamyan'ka",
+                "icao_code": null,
+                "iata_code": "KCP",
+                "region": "Khmelnytskyi Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.699958,
+                    50.695956
+                ]
+            },
+            "properties": {
+                "id": "335516",
+                "name": "Voroniv Airfield",
+                "type": "small_airport",
+                "municipality": "Voroniv",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Rivne Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.8681069,
+                    50.1196431
+                ]
+            },
+            "properties": {
+                "id": "317424",
+                "name": "Iziaslav",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Khmelnytskyi Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    27.2733,
+                    49.748299
+                ]
+            },
+            "properties": {
+                "id": "35087",
+                "name": "Starokostiantyniv Air Base",
+                "type": "small_airport",
+                "municipality": "Starokostiantyniv",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Khmelnytskyi Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Starokostiantyniv_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    27.40754,
+                    49.99397
+                ]
+            },
+            "properties": {
+                "id": "593587",
+                "name": "Fadiivka Airstrip",
+                "type": "small_airport",
+                "municipality": "Fadiivka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Khmelnytskyi Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.3612108,
+                    50.3228953
+                ]
+            },
+            "properties": {
+                "id": "323947",
+                "name": "Nova Vasylivka Airstrip",
+                "type": "small_airport",
+                "municipality": "Nova Vasylivka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.436614,
+                    49.898809
+                ]
+            },
+            "properties": {
+                "id": "322575",
+                "name": "Hardyshivka Airstrip",
+                "type": "small_airport",
+                "municipality": "Hardyshivka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.44166,
+                    49.066667
+                ]
+            },
+            "properties": {
+                "id": "316378",
+                "name": "Vinnytsia Aircraft Sports Club - Sutysky Airfield",
+                "type": "small_airport",
+                "municipality": "Sutysky",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.539097,
+                    49.485372
+                ]
+            },
+            "properties": {
+                "id": "44684",
+                "name": "Kalynivka Air Base",
+                "type": "small_airport",
+                "municipality": "Kalynivka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": "https://fr.wikipedia.org/wiki/Base_a%C3%A9rienne_de_Kalynivka"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.720837,
+                    51.271366
+                ]
+            },
+            "properties": {
+                "id": "35051",
+                "name": "Ovruch Air Base",
+                "type": "closed",
+                "municipality": "Ovruch",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Ovruch_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.738611,
+                    50.270556
+                ]
+            },
+            "properties": {
+                "id": "302309",
+                "name": "Zhytomyr Airport",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": "UKKV",
+                "iata_code": "ZTR",
+                "region": "Zhytomyr Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Zhytomyr_Airport"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.781421,
+                    50.557511
+                ]
+            },
+            "properties": {
+                "id": "320502",
+                "name": "Korostelivka Airstrip",
+                "type": "small_airport",
+                "municipality": "Korostelivka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.860397,
+                    48.35874
+                ]
+            },
+            "properties": {
+                "id": "320731",
+                "name": "Kryzhopil Airstrip",
+                "type": "small_airport",
+                "municipality": "Holubeche",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.9258992,
+                    48.0351886
+                ]
+            },
+            "properties": {
+                "id": "322148",
+                "name": "Zahnitkiv Airstrip",
+                "type": "small_airport",
+                "municipality": "Zahnitkiv",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Odessa Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.9912024,
+                    50.0193428
+                ]
+            },
+            "properties": {
+                "id": "316280",
+                "name": "Andrushivka",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.071036,
+                    50.876703
+                ]
+            },
+            "properties": {
+                "id": "320486",
+                "name": "Shevchenkove Airstrip",
+                "type": "small_airport",
+                "municipality": "Shevchenkove",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.2417992,
+                    49.4943236
+                ]
+            },
+            "properties": {
+                "id": "318220",
+                "name": "Pohrebyshche",
+                "type": "small_airport",
+                "municipality": "Pohrebyshche",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.246711,
+                    50.786675
+                ]
+            },
+            "properties": {
+                "id": "321490",
+                "name": "Malyn Airstrip",
+                "type": "small_airport",
+                "municipality": "Malyn",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.264402,
+                    50.588009
+                ]
+            },
+            "properties": {
+                "id": "320485",
+                "name": "Chervonobirka Airstrip",
+                "type": "small_airport",
+                "municipality": "Krasnobirka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.270067,
+                    49.335903
+                ]
+            },
+            "properties": {
+                "id": "316429",
+                "name": "Filiutka",
+                "type": "small_airport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.33431,
+                    48.825876
+                ]
+            },
+            "properties": {
+                "id": "549628",
+                "name": "Haisyn Airfield",
+                "type": "small_airport",
+                "municipality": "Haisyn",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.271009,
+                    48.364593
+                ]
+            },
+            "properties": {
+                "id": "518015",
+                "name": "Solovka Heliport",
+                "type": "heliport",
+                "municipality": "Solovka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zakarpattia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.604014,
+                    49.04233
+                ]
+            },
+            "properties": {
+                "id": "518025",
+                "name": "Stuzhitsa Heliport",
+                "type": "heliport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zakarpattia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.496729,
+                    49.267747
+                ]
+            },
+            "properties": {
+                "id": "532685",
+                "name": "Truskavets – Rixos Heliport",
+                "type": "heliport",
+                "municipality": "Truskavets",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.593541,
+                    50.268803
+                ]
+            },
+            "properties": {
+                "id": "532686",
+                "name": "Rata Heliport",
+                "type": "heliport",
+                "municipality": "Rava-Ruska",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.043866,
+                    49.451556
+                ]
+            },
+            "properties": {
+                "id": "315925",
+                "name": "Aerodrom Krupske",
+                "type": "closed",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Lviv Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.04199981689453,
+                    48.55099868774414
+                ]
+            },
+            "properties": {
+                "id": "43870",
+                "name": "Kolomiya Airport",
+                "type": "closed",
+                "municipality": "Kolomiya",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.125,
+                    48.528999
+                ]
+            },
+            "properties": {
+                "id": "43869",
+                "name": "Kornych Air Base",
+                "type": "closed",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ivano-Frankivsk Oblast",
+                "wikipedia": "https://en.wikipedia.org/wiki/Kolomyia_(air_base)"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.742000579833984,
+                    48.97800064086914
+                ]
+            },
+            "properties": {
+                "id": "43871",
+                "name": "Chortkiv Air Base",
+                "type": "closed",
+                "municipality": "Chortkiv",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Ternopil Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.767000198364258,
+                    48.38399887084961
+                ]
+            },
+            "properties": {
+                "id": "44393",
+                "name": "Luzhani Airfield",
+                "type": "closed",
+                "municipality": "Luzhani",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Chernivtsi Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.9194958,
+                    51.360218
+                ]
+            },
+            "properties": {
+                "id": "324565",
+                "name": "Rafalivka Helicopter Base",
+                "type": "heliport",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Rivne Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    25.993457,
+                    48.525151
+                ]
+            },
+            "properties": {
+                "id": "321616",
+                "name": "Pogorelovka Airstrip",
+                "type": "closed",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Chernivtsi Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.010916,
+                    50.462433
+                ]
+            },
+            "properties": {
+                "id": "574533",
+                "name": "Ozeryany Airfield",
+                "type": "closed",
+                "municipality": "Ozeryany",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Rivne Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26.58473,
+                    48.2477
+                ]
+            },
+            "properties": {
+                "id": "353372",
+                "name": "Mamalyha Heliport",
+                "type": "heliport",
+                "municipality": "Mamalyha",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Chernivtsi Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    27.531321,
+                    49.37228
+                ]
+            },
+            "properties": {
+                "id": "321617",
+                "name": "Rudnya Airstrip",
+                "type": "closed",
+                "municipality": "Rudnya",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Khmelnytskyi Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.016074,
+                    49.569142
+                ]
+            },
+            "properties": {
+                "id": "520766",
+                "name": "Khmilnyk Airport",
+                "type": "closed",
+                "municipality": "Khmilnyk",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    28.863063,
+                    48.200516
+                ]
+            },
+            "properties": {
+                "id": "320732",
+                "name": "Pishchanka Airstrip",
+                "type": "closed",
+                "municipality": "Pishchanka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Vinnytsia Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.0707288,
+                    51.2312512
+                ]
+            },
+            "properties": {
+                "id": "316330",
+                "name": "Narodychi",
+                "type": "closed",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.404316,
+                    49.962967
+                ]
+            },
+            "properties": {
+                "id": "535668",
+                "name": "Popilnia Airbase",
+                "type": "closed",
+                "municipality": "Popilnia",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.40827,
+                    46.29002
+                ]
+            },
+            "properties": {
+                "id": "351110",
+                "name": "Frumushyka Airstrip",
+                "type": "closed",
+                "municipality": "Semysotka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Odessa Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.41779,
+                    46.29598
+                ]
+            },
+            "properties": {
+                "id": "351111",
+                "name": "Frumushyka Heliport",
+                "type": "heliport",
+                "municipality": "Semysotka",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Odessa Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.428682,
+                    47.549189
+                ]
+            },
+            "properties": {
+                "id": "320475",
+                "name": "Krasni Okny Airfield",
+                "type": "closed",
+                "municipality": "Okny",
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Odessa Oblast",
+                "wikipedia": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    29.441407,
+                    50.274742
+                ]
+            },
+            "properties": {
+                "id": "321207",
+                "name": "Karabachyn Airstrip",
+                "type": "closed",
+                "municipality": null,
+                "icao_code": null,
+                "iata_code": null,
+                "region": "Zhytomyr Oblast",
+                "wikipedia": null
+            }
+        }
+    ]
+}
