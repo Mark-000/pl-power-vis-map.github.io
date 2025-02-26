@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "Точки для оцінки проектів",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Генерація": "3342 MWh/MW", "Довжина до ПС": "25 км" }, "geometry": { "type": "Point", "coordinates": [ 24.390982861004286, 51.210902025576523 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3223 MWh/MW", "Довжина до ПС": "25 км" }, "geometry": { "type": "Point", "coordinates": [ 25.013776061385169, 51.136280467339198 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3314 MWh/MW", "Довжина до ПС": "23,5 км" }, "geometry": { "type": "Point", "coordinates": [ 24.67055872578624, 51.017308984479989 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3411 MWh/MW", "Довжина до ПС": "33 км" }, "geometry": { "type": "Point", "coordinates": [ 24.963588620802316, 50.801069357536072 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3402 MWh/MW", "Довжина до ПС": "26 км" }, "geometry": { "type": "Point", "coordinates": [ 25.038046226543958, 50.632999828008657 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3383 MWh/MW", "Довжина до ПС": "17,2 км" }, "geometry": { "type": "Point", "coordinates": [ 26.422597252207328, 50.670411468682296 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3450 MWh/MW", "Довжина до ПС": "36,7 км" }, "geometry": { "type": "Point", "coordinates": [ 25.688487303748321, 50.729637796615094 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3313 MWh/MW", "Довжина до ПС": "30 км" }, "geometry": { "type": "Point", "coordinates": [ 24.994683620140073, 49.982111033641019 ] } },
+{ "type": "Feature", "properties": { "Генерація": "3518 MWh/MW", "Довжина до ПС": "43,8 км" }, "geometry": { "type": "Point", "coordinates": [ 25.270240023607279, 49.717612554492554 ] } }
+]
+}
