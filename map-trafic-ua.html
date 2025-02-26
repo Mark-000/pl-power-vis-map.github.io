@@ -309,6 +309,10 @@
             attribution: 'Google Maps'
         });
 
+        var topoLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: 'opentopomap'
+        });
+
     // За замовчуванням буде використовуватися OpenStreetMap
         osmLayer.addTo(map);
 
@@ -870,6 +874,58 @@ map.on('pm:drawstart', function (e) {
                                                                                         zIndex: -998  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
 
+
+                                                                                    var geojsonUrlourairports = 'https://mark-000.github.io/pl-power-vis-map.github.io/ourairports.geojson';
+                                                                                        fetch(geojsonUrlourairports)
+                                                                                            .then(response => response.json())
+                                                                                            .then(projektyGeojsonData => {
+                                                                                                ourairports = L.geoJSON(projektyGeojsonData, {
+                                                                                                    pointToLayer: function(feature, latlng) {
+                                                                                                        var icon;
+                                                                                                        
+                                                                                                        // Вибір іконки на основі типу
+                                                                                                        if (feature.properties.type === 'large_airport') {
+                                                                                                            icon = L.divIcon({
+                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
+                                                                                                                className: 'no-background-icon'
+                                                                                                            });
+                                                                                                        } else if (feature.properties.type === 'medium_airport') {
+                                                                                                            icon = L.divIcon({
+                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F19E39"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
+                                                                                                                className: 'no-background-icon'
+                                                                                                            });
+                                                                                                        } else if (feature.properties.type === 'small_airport') {
+                                                                                                            icon = L.divIcon({
+                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#54808C"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
+                                                                                                                className: 'no-background-icon'
+                                                                                                            });
+                                                                                                        } else if (feature.properties.type === 'closed') {
+                                                                                                            icon = L.divIcon({
+                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#54808C"><path d="m880-280-141-57-339-337v-126q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800v176l320 224v120ZM480-140 280-80v-100l120-84v-144L80-280v-120l216-152L56-792l56-56 736 736-56 56-232-232v24l120 84v100l-200-60Z"/></svg>`,
+                                                                                                                className: 'no-background-icon'
+                                                                                                            });
+                                                                                                        } else if (feature.properties.type === 'heliport') {
+                                                                                                            icon = L.divIcon({
+                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#54808C"><path d="M280-280v-400h80v160h240v-160h80v400h-80v-160H360v160h-80Z"/></svg>`,
+                                                                                                                className: 'no-background-icon'
+                                                                                                            });
+                                                                                                        }
+
+                                                                                                        // Повертаємо точку з потрібною іконкою
+                                                                                                        return L.marker(latlng, { icon: icon });
+                                                                                                    },
+                                                                                                    onEachFeature: function(feature, layer) {
+                                                                                                        layer.bindPopup(`
+                                                                                                            <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                                                                                                            <b>Тип:</b> ${feature.properties.type || 'Unknown'}<br>
+                                                                                                            ${feature.properties.wikipedia ? `<a href='${feature.properties.wikipedia}' target="_blank">Link</a>` : ''}
+                                                                                                        `);
+                                                                                                    }
+                                                                                                });
+                                                                                            });
+
+
+
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
                                                                                          var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
                                                                                          var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
@@ -1314,7 +1370,8 @@ fetch(geojsonUrlNEK)
                     label: "<b>Базові карти</b>",
                     children: [
                         { label: "OpenStreetMap", layer: osmLayer, radioGroup: "basemap" },
-                        { label: "Google Map", layer: googleLayer, radioGroup: "basemap" }
+                        { label: "Google Map", layer: googleLayer, radioGroup: "basemap" },
+                        { label: "Topo Map", layer: topoLayer, radioGroup: "basemap" },
                     ]
                 };
 
@@ -1360,6 +1417,7 @@ fetch(geojsonUrlNEK)
                                 { label: "Франківськ", layer: frankivskLayer },
                                 { label: "Чернівці", layer: chernivciLayer },
                                 { label: "Хмельницьк", layer: hmelnitskLayer },
+                                { label: "Аеродроми", layer: ourairports },
                                 { label: "Приаеродромна 50км", layer: aerodromiLayer },
                                 { label: "Приаеродромна 16км", layer: aerodromiLayer16 },
 
@@ -1388,77 +1446,81 @@ fetch(geojsonUrlNEK)
                     collapsed: true
 
                 }).addTo(map);
-
+                
                 
                 reconsLayer.addTo(map);
                 clusterGroup110.addTo(map);
                 //geoJsonClusterGroup.addTo(map);
                 borderLayer.addTo(map);
-                legend.addTo(map);
+                legend.addTo(map)
 
 
-                const menu = document.createElement('div');
-                menu.id = 'menu';
-                menu.style.position = 'absolute';
-                menu.style.top = '10px';
-                menu.style.left = '10px';
-                menu.style.background = 'white';
-                menu.style.padding = '10px';
-                menu.style.border = '1px solid black';
-                menu.style.display = 'none';
-                menu.style.zIndex = 10000000;
-                menu.innerHTML = `
-                    <div style='padding-bottom: 5px; text-align: center; font-size: 20px;'>Cзз зміна кольору</div>
-                    <label>Колір: <input type="color" id="colorPicker"></label><br>
-                    <label>Прозорість: <input type="range" id="opacityPicker" min="0" max="1" step="0.1"></label><br>
-                    <button id="applyBtn" style='width: 100%; margin-top: 5px;'>OK</button>
-                `;
-                document.body.appendChild(menu);
-    
-                // Змінні для збереження обраних значень
-                let selectedColor = '#3388ff';
-                let selectedOpacity = 0.5;
-    
-                document.getElementById('colorPicker').addEventListener('input', (e) => {
-                    selectedColor = e.target.value;
-                });
-    
-                document.getElementById('opacityPicker').addEventListener('input', (e) => {
-                    selectedOpacity = e.target.value;
-                });
-    
+
+
+
+            // Створюємо контейнер для меню
+            const menu = document.createElement('div');
+            menu.id = 'menu';
+            menu.style.position = 'absolute';
+            menu.style.top = '10px';
+            menu.style.left = '10px';
+            menu.style.background = 'white';
+            menu.style.padding = '10px';
+            menu.style.border = '1px solid black';
+            menu.style.display = 'none';
+            menu.style.zIndex = 10000000;
+            menu.innerHTML = `
+                <div style='padding-bottom: 5px; text-align: center; font-size: 20px;'>Cзз зміна кольору</div>
+                <label>Колір: <input type="color" id="colorPicker"></label><br>
+                <label>Прозорість: <input type="range" id="opacityPicker" min="0" max="1" step="0.1"></label><br>
+                <button id="applyBtn" style='width: 100%; margin-top: 5px;'>OK</button>
+            `;
+            document.body.appendChild(menu);
+
+            // Змінні для збереження обраних значень
+            let selectedColor = '#3388ff';
+            let selectedOpacity = 0.5;
+
+            document.getElementById('colorPicker').addEventListener('input', (e) => {
+                selectedColor = e.target.value;
+            });
+
+            document.getElementById('opacityPicker').addEventListener('input', (e) => {
+                selectedOpacity = e.target.value;
+            });
+
             // Кнопка відкриття меню
-                const menuBtn = L.control({ position: 'topleft' });
-                menuBtn.onAdd = function () {
-                    const btn = L.DomUtil.create('button', 'menu-btn');
-                    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>';
-                    btn.style.position = 'absolute';
-                    btn.style.top = '';
-                    btn.style.left = '45px';
-                    btn.style.background = 'white';
-                    btn.style.cursor = 'pointer';
-                    btn.style.borderRadius= '5px';
-                    btn.onclick = () => {
-                        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-                    };
-                    return btn;
+            const menuBtn = L.control({ position: 'topleft' });
+            menuBtn.onAdd = function () {
+                const btn = L.DomUtil.create('button', 'menu-btn');
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>';
+                btn.style.position = 'absolute';
+                btn.style.top = '';
+                btn.style.left = '45px';
+                btn.style.background = 'white';
+                btn.style.cursor = 'pointer';
+                btn.style.borderRadius= '5px';
+                btn.onclick = () => {
+                    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
                 };
-                menuBtn.addTo(map);
-    
-                // Кнопка застосування змін
-                document.getElementById('applyBtn').addEventListener('click', () => {
-                    buflvivLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    volinLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    zakarpatskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    rivneLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    frankivskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    ternopilLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    chernivciLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    hmelnitskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                    menu.style.display = 'none';
-                });
-    
-            
+                return btn;
+            };
+            menuBtn.addTo(map);
+
+            // Кнопка застосування змін
+            document.getElementById('applyBtn').addEventListener('click', () => {
+                buflvivLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                volinLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                zakarpatskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                rivneLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                frankivskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                ternopilLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                chernivciLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                hmelnitskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+                menu.style.display = 'none';
+            });
+
+
             })
             .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
             })
