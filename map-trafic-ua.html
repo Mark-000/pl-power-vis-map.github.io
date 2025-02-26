@@ -214,6 +214,7 @@
     stroke-width: 4px;
     r: 6px; /* Радіус точки */
 }
+
 .leaflet-pm-text {
     font-size: 20px;  /* Задайте бажаний розмір шрифту */
     font-weight: bold; /* Можна також змінити товщину шрифту */
@@ -222,7 +223,8 @@
 .leaflet-bottom{
     position: absolute; 
     z-index:600 !important;
-}      
+}
+        
     </style>
 </head>
 <body>
@@ -943,141 +945,186 @@ map.on('pm:drawstart', function (e) {
                                                                                         zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
                                                                                     });
 //----------------------------------------------------------------tif-----------------------------------------------------------------
-
 var geotiffUrlw = "https://mark-000.github.io/pl-power-vis-map.github.io/UKR_wind-speed_100m-.tif";  
-var layerwtif;
-var popupActive = false;
-var windLegend = null;
+var geotiffUrlNew = "https://mark-000.github.io/pl-power-vis-map.github.io/virobitka.tif";  
 
-// Функція для створення легенди вітру
-function createWindLegend() {
-    if (windLegend) return; // Якщо легенда вже є, не створювати нову
+var layerWind, layerSolar;
+var windPopupActive = false, solarPopupActive = false;
+var windLegend = null, solarLegend = null;
 
-    windLegend = L.control({ position: 'bottomleft' });
+// ========================= ЛЕГЕНДА ВІТРУ =========================
+var WindLegendControl = L.Control.extend({
+  options: { position: 'bottomleft' },
+  onAdd: function () {
+    var div = L.DomUtil.create('div', 'info legend wind-legend');
+    div.innerHTML = `
+      <b>Швидкість вітру</b><br>
+      <i style="background: #f4fc03"></i> 7 - 7.3<br>
+      <i style="background: #fcce03"></i> 7.31 - 7.6<br>
+      <i style="background: #fc9003"></i> 7.61 - 7.9<br>
+      <i style="background: #fc4e03"></i> 7.91 - 8.2<br>
+      <i style="background: #d60606"></i> 8.21 - 8.5<br>
+      <i style="background: #6e0000"></i> 8.51+<br>
+    `;
+    div.style.background = 'white';
+    div.style.padding = '10px';
+    div.style.border = '1px solid #333';
+    div.style.borderRadius = '5px';
+    //div.style.zIndex = "100000";
+    return div;
+  }
+});
 
-    windLegend.onAdd = function (map) {
-        var div = L.DomUtil.create('div', 'info legend wind-legend'); // Додаємо клас для розділення легенд
-        div.innerHTML = `
-            <b>Швидкість вітру</b><br>
-            <i style="background: #f4fc03"></i> 7 - 7.3<br>
-            <i style="background: #fcce03"></i> 7.31 - 7.6<br>
-            <i style="background: #fc9003"></i> 7.61 - 7.9<br>
-            <i style="background: #fc4e03"></i> 7.91 - 8.2<br>
-            <i style="background: #d60606"></i> 8.21 - 8.5<br>
-            <i style="background: #6e0000"></i> 8.51+<br>
-        `;
-        div.style.background = 'white';
-        div.style.padding = '10px';
-        div.style.border = '1px solid #333';
-        div.style.borderRadius = '5px';
-        return div;
-    };
-}
+// ========================= ЛЕГЕНДА СОНЯЧНОЇ РАДІАЦІЇ =========================
+var SolarLegendControl = L.Control.extend({
+  options: { position: 'bottomleft' },
+  onAdd: function () {
+    var div = L.DomUtil.create('div', 'info legend wind-legend');
+    div.innerHTML = `
+      <b>Виробітка</b><br>
+      <i style="background: #f4fc03"></i> 3000 - 3200<br>
+      <i style="background: #fcce03"></i> 3200 - 3400<br>
+      <i style="background: #fc9003"></i> 3400 - 3600<br>
+      <i style="background: #fc4e03"></i> 3600 - 3800<br>
+      <i style="background: #d60606"></i> 3800 - 4000<br>
+      <i style="background: #6e0000"></i> 4000+<br>
+    `;
+    div.style.background = 'white';
+    div.style.padding = '10px';
+    div.style.border = '1px solid #333';
+    div.style.borderRadius = '5px';
+    //div.style.zIndex = "100000";
+    return div;
+  }
+});
 
-// Функція для показу/приховування легенди вітру
-function toggleWindLegend(show) {
-    if (show) {
-        if (!windLegend) createWindLegend();
-        windLegend.addTo(map);
-    } else {
-        if (windLegend) {
-            map.removeControl(windLegend);
-        }
-    }
-}
-
-// Завантаження GeoTIFF
-fetch(geotiffUrlw)
+// ========================= ДОДАЄМО ГЕОТІФФ =========================
+function addGeoTiffLayer(url, colorScale, callback) {
+  fetch(url)
     .then(res => res.arrayBuffer())
     .then(arrayBuffer => {
-        parseGeoraster(arrayBuffer).then(georaster => {
-            map.createPane('customPane');
-            map.getPane('customPane').style.zIndex = 250;
-
-            layerwtif = new GeoRasterLayer({
-                georaster: georaster,
-                opacity: 0.5,
-                pixelValuesToColorFn: vals => {
-                    let v = vals[0];
-
-                    if (isNaN(v) || v < 7) {
-                        return null; 
-                    } else if (v >= 7 && v <= 7.3) {
-                        return '#f4fc03';
-                    } else if (v > 7.3 && v <= 7.6) {
-                        return '#fcce03';
-                    } else if (v > 7.6 && v <= 7.9) {
-                        return '#fc9003';
-                    } else if (v > 7.9 && v <= 8.2) {
-                        return '#fc4e03';
-                    } else if (v > 8.2 && v <= 8.5) {
-                        return '#d60606';
-                    } else if (v > 8.5) {
-                        return '#6e0000';
-                    }
-                    return null;
-                },
-                resolution: 128,
-                pane: 'customPane'
-            });
-
-            // Додаємо подію на клік для показу значень
-            map.on("click", function(event) {
-                if (popupActive) {
-                    var lat = event.latlng.lat;
-                    var lng = event.latlng.lng;
-
-                    var value = geoblaze.identify(georaster, [lng, lat]);
-                    value = Number(value);
-                    var valueFormatted = value.toFixed(5);
-
-                    if (value !== undefined) {
-                        L.popup()
-                            .setLatLng([lat, lng])
-                            .setContent(valueFormatted)
-                            .openOn(map);
-                    } else {
-                        L.popup()
-                            .setLatLng([lat, lng])
-                            .setContent("No data available for this point")
-                            .openOn(map);
-                    }
-                }
-            });
+      parseGeoraster(arrayBuffer).then(georaster => {
+        var layer = new GeoRasterLayer({
+          georaster: georaster,
+          opacity: 0.5,
+          pixelValuesToColorFn: colorScale,
+          resolution: 128
         });
 
-        // Додаємо кнопку для керування шаром і легендою
-        var geoTiffControl = L.Control.extend({
-            onAdd: function(map) {
-                var button = L.DomUtil.create('button');
-                button.innerHTML = '🌪️';
-                button.style.backgroundColor = '#ffffff';
-                button.style.border = '1px solid #333';
-                button.style.padding = '5px';
-                button.style.fontSize = '25px';
-                button.style.cursor = 'pointer';
-                button.style.borderRadius = '5px';
-
-                L.DomEvent.on(button, 'click', function() {
-                    popupActive = !popupActive;  
-
-                    if (map.hasLayer(layerwtif)) {
-                        map.removeLayer(layerwtif);
-                        toggleWindLegend(false);
-                    } else {
-                        map.addLayer(layerwtif);
-                        toggleWindLegend(true);
-                    }
-                });
-
-                return button;
-            },
-            position: 'topleft'
-        });
-
-        map.addControl(new geoTiffControl());
+        callback(layer, georaster);
+      });
     });
+}
 
+// ========================= ПОПАПИ =========================
+function createPopupHandler(georaster, isActive) {
+  return function (event) {
+    if (!isActive()) return;
+    
+    var lat = event.latlng.lat;
+    var lng = event.latlng.lng;
+    var value = geoblaze.identify(georaster, [lng, lat]);
+    
+    if (value !== undefined) {
+      L.popup()
+        .setLatLng([lat, lng])
+        .setContent(Number(value).toFixed(5))
+        .openOn(map);
+    }
+  };
+}
+
+// ========================= ЛЕГЕНДА =========================
+function toggleLegend(legendControl, legendInstance) {
+  if (legendInstance) {
+    map.removeControl(legendInstance);
+    return null;
+  } else {
+    let newLegend = new legendControl();
+    newLegend.addTo(map);
+    return newLegend;
+  }
+}
+
+// ========================= КНОПКИ =========================
+function createLayerControlButton(icon, toggleLayerCallback) {
+  var ControlButton = L.Control.extend({
+    onAdd: function () {
+      var button = L.DomUtil.create('button');
+      button.innerHTML = icon;
+      button.style.backgroundColor = '#ffffff';
+      button.style.border = '1px solid #333';
+      button.style.padding = '5px';
+      button.style.fontSize = '25px';
+      button.style.cursor = 'pointer';
+      button.style.borderRadius = '5px';
+
+      L.DomEvent.on(button, 'click', function (e) {
+        L.DomEvent.stopPropagation(e);
+        toggleLayerCallback();
+      });
+
+      return button;
+    },
+    position: 'topleft'
+  });
+  map.addControl(new ControlButton());
+}
+
+
+
+
+// ========================= ДОДАЄМО ШАР ВІТРУ =========================
+addGeoTiffLayer(
+  geotiffUrlw,
+    v => (isNaN(v) || v < 7) ? null : 
+         v <= 7.3 ? '#f4fc03' : 
+         v <= 7.6 ? '#fcce03' : 
+         v <= 7.9 ? '#fc9003' : 
+         v <= 8.2 ? '#fc4e03' : 
+         v <= 8.5 ? '#d60606' : '#6e0000',
+  function (layer, georaster) {
+    layerWind = layer;
+    map.on("click", createPopupHandler(georaster, () => windPopupActive));
+
+    createLayerControlButton("🌪️", function () {
+      windPopupActive = !windPopupActive;
+      if (map.hasLayer(layerWind)) {
+        map.removeLayer(layerWind);
+        windLegend = toggleLegend(WindLegendControl, windLegend);
+      } else {
+        map.addLayer(layerWind);
+        windLegend = toggleLegend(WindLegendControl, windLegend);
+      }
+    });
+  }
+);
+
+// ========================= ДОДАЄМО ШАР СОНЦЯ =========================
+addGeoTiffLayer(
+  geotiffUrlNew,
+  v => v < 2999 ? null : 
+       v <= 3200 ? '#f4fc03' : 
+       v <= 3400 ? '#fcce03' : 
+       v <= 3600 ? '#fc9003' : 
+       v <= 3800 ? '#fc4e03' :
+       v <= 4000 ? '#d60606' : '#6e0000',
+  function (layer, georaster) {
+    layerSolar = layer;
+    map.on("click", createPopupHandler(georaster, () => solarPopupActive));
+
+    createLayerControlButton("⚡", function () {
+      solarPopupActive = !solarPopupActive;
+      if (map.hasLayer(layerSolar)) {
+        map.removeLayer(layerSolar);
+        solarLegend = toggleLegend(SolarLegendControl, solarLegend);
+      } else {
+        map.addLayer(layerSolar);
+        solarLegend = toggleLegend(SolarLegendControl, solarLegend);
+      }
+    });
+  }
+);
 
 
 
@@ -1359,7 +1406,37 @@ fetch(geojsonUrlNEK)
         });
 
                         
-                                         // Встановлюємо zIndex, щоб шар був під іншими
+                                         // points --------------------------------
+
+var geojsonUrlpointstomark = 'https://mark-000.github.io/pl-power-vis-map.github.io/points-to-mark.geojson';
+fetch(geojsonUrlpointstomark)
+    .then(response => response.json())
+    .then(projektyGeojsonData => {
+        // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+
+        // Створюємо шар з відфільтрованими даними
+        pointstomark = L.geoJSON(projektyGeojsonData, {
+            pointToLayer: function(feature, latlng) {
+                // Створюємо кастомну іконку з SVG
+                var icon = L.divIcon({
+                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                    className: 'no-background-icon', // Уникаємо білого фону
+                    iconSize: [24, 24], // Розмір іконки
+                    iconAnchor: [12, 12] // Центруємо іконку по координатам
+                });
+
+                return L.marker(latlng, { icon: icon });
+            },
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup(`
+                    <b>Генерація:</b> ${feature.properties["Генерація"] || 'Unknown'}<br>
+                    <b>Довжина до ПС:</b> ${feature.properties["Довжина до ПС"] || 'Unknown'}<br>
+
+                `);
+            }
+        });
+
+
 
           
                 
@@ -1402,6 +1479,14 @@ fetch(geojsonUrlNEK)
                                 { label: "Вітропарк західний", layer: vitr_zahid },
                                 { label: "14.01 маленькі", layer: small_14_01 },
                                 { label: "50км для проектів", layer: buffer50pidstLayer }
+                            ]
+                        },
+                        { 
+                            label: "<b>Оцінка проектів</b>", 
+                            collapsed: true,
+                            children: [
+                                { label: "Точки для оцінки", layer: pointstomark },
+                                
                             ]
                         },
                         { 
@@ -1470,8 +1555,8 @@ fetch(geojsonUrlNEK)
             menu.style.zIndex = 10000000;
             menu.innerHTML = `
                 <div style='padding-bottom: 5px; text-align: center; font-size: 20px;'>Cзз зміна кольору</div>
-                <label>Колір: <input type="color" id="colorPicker"></label><br>
-                <label>Прозорість: <input type="range" id="opacityPicker" min="0" max="1" step="0.1"></label><br>
+                <label>Колір: <input type="color" id="colorPicker" value="#548be3"></label><br>
+                <label>Прозорість: <input type="range" id="opacityPicker" min="0" max="1" step="0.1" value="0.3"></label><br>
                 <button id="applyBtn" style='width: 100%; margin-top: 5px;'>OK</button>
             `;
             document.body.appendChild(menu);
@@ -1571,6 +1656,8 @@ fetch(geojsonUrlNEK)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
                                                 
     </script>
 
@@ -1585,3 +1672,5 @@ fetch(geojsonUrlNEK)
     <script defer src="./script-cadastr.js"></script>
 </body>
 </html>
+
+
