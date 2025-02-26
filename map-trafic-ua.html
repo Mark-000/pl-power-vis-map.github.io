@@ -986,8 +986,7 @@ var SolarLegendControl = L.Control.extend({
       <i style="background: #fcce03"></i> 3200 - 3400<br>
       <i style="background: #fc9003"></i> 3400 - 3600<br>
       <i style="background: #fc4e03"></i> 3600 - 3800<br>
-      <i style="background: #d60606"></i> 3800 - 4000<br>
-      <i style="background: #6e0000"></i> 4000+<br>
+      <i style="background: #d60606"></i> 3800+
     `;
     div.style.background = 'white';
     div.style.padding = '10px';
@@ -1108,8 +1107,7 @@ addGeoTiffLayer(
        v <= 3200 ? '#f4fc03' : 
        v <= 3400 ? '#fcce03' : 
        v <= 3600 ? '#fc9003' : 
-       v <= 3800 ? '#fc4e03' :
-       v <= 4000 ? '#d60606' : '#6e0000',
+       v <= 3800 ? '#fc4e03' : '#fc4e03',
   function (layer, georaster) {
     layerSolar = layer;
     map.on("click", createPopupHandler(georaster, () => solarPopupActive));
@@ -1437,6 +1435,37 @@ fetch(geojsonUrlpointstomark)
             }
         });
 
+        var geojsonUrlbuffer40kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/40km-radius.geojson';
+        fetch(geojsonUrlbuffer40kmpidst)
+        .then(response => response.json())
+        .then(borderGeojsonData => {
+            buffer40pidstLayer = L.geoJSON(borderGeojsonData, {
+                style: {
+                    color: '#2d0396', // Колір шару
+                    weight: 2, // Товщина ліній
+                    fillOpacity: 0,
+                    zIndex: 100, // Задаємо z-index
+                    dashArray: '5, 10'
+                },
+                interactive: false
+            });
+            var geojsonUrlbuffer25kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/25km-radius.geojson';
+        fetch(geojsonUrlbuffer25kmpidst)
+        .then(response => response.json())
+        .then(borderGeojsonData => {
+            buffer25pidstLayer = L.geoJSON(borderGeojsonData, {
+                style: {
+                    color: '#0ad5f5', // Колір шару
+                    weight: 2, // Товщина ліній
+                    fillOpacity: 0,
+                    zIndex: 101, // Задаємо z-index
+                    dashArray: '5, 10'
+                },
+                interactive: false
+            });
+
+
+
 
 
           
@@ -1479,7 +1508,7 @@ fetch(geojsonUrlpointstomark)
                                 { label: "Конкуренти", layer: konkurentyLayer16 },
                                 { label: "Вітропарк західний", layer: vitr_zahid },
                                 { label: "14.01 маленькі", layer: small_14_01 },
-                                { label: "50км для проектів", layer: buffer50pidstLayer }
+                               // { label: "50км для проектів", layer: buffer50pidstLayer }buffer40pidstLayer
                             ]
                         },
                         { 
@@ -1487,7 +1516,8 @@ fetch(geojsonUrlpointstomark)
                             collapsed: true,
                             children: [
                                 { label: "Точки для оцінки", layer: pointstomark },
-                                
+                                { label: "25км для проектів", layer: buffer25pidstLayer },
+                                { label: "40км для проектів", layer: buffer40pidstLayer }
                             ]
                         },
                         { 
@@ -1659,7 +1689,11 @@ fetch(geojsonUrlpointstomark)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                                
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+  })
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                             
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
