@@ -228,7 +228,6 @@
     </style>
 </head>
 <body>
-    
     <div id="map"></div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -266,7 +265,12 @@
     <!-- draw tool-------->
     <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
     <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+    <!--poligon pattern-->
+<!-- Підключення стилю плагіна Leaflet.Pattern -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-pattern/0.0.6/leaflet.pattern.min.css" />
 
+    <!-- Підключення самого плагіна Leaflet.Pattern -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-pattern/0.0.6/leaflet.pattern.min.js"></script>
 
     <script>
         // URLs для GeoJSON файлів
@@ -1053,10 +1057,57 @@ map.on('pm:drawstart', function (e) {
                         }
                     });
                 });
+
+                var geojsonUrlaeroruh = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/aeroruh.geojson';
+                var createPolygonLayerAeroruh = (geojsonData, category) => {
+                    // Фільтруємо дані за категорією "Комент"
+                    var filteredFeatures = geojsonData.features.filter(feature => 
+                        feature.properties["Комент"] && feature.properties["Комент"].includes(category)
+                    );
+
+                    var filteredGeojson = {
+                        type: "FeatureCollection",
+                        features: filteredFeatures
+                    };
+
+                    // Створення шару з лініями, що виглядають як штрихування
+                    return L.geoJSON(filteredGeojson, {
+                        style: function(feature) {
+                            return { 
+                                color: category === "Диспечерські зони" ? '#736734' : 
+                                    category === "Тренувальні зони" ? '#31bdb8' : 
+                                    category === "Заборонені, небезпечні зони" ? '#bf73bd' : 
+                                    category === "Військові диспечерські зони" ? '#09052b' : 
+                                    category === "Термінальні диспечерські зони" ? '#2e130d' : 'gray', 
+                                weight: 2,  // Товщина контуру
+                                fillOpacity: 0.3,  // Прозорість заповнення
+                                dashArray: '5,5'  // Штриховані лінії
+                            };
+                        },
+                        onEachFeature: function(feature, layer) {
+                            layer.bindPopup(`
+                                <b>Коментар:</b> ${feature.properties["Комент"] || 'Unknown'}
+                            `);
+                        }
+                    });
+                };
+
+// Завантаження GeoJSON і створення шарів для різних категорій
+fetch(geojsonUrlaeroruh)
+    .then(response => response.json())
+    .then(geojsonData => {
+        layerDispatcherZones = createPolygonLayerAeroruh(geojsonData, "Диспечерські зони");
+        layerTrainingZones = createPolygonLayerAeroruh(geojsonData, "Тренувальні зони");
+        layerRestrictedZones = createPolygonLayerAeroruh(geojsonData, "Заборонені, небезпечні зони");
+        layerMilitaryZones = createPolygonLayerAeroruh(geojsonData, "Військові диспечерські зони");
+        layerTerminalZones = createPolygonLayerAeroruh(geojsonData, "Термінальні диспечерські зони");
+     
+
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
         var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
         var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
         var cadastrLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/parcels/{z}/{x}/{y}.png');
+
         var geojsonUrlemerald = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/amerald_zahid.geojson';
         fetch(geojsonUrlemerald)
             .then(response => response.json())
@@ -1474,6 +1525,20 @@ map.on('pm:drawstart', function (e) {
                     label: "<b>Обмеження</b>",
                     collapsed: true, 
                     children: [
+                        {
+                            label: "<b>Аерорух</b>", 
+                            collapsed: true,
+                            children: [
+                                { label: "Аеродроми", layer: ourairports },
+                                { label: "Диспечерські зони", layer: layerDispatcherZones },
+                                { label: "Тренувальні зони", layer: layerTrainingZones },
+                                { label: "Заборонені, небезпечні зони", layer: layerRestrictedZones },
+                                { label: "Військові диспечерські зони", layer: layerMilitaryZones },
+                                { label: "Термінальні диспечерські зони", layer: layerTerminalZones },
+                                { label: "Приаеродромна 50км", layer: aerodromiLayer },
+                                { label: "Приаеродромна 16км", layer: aerodromiLayer16 },
+                            ]
+                        },
                         { label: "Львів", layer: buflvivLayer },
                         { label: "Волинь", layer: volinLayer },
                         { label: "Закарпаття", layer: zakarpatskLayer },
@@ -1482,9 +1547,6 @@ map.on('pm:drawstart', function (e) {
                         { label: "Франківськ", layer: frankivskLayer },
                         { label: "Чернівці", layer: chernivciLayer },
                         { label: "Хмельницьк", layer: hmelnitskLayer },
-                        { label: "Аеродроми", layer: ourairports },
-                        { label: "Приаеродромна 50км", layer: aerodromiLayer },
-                        { label: "Приаеродромна 16км", layer: aerodromiLayer16 },
                     ]
                 },
                 { 
@@ -1578,6 +1640,8 @@ map.on('pm:drawstart', function (e) {
         });
 
 
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
