@@ -309,7 +309,7 @@
         var googleLayer = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
             attribution: 'Google Maps'
         });
-
+        //topo map
         var topoLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
             attribution: 'opentopomap'
         });
@@ -335,7 +335,7 @@
         // Додаємо елемент на карту
         var infoControl = new L.Control.Info({ position: "topleft" });
         map.addControl(infoControl);
-
+//-----------------------------малювання - вимірювання--------------------------------------
         var measureControl = new L.Control.Measure({
             position: "topleft",
             primaryLengthUnit: "meters",
@@ -470,74 +470,62 @@ map.on('pm:drawstart', function (e) {
 
 
 
+//-----------------------------будування шарів--------------------------------------    
 
 
-
-
-        
-
+//-----------------------------електромережі--------------------------------------    
     
-
-        var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/ukr-pidst.geojson';
+//-----------------------------підключення до нек--------------------------------------
+        var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ukr-pidst.geojson';
         var geoJsonClusterGroup = L.markerClusterGroup({
-                                                            spiderfyOnMaxZoom: true, // Розпакування кластерів при максимальному масштабі
-                                                            showCoverageOnHover: false, // Відключення області кластеру при наведенні
-                                                            zoomToBoundsOnClick: true, // Автозбільшення при кліку на кластер
-                                                            
-                                                            spiderLegPolylineOptions: {
-                                                                weight: 0,
-                                                            },
-
-                                                            spiderfyShapePositions: function (count, centerPt) {
-
-                                                                var radius = 40; // Радіус розташування
-                                                                var angleStep = (2 * Math.PI) / count;
-
-                                                                return Array.from({ length: count }, (_, i) => {
-                                                                    var angle = i * angleStep;
-                                                                    return new L.Point(
-                                                                        centerPt.x + radius * Math.cos(angle),
-                                                                        centerPt.y + radius * Math.sin(angle)
-                                                                    );
-                                                                });
-                                                            },iconCreateFunction: function (cluster) {
-                                                                var sumvmerezu = 0;
-                                                              
-
-                                                                // Один прохід для обчислення обох значень
-                                                                cluster.getAllChildMarkers().forEach(function (marker) {
-                                                                    var value1 = marker.feature.properties["Розрахункова потужність (за ТУ), МВт"];
-                                                                    if (!isNaN(value1)) {
-                                                                        sumvmerezu += parseFloat(Math.round(value1));
-                                                                    
-                                                                    }
-                                                                });
-
-                                                                // Створення іконки
-                                                                return L.divIcon({
-                                                                    html: `
-                                                                        <div style="background-color: rgba(0, 123, 255, 0.6); 
-                                                                                    font-size: 15px;
-                                                                                    border-radius: 50%; 
-                                                                                    display: flex;
-                                                                                    justify-content: center;
-                                                                                    align-items: center;
-                                                                                    flex-direction: column;
-                                                                                    width: 50px; 
-                                                                                    height: 50px; 
-                                                                                    text-align: center; 
-                                                                                    color: white; 
-                                                                                    font-weight: bold;">
-                                                                            <div style="color: black;">${sumvmerezu}</div>
-                                                                            
-                                                                        </div>
-                                                                    `,
-                                                                    className: 'custom-cluster-icon',
-                                                                    iconSize: [50, 50]
-                                                                });
-                                                            }
-                                                          
-                                                        });
+            spiderfyOnMaxZoom: true, // Розпакування кластерів при максимальному масштабі
+            showCoverageOnHover: false, // Відключення області кластеру при наведенні
+            zoomToBoundsOnClick: true, // Автозбільшення при кліку на кластер
+            spiderLegPolylineOptions: {
+                weight: 0,
+            },
+            spiderfyShapePositions: function (count, centerPt) {
+                var radius = 40; // Радіус розташування
+                var angleStep = (2 * Math.PI) / count;
+                return Array.from({ length: count }, (_, i) => {
+                    var angle = i * angleStep;
+                    return new L.Point(
+                        centerPt.x + radius * Math.cos(angle),
+                        centerPt.y + radius * Math.sin(angle)
+                    );
+                });
+            },iconCreateFunction: function (cluster) {
+                var sumvmerezu = 0;
+                cluster.getAllChildMarkers().forEach(function (marker) {
+                    var value1 = marker.feature.properties["Розрахункова потужність (за ТУ), МВт"];
+                    if (!isNaN(value1)) {
+                        sumvmerezu += parseFloat(Math.round(value1));
+                    }
+                });
+                // Створення іконки
+                return L.divIcon({
+                    html: `
+                        <div style="background-color: rgba(0, 123, 255, 0.6); 
+                                    font-size: 15px;
+                                    border-radius: 50%; 
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    flex-direction: column;
+                                    width: 50px; 
+                                    height: 50px; 
+                                    text-align: center; 
+                                    color: white; 
+                                    font-weight: bold;">
+                            <div style="color: black;">${sumvmerezu}</div>
+                            
+                        </div>
+                    `,
+                    className: 'custom-cluster-icon',
+                    iconSize: [50, 50]
+                });
+            }
+        });
 
         // Функція для визначення кольору залежно від Rodzaj instalacji
         function getColorByInstallationType(type) {
@@ -585,683 +573,691 @@ map.on('pm:drawstart', function (e) {
                 }
                 });
                 geoJsonClusterGroup.addLayer(gprelunJsonLayer); 
-               
-                var geojsonukrline = "https://mark-000.github.io/pl-power-vis-map.github.io/ukr-line-filter-all.geojson"
-                fetch(geojsonukrline)
-                                    .then(response => response.json())
-                                    .then(reconsGeojsonData => {
-                                        var reconsLayer = L.geoJSON(reconsGeojsonData, {
-                                            style: function(feature) {
-                                                // Логіка для зміни кольору залежно від значення voltage
-                                                if (feature.properties.voltage && feature.properties.voltage.includes('220')) {
-                                                    return { color: 'green', weight: 2.5, opacity: 1 }; // Зелений для 220
-                                                } else if (feature.properties.voltage && feature.properties.voltage.includes('400')) {
-                                                    return { color: '#f505fa', weight: 2.5, opacity: 1 }; // Червоний для 400
-                                                }else if (feature.properties.voltage && feature.properties.voltage.includes('750')) {
-                                                    return { color: '#ba1806', weight: 2.5, opacity: 1 }; // Червоний для 400
-                                                } else {
-                                                    return { color: '#0572a1', weight: 2.5, opacity: 1 }; // Фіолетовий для всього іншого
-                                                }
-                                            },
-                                            onEachFeature: function(feature, layer) {
-                                                layer.bindPopup(`
-                                                    <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
-                                                    <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}
-                                                `);
-                                            }
-                                        });
-                                        var geojsonukrline110 = "https://mark-000.github.io/pl-power-vis-map.github.io/line-ua-110-150.geojson"
-                                fetch(geojsonukrline110)
-                                    .then(response => response.json())
-                                    .then(reconsGeojsonData => {
-                                        var Layer110 = L.geoJSON(reconsGeojsonData, {
-                                            style: function(feature) {
-                                                // Логіка для зміни кольору залежно від значення voltage
-                                                if (feature.properties.voltage && feature.properties.voltage.includes('110')) {
-                                                    return { color: '#b89023', weight: 1.5, opacity: 1 }; // Зелений для 220
-                                                }  else {
-                                                    return { color: '#b89023', weight: 1.5, opacity: 1 }; // Фіолетовий для всього іншого
-                                                }
-                                            },
-                                            onEachFeature: function(feature, layer) {
-                                                layer.bindPopup(`
-                                                    <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
-                                                    <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}
-                                                `);
-                                            }
-                                        });
-                                        var geojsonUrlBorder = 'https://mark-000.github.io/pl-power-vis-map.github.io/Ukraine_Border.geojson';
-                                        map.createPane('borderPane');
-                                               //map.getPane('borderPane').style.zIndex = 400;
+               //-------------------------------------------------------------------
+        var geojsonukrline = "https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ukr-line-filter-all.geojson"
+        fetch(geojsonukrline)
+            .then(response => response.json())
+            .then(reconsGeojsonData => {
+                var reconsLayer = L.geoJSON(reconsGeojsonData, {
+                    style: function(feature) {
+                        // Логіка для зміни кольору залежно від значення voltage
+                        if (feature.properties.voltage && feature.properties.voltage.includes('220')) {
+                            return { color: 'green', weight: 2.5, opacity: 1 }; // Зелений для 220
+                        } else if (feature.properties.voltage && feature.properties.voltage.includes('400')) {
+                            return { color: '#f505fa', weight: 2.5, opacity: 1 }; // Червоний для 400
+                        }else if (feature.properties.voltage && feature.properties.voltage.includes('750')) {
+                            return { color: '#ba1806', weight: 2.5, opacity: 1 }; // Червоний для 400
+                        } else {
+                            return { color: '#0572a1', weight: 2.5, opacity: 1 }; // Фіолетовий для всього іншого
+                        }
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                            <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}
+                        `);
+                    }
+                });
+//-------------------------------------------------------------------
+        var geojsonukrline110 = "https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/line-ua-110-150.geojson"
+        fetch(geojsonukrline110)
+            .then(response => response.json())
+            .then(reconsGeojsonData => {
+                var Layer110 = L.geoJSON(reconsGeojsonData, {
+                    style: function(feature) {
+                        // Логіка для зміни кольору залежно від значення voltage
+                        if (feature.properties.voltage && feature.properties.voltage.includes('110')) {
+                            return { color: '#b89023', weight: 1.5, opacity: 1 }; // Зелений для 220
+                        }  else {
+                            return { color: '#b89023', weight: 1.5, opacity: 1 }; // Фіолетовий для всього іншого
+                        }
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                            <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}
+                        `);
+                    }
+                });
+                //-------------------------------------------------------------------
+        var geojsonUrlBorder = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Ukraine_Border.geojson';
+        map.createPane('borderPane');
+               //map.getPane('borderPane').style.zIndex = 400;
+                fetch(geojsonUrlBorder)
+                    .then(response => response.json())
+                    .then(borderGeojsonData => {
+                        borderLayer = L.geoJSON(borderGeojsonData, {
+                            pane: 'borderPane',
+                            style: {
+                                color: '#595857', // Колір шару
+                                weight: 1, // Товщина ліній
+                                fillOpacity: 0
+                            },
+                            interactive: false
+                        });
+//-------------------------------------------------------------------
+        var geojsonUrlbuffer50kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/buffer-for-proekty-50km.geojson';
+            //map.getPane('borderPane').style.zIndex = 400;
+            fetch(geojsonUrlbuffer50kmpidst)
+                .then(response => response.json())
+                .then(borderGeojsonData => {
+                    buffer50pidstLayer = L.geoJSON(borderGeojsonData, {
+                        style: {
+                            color: '#f5076a', // Колір шару
+                            weight: 2, // Товщина ліній
+                            fillOpacity: 0,
+                        },
+                        interactive: false
+                    });
+                   //-------------------------------------------------------------------                                     
+        var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/nek-substations.geojson';
+        fetch(geojsonUrlNEK)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                NEKLayer = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 6, // Радіус точки
+                            fillColor: "black", // Колір заповнення
+                            color: "yellow", // Колір обведення
+                            weight: 1, // Товщина обведення
+                            opacity: 1, // Прозорість обведення
+                            fillOpacity: 1 // Прозорість заповнення
+                        });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Підстанція:</b> ${feature.properties.Substation || 'Unknown'}<br>
+                            <b>Локація:</b> ${feature.properties.Location || 'Unknown'}<br>
+                            <b>Трансформатори:</b> ${feature.properties.Transformers || 'Unknown'}
+                        `);
+                    }
+                });
+        var geojsonUrlPUA = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/p-stations-ua.geojson';
+        fetch(geojsonUrlPUA)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                PUALayer = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        var size = feature.properties.power / 1500; // Розмір квадрата (можна змінити на потрібний)
+                        const size2 = Math.sqrt(size) * 2;
+                        // Встановлюємо колір залежно від типу станції
+                        var color;
+                        switch (feature.properties.type) {
+                            case 'АЕС':
+                                color = '#8B1A10'; // Червоний для АЕС
+                                break;
+                            case 'ТЕС':
+                                color = '#b89023'; // Жовтий для ТЕС
+                                break;
+                            case 'ГЕС':
+                            case 'ГАЕС':
+                                color = '#0572a1'; // Синій для ГЕС або ГЕАС
+                                break;
+                            default:
+                                color = 'black'; // Колір за замовчуванням
+                                break;
+                        }
+                        const squareIcon = L.divIcon({
+                            className: 'custom-marker',
+                            html: `<div style="
+                                width: ${size2 * 15}px;
+                                height: ${size2 * 15}px;
+                                background-color: ${color};
+                                opacity: 0.7;
+                                border: 1px solid black;
+                                transform: translate(-50%, -50%);
+                                box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                            "></div>`,
+                            iconSize: [size * 17, size * 17], // Можна підлаштувати розміри
+                            iconAnchor: [size, size], // Центрування іконки
+                        });
+                        return L.marker(latlng, { icon: squareIcon });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b style='font-size: 15px;'> ${feature.properties.station || 'Unknown'}</b><br>
+                            <b>Тип:</b> ${feature.properties.type || 'Unknown'}<br>
+                            <b>Потужність:</b> ${feature.properties.power || 'Unknown'} МВт
+                        `);
+                    }
+                });
 
-                                                fetch(geojsonUrlBorder)
-                                                    .then(response => response.json())
-                                                    .then(borderGeojsonData => {
-                                                        borderLayer = L.geoJSON(borderGeojsonData, {
-                                                            pane: 'borderPane',
-                                                            style: {
-                                                                color: '#595857', // Колір шару
-                                                                weight: 1, // Товщина ліній
-                                                                fillOpacity: 0
-                                                            },
-                                                            interactive: false
-                                                        });
 
-                                        var geojsonUrlbuffer50kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/buffer-for-proekty-50km.geojson';
-                                        
-                                               //map.getPane('borderPane').style.zIndex = 400;
+        var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/nek-pidstancii-pidkluch.geojson';
+        fetch(geojsonUrlNEK)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Шар для potuznist35
+                var layerPotuznist35 = L.geoJSON(projektyGeojsonData, {
+                    filter: function(feature) {
+                        return feature.properties.potuznist35 != null && feature.properties.potuznist35 > 0;
+                    },
+                    pointToLayer: function(feature, latlng) {
+                        let power = feature.properties.potuznist35;
+                        let marker = L.circleMarker(latlng, {
+                            radius: Math.sqrt(power) * 1.2, // Розмір точки залежить від потужності
+                            fillColor: "blue",
+                            color: "black",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        });
+                        let tooltipOffset = -Math.sqrt(power) * 1.2; 
+                        marker.bindTooltip(`${power}`, {
+                            permanent: true,
+                            direction: 'top',
+                            className: 'custom-tooltip110', // Змінено на правильний клас
+                            offset: [0, tooltipOffset]
+                        });
+                        marker.bindPopup(`
+                            <b>ПС:</b> ${feature.properties.pidstancia}<br>
+                            <b>Потужність по 35кв:</b> ${power} МВт<br>
+                        `);
+                        return marker;
+                    }
+                });
+                // Шар для potuznist110
+                var clusterGroup110 = L.markerClusterGroup({
+                    showCoverageOnHover: false,
+                    iconCreateFunction: function(cluster) {
+                        let markers = cluster.getAllChildMarkers();
+                        let totalPower = markers.reduce((sum, marker) => sum + (marker.options.power || 0), 0);
+                        return L.divIcon({
+                            html: `<div style="background-color: green;
+                                        opacity: 0.8;
+                                        font-size: 15px;
+                                        border-radius: 50%; 
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        flex-direction: column;
+                                        width: 50px; 
+                                        height: 50px; 
+                                        text-align: center; 
+                                        color: white; 
+                                        font-weight: bold;">
+                                ${totalPower}
+                            </div>`,
+                            className: 'custom-cluster',
+                            iconSize: [40, 40]
+                        });
+                    }
+                });
+        // Завантажуємо GeoJSON
+        fetch(geojsonUrlNEK)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                var layerPotuznist110 = L.geoJSON(projektyGeojsonData, {
+                    filter: function(feature) {
+                        return feature.properties.potuznist110 != null && feature.properties.potuznist110 > 0;
+                    },
+                    pointToLayer: function(feature, latlng) {
+                        let power = feature.properties.potuznist110;
+                        let pidstancia = feature.properties.pidstancia.toLowerCase(); // Приводимо до нижнього регістру для порівняння
+                    
+                        // Перевірка на наявність слів "розділ" або "західна"
+                        let fillColor = "green"; // За замовчуванням зелений
+                        if (pidstancia.includes("стрий") || pidstancia.includes("калуш") || pidstancia.includes("воловець") || pidstancia.includes("тернопільська" || pidstancia.includes("хмельницька"))) {
+                            fillColor = "yellow"; // Змінюємо колір на жовтий, якщо умови виконуються
+                        }
+                    
+                        let marker = L.circleMarker(latlng, {
+                            radius: Math.sqrt(power) * 1.2, // Розмір точки залежить від потужності
+                            fillColor: fillColor,
+                            color: "black",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        });
+                    
+                        let tooltipOffset = -Math.sqrt(power) * 1.2;
+                    
+                        marker.bindTooltip(`
+                                ${power}<br>
+                            `, {
+                                permanent: true,
+                                direction: 'top',
+                                className: 'custom-tooltip110',
+                                offset: [0, tooltipOffset]
+                            });
+                        marker.bindPopup(`
+                                <b>ПС:</b> ${feature.properties.pidstancia}<br>
+                                <b>Потужність по 110кв:</b> ${power} МВт<br>
+                            `);
+                        marker.options.power = power;
+                        return marker;
+                    }
+                });
+                clusterGroup110.addLayer(layerPotuznist110);      
 
-                                                fetch(geojsonUrlbuffer50kmpidst)
-                                                    .then(response => response.json())
-                                                    .then(borderGeojsonData => {
-                                                        buffer50pidstLayer = L.geoJSON(borderGeojsonData, {
-                                                            style: {
-                                                                color: '#f5076a', // Колір шару
-                                                                weight: 2, // Товщина ліній
-                                                                fillOpacity: 0,
-                                                            },
-                                                            interactive: false
-                                                        });
-                                                        
-                                                        var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/nek-substations.geojson';
-                                                        fetch(geojsonUrlNEK)
-                                                            .then(response => response.json())
-                                                            .then(projektyGeojsonData => {
-                                                                NEKLayer = L.geoJSON(projektyGeojsonData, {
-                                                                    pointToLayer: function(feature, latlng) {
-                                                                        return L.circleMarker(latlng, {
-                                                                            radius: 6, // Радіус точки
-                                                                            fillColor: "black", // Колір заповнення
-                                                                            color: "yellow", // Колір обведення
-                                                                            weight: 1, // Товщина обведення
-                                                                            opacity: 1, // Прозорість обведення
-                                                                            fillOpacity: 1 // Прозорість заповнення
-                                                                        });
-                                                                    },
-                                                                    onEachFeature: function(feature, layer) {
-                                                                        layer.bindPopup(`
-                                                                            <b>Підстанція:</b> ${feature.properties.Substation || 'Unknown'}<br>
-                                                                            <b>Локація:</b> ${feature.properties.Location || 'Unknown'}<br>
-                                                                            <b>Трансформатори:</b> ${feature.properties.Transformers || 'Unknown'}
-                                                                        `);
-                                                                    }
-                                                                });
-                                                                var geojsonUrlPUA = 'https://mark-000.github.io/pl-power-vis-map.github.io/p-stations-ua.geojson';
-                                                                fetch(geojsonUrlPUA)
-                                                                    .then(response => response.json())
-                                                                    .then(projektyGeojsonData => {
-                                                                        PUALayer = L.geoJSON(projektyGeojsonData, {
-                                                                            pointToLayer: function(feature, latlng) {
-                                                                                var size = feature.properties.power / 1500; // Розмір квадрата (можна змінити на потрібний)
-                                                                                const size2 = Math.sqrt(size) * 2;
-
-                                                                                // Встановлюємо колір залежно від типу станції
-                                                                                var color;
-                                                                                switch (feature.properties.type) {
-                                                                                    case 'АЕС':
-                                                                                        color = '#8B1A10'; // Червоний для АЕС
-                                                                                        break;
-                                                                                    case 'ТЕС':
-                                                                                        color = '#b89023'; // Жовтий для ТЕС
-                                                                                        break;
-                                                                                    case 'ГЕС':
-                                                                                    case 'ГАЕС':
-                                                                                        color = '#0572a1'; // Синій для ГЕС або ГЕАС
-                                                                                        break;
-                                                                                    default:
-                                                                                        color = 'black'; // Колір за замовчуванням
-                                                                                        break;
-                                                                                }
-
-                                                                                const squareIcon = L.divIcon({
-                                                                                    className: 'custom-marker',
-                                                                                    html: `<div style="
-                                                                                        width: ${size2 * 15}px;
-                                                                                        height: ${size2 * 15}px;
-                                                                                        background-color: ${color};
-                                                                                        opacity: 0.7;
-                                                                                        border: 1px solid black;
-                                                                                        transform: translate(-50%, -50%);
-                                                                                        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-                                                                                    "></div>`,
-                                                                                    iconSize: [size * 17, size * 17], // Можна підлаштувати розміри
-                                                                                    iconAnchor: [size, size], // Центрування іконки
-                                                                                });
-
-                                                                                return L.marker(latlng, { icon: squareIcon });
-                                                                            },
-                                                                            onEachFeature: function(feature, layer) {
-                                                                                layer.bindPopup(`
-                                                                                    <b style='font-size: 15px;'> ${feature.properties.station || 'Unknown'}</b><br>
-                                                                                    <b>Тип:</b> ${feature.properties.type || 'Unknown'}<br>
-                                                                                    <b>Потужність:</b> ${feature.properties.power || 'Unknown'} МВт
-                                                                                `);
-                                                                            }
-                                                                        });
+        var geojsonUrlpidstobl = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/obl-pidstancii-all-zahid.geojson';
+        fetch(geojsonUrlpidstobl)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Функція перевірки, чи є хоча б одне значення voltage >= 35000
+                function voltageFilter(feature) {
+                    if (!feature.properties.voltage) return false; // Якщо поле відсутнє
+                    let voltages = feature.properties.voltage.split(";").map(v => parseInt(v.trim())); // Розділяємо та перетворюємо у числа
+                    return voltages.some(v => v >= 35000); // Перевіряємо, чи є хоча б одне значення ≥ 35000
+                }
+                // Фільтруємо GeoJSON
+                let filteredData = {
+                    type: "FeatureCollection",
+                    features: projektyGeojsonData.features.filter(voltageFilter)
+                };
+                // Створюємо шар з відфільтрованими даними
+                oblpidstLayer = L.geoJSON(filteredData, {
+                    pointToLayer: function(feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 4,
+                            fillColor: "blue",
+                            color: "black",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 1
+                        });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.full_name || feature.properties.name || 'Unknown'}<br>
+                            <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}<br>
+                            <b>Потужність:</b> ${feature.properties.rating || 'Unknown'}<br>
+                            <b>Оператор:</b> ${feature.properties.operator || 'Unknown'}
+                        `);
+                    }
+                });         
                                                                     
 
-//----------------------------------------------------------------ekologia-----------------------------------------------------------------
 
-                                                                        var opacity700 = 0.3
-                                                                        var color700 = '#548be3'
-                                                                        var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_lviv.geojson';
-                                                                            fetch(geojsonUrlLvivbuf)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    buflvivLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlvolin = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_volin.geojson';
-                                                                            fetch(geojsonUrlvolin)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    volinLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlzakarpatsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_zakarpatsk.geojson';
-                                                                            fetch(geojsonUrlzakarpatsk)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    zakarpatskLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlrivne = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_rivne.geojson';
-                                                                            fetch(geojsonUrlrivne)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    rivneLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlternopil = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_ternopil.geojson';
-                                                                            fetch(geojsonUrlternopil)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    ternopilLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlfrankivsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_frankivsk.geojson';
-                                                                            fetch(geojsonUrlfrankivsk)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    frankivskLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlchernivci = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_chernivci.geojson';
-                                                                            fetch(geojsonUrlchernivci)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    chernivciLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlhmelnitsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/merged_buffers_hmelnitsk.geojson';
-                                                                            fetch(geojsonUrlhmelnitsk)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    hmelnitskLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: color700, // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: opacity700
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlaerodromi = 'https://mark-000.github.io/pl-power-vis-map.github.io/aerodromi_buffers.geojson';
-                                                                            fetch(geojsonUrlaerodromi)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    aerodromiLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: '#cf4b44', // Колір шару
-                                                                                            weight: 2, // Товщина ліній
-                                                                                            fillOpacity: 0
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-                                                                                    var geojsonUrlaerodromi16 = 'https://mark-000.github.io/pl-power-vis-map.github.io/aerodromi_buffers_16.geojson';
-                                                                            fetch(geojsonUrlaerodromi16)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    aerodromiLayer16 = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: '#cf4b44', // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -998  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-
-
-                                                                                    var geojsonUrlourairports = 'https://mark-000.github.io/pl-power-vis-map.github.io/ourairports.geojson';
-                                                                                        fetch(geojsonUrlourairports)
-                                                                                            .then(response => response.json())
-                                                                                            .then(projektyGeojsonData => {
-                                                                                                ourairports = L.geoJSON(projektyGeojsonData, {
-                                                                                                    pointToLayer: function(feature, latlng) {
-                                                                                                        var icon;
-                                                                                                        
-                                                                                                        // Вибір іконки на основі типу
-                                                                                                        if (feature.properties.type === 'large_airport') {
-                                                                                                            icon = L.divIcon({
-                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
-                                                                                                                className: 'no-background-icon'
-                                                                                                            });
-                                                                                                        } else if (feature.properties.type === 'medium_airport') {
-                                                                                                            icon = L.divIcon({
-                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F19E39"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
-                                                                                                                className: 'no-background-icon'
-                                                                                                            });
-                                                                                                        } else if (feature.properties.type === 'small_airport') {
-                                                                                                            icon = L.divIcon({
-                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#8B7DBE"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
-                                                                                                                className: 'no-background-icon'
-                                                                                                            });
-                                                                                                        } else if (feature.properties.type === 'closed') {
-                                                                                                            icon = L.divIcon({
-                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#8B7DBE"><path d="m880-280-141-57-339-337v-126q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800v176l320 224v120ZM480-140 280-80v-100l120-84v-144L80-280v-120l216-152L56-792l56-56 736 736-56 56-232-232v24l120 84v100l-200-60Z"/></svg>`,
-                                                                                                                className: 'no-background-icon'
-                                                                                                            });
-                                                                                                        } else if (feature.properties.type === 'heliport') {
-                                                                                                            icon = L.divIcon({
-                                                                                                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#8B7DBE"><path d="M280-280v-400h80v160h240v-160h80v400h-80v-160H360v160h-80Z"/></svg>`,
-                                                                                                                className: 'no-background-icon'
-                                                                                                            });
-                                                                                                        }
-
-                                                                                                        // Повертаємо точку з потрібною іконкою
-                                                                                                        return L.marker(latlng, { icon: icon });
-                                                                                                    },
-                                                                                                    onEachFeature: function(feature, layer) {
-                                                                                                        layer.bindPopup(`
-                                                                                                            <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
-                                                                                                            <b>Тип:</b> ${feature.properties.type || 'Unknown'}<br>
-                                                                                                            ${feature.properties.wikipedia ? `<a href='${feature.properties.wikipedia}' target="_blank">Link</a>` : ''}
-                                                                                                        `);
-                                                                                                    }
-                                                                                                });
-                                                                                            });
+//----------------------------------------------------------------екологія 700м аеродроми обмеження-----------------------------------------------------------------
 
 
 
+        var opacity700 = 0.3
+        var color700 = '#548be3'
+        var geojsonUrlLvivbuf = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_lviv.geojson';
+        fetch(geojsonUrlLvivbuf)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                buflvivLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlvolin = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_volin.geojson';
+        fetch(geojsonUrlvolin)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                volinLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlzakarpatsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_zakarpatsk.geojson';
+        fetch(geojsonUrlzakarpatsk)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                zakarpatskLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlrivne = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_rivne.geojson';
+        fetch(geojsonUrlrivne)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                rivneLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlternopil = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_ternopil.geojson';
+        fetch(geojsonUrlternopil)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                ternopilLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlfrankivsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_frankivsk.geojson';
+        fetch(geojsonUrlfrankivsk)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                frankivskLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlchernivci = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_chernivci.geojson';
+        fetch(geojsonUrlchernivci)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                chernivciLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlhmelnitsk = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/merged_buffers_hmelnitsk.geojson';
+        fetch(geojsonUrlhmelnitsk)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                hmelnitskLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: color700, // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: opacity700
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlaerodromi = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/aerodromi_buffers.geojson';
+        fetch(geojsonUrlaerodromi)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                aerodromiLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: '#cf4b44', // Колір шару
+                        weight: 2, // Товщина ліній
+                        fillOpacity: 0
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+        var geojsonUrlaerodromi16 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/aerodromi_buffers_16.geojson';
+        fetch(geojsonUrlaerodromi16)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                aerodromiLayer16 = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: '#cf4b44', // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: 0.3
+                    },
+                    interactive: false,
+                    zIndex: -998  // Встановлюємо zIndex, щоб шар був під іншими
+                });
+
+        var geojsonUrlourairports = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ourairports.geojson';
+            fetch(geojsonUrlourairports)
+                .then(response => response.json())
+                .then(projektyGeojsonData => {
+                    ourairports = L.geoJSON(projektyGeojsonData, {
+                        pointToLayer: function(feature, latlng) {
+                            var icon;
+                            // Вибір іконки на основі типу
+                            if (feature.properties.type === 'large_airport') {
+                                icon = L.divIcon({
+                                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
+                                    className: 'no-background-icon'
+                                });
+                            } else if (feature.properties.type === 'medium_airport') {
+                                icon = L.divIcon({
+                                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F19E39"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
+                                    className: 'no-background-icon'
+                                });
+                            } else if (feature.properties.type === 'small_airport') {
+                                icon = L.divIcon({
+                                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#8B7DBE"><path d="m397-115-99-184-184-99 71-70 145 25 102-102-317-135 84-86 385 68 124-124q23-23 57-23t57 23q23 23 23 56.5T822-709L697-584l68 384-85 85-136-317-102 102 26 144-71 71Z"/></svg>`,
+                                    className: 'no-background-icon'
+                                });
+                            } else if (feature.properties.type === 'closed') {
+                                icon = L.divIcon({
+                                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#8B7DBE"><path d="m880-280-141-57-339-337v-126q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800v176l320 224v120ZM480-140 280-80v-100l120-84v-144L80-280v-120l216-152L56-792l56-56 736 736-56 56-232-232v24l120 84v100l-200-60Z"/></svg>`,
+                                    className: 'no-background-icon'
+                                });
+                            } else if (feature.properties.type === 'heliport') {
+                                icon = L.divIcon({
+                                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#8B7DBE"><path d="M280-280v-400h80v160h240v-160h80v400h-80v-160H360v160h-80Z"/></svg>`,
+                                    className: 'no-background-icon'
+                                });
+                            }
+                            // Повертаємо точку з потрібною іконкою
+                            return L.marker(latlng, { icon: icon });
+                        },
+                        onEachFeature: function(feature, layer) {
+                            layer.bindPopup(`
+                                <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                                <b>Тип:</b> ${feature.properties.type || 'Unknown'}<br>
+                                ${feature.properties.wikipedia ? `<a href='${feature.properties.wikipedia}' target="_blank">Link</a>` : ''}
+                            `);
+                        }
+                    });
+                });
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
-                                                                                         var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
-                                                                                         var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
-                                                                                         var cadastrLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/parcels/{z}/{x}/{y}.png');
-                                                                                         var geojsonUrlemerald = 'https://mark-000.github.io/pl-power-vis-map.github.io/amerald_zahid.geojson';
-                                                                            fetch(geojsonUrlemerald)
-                                                                                .then(response => response.json())
-                                                                                .then(borderGeojsonData => {
-                                                                                    emeraldLayer = L.geoJSON(borderGeojsonData, {
-                                                                                        style: {
-                                                                                            color: '#3b8f51', // Колір шару
-                                                                                            weight: 1, // Товщина ліній
-                                                                                            fillOpacity: 0.3
-                                                                                        },
-                                                                                        interactive: false,
-                                                                                        zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
-                                                                                    });
-//----------------------------------------------------------------tif-----------------------------------------------------------------
-var geotiffUrlw = "https://mark-000.github.io/pl-power-vis-map.github.io/UKR_wind-speed_100m-.tif";  
-var geotiffUrlNew = "https://mark-000.github.io/pl-power-vis-map.github.io/virobitka.tif";  
+        var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
+        var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
+        var cadastrLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/parcels/{z}/{x}/{y}.png');
+        var geojsonUrlemerald = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/amerald_zahid.geojson';
+        fetch(geojsonUrlemerald)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                emeraldLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: '#3b8f51', // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: 0.3
+                    },
+                    interactive: false,
+                    zIndex: -999  // Встановлюємо zIndex, щоб шар був під іншими
+                });
 
-var layerWind, layerSolar;
-var windPopupActive = false, solarPopupActive = false;
-var windLegend = null, solarLegend = null;
 
-// ========================= ЛЕГЕНДА ВІТРУ =========================
-var WindLegendControl = L.Control.extend({
-  options: { position: 'bottomleft' },
-  onAdd: function () {
-    var div = L.DomUtil.create('div', 'info legend wind-legend');
-    div.innerHTML = `
-      <b>Швидкість вітру</b><br>
-      <i style="background: #f4fc03"></i> 7 - 7.3<br>
-      <i style="background: #fcce03"></i> 7.31 - 7.6<br>
-      <i style="background: #fc9003"></i> 7.61 - 7.9<br>
-      <i style="background: #fc4e03"></i> 7.91 - 8.2<br>
-      <i style="background: #d60606"></i> 8.21 - 8.5<br>
-      <i style="background: #6e0000"></i> 8.51+<br>
-    `;
-    div.style.background = 'white';
-    div.style.padding = '10px';
-    div.style.border = '1px solid #333';
-    div.style.borderRadius = '5px';
-    //div.style.zIndex = "100000";
-    return div;
-  }
-});
 
-// ========================= ЛЕГЕНДА СОНЯЧНОЇ РАДІАЦІЇ =========================
-var SolarLegendControl = L.Control.extend({
-  options: { position: 'bottomleft' },
-  onAdd: function () {
-    var div = L.DomUtil.create('div', 'info legend wind-legend');
-    div.innerHTML = `
-      <b>Виробітка</b><br>
-      <i style="background: #f4fc03"></i> 3000 - 3200<br>
-      <i style="background: #fcce03"></i> 3200 - 3400<br>
-      <i style="background: #fc9003"></i> 3400 - 3600<br>
-      <i style="background: #fc4e03"></i> 3600 - 3800<br>
-      <i style="background: #d60606"></i> 3800+
-    `;
-    div.style.background = 'white';
-    div.style.padding = '10px';
-    div.style.border = '1px solid #333';
-    div.style.borderRadius = '5px';
-    //div.style.zIndex = "100000";
-    return div;
-  }
-});
+//----------------------------------------------------------------tifs-----------------------------------------------------------------
 
-// ========================= ДОДАЄМО ГЕОТІФФ =========================
-function addGeoTiffLayer(url, colorScale, callback) {
-  fetch(url)
-    .then(res => res.arrayBuffer())
-    .then(arrayBuffer => {
-      parseGeoraster(arrayBuffer).then(georaster => {
-        var layer = new GeoRasterLayer({
-          georaster: georaster,
-          opacity: 0.5,
-          pixelValuesToColorFn: colorScale,
-          zIndex: 20,
-          resolution: 128
+
+        var geotiffUrlw = "https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/UKR_wind-speed_100m-.tif";  
+        var geotiffUrlNew = "https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/virobitka.tif";  
+
+        var layerWind, layerSolar;
+        var windPopupActive = false, solarPopupActive = false;
+        var windLegend = null, solarLegend = null;
+
+        // ========================= ЛЕГЕНДА ВІТРУ =========================
+        var WindLegendControl = L.Control.extend({
+          options: { position: 'bottomleft' },
+          onAdd: function () {
+            var div = L.DomUtil.create('div', 'info legend wind-legend');
+            div.innerHTML = `
+              <b>Швидкість вітру</b><br>
+              <i style="background: #f4fc03"></i> 7 - 7.3<br>
+              <i style="background: #fcce03"></i> 7.31 - 7.6<br>
+              <i style="background: #fc9003"></i> 7.61 - 7.9<br>
+              <i style="background: #fc4e03"></i> 7.91 - 8.2<br>
+              <i style="background: #d60606"></i> 8.21 - 8.5<br>
+              <i style="background: #6e0000"></i> 8.51+<br>
+            `;
+            div.style.background = 'white';
+            div.style.padding = '10px';
+            div.style.border = '1px solid #333';
+            div.style.borderRadius = '5px';
+            //div.style.zIndex = "100000";
+            return div;
+          }
+        });
+        // ========================= ЛЕГЕНДА виробітки =========================
+        var SolarLegendControl = L.Control.extend({
+          options: { position: 'bottomleft' },
+          onAdd: function () {
+            var div = L.DomUtil.create('div', 'info legend wind-legend');
+            div.innerHTML = `
+              <b>Виробітка</b><br>
+              <i style="background: #f4fc03"></i> 3000 - 3200<br>
+              <i style="background: #fcce03"></i> 3200 - 3400<br>
+              <i style="background: #fc9003"></i> 3400 - 3600<br>
+              <i style="background: #fc4e03"></i> 3600 - 3800<br>
+              <i style="background: #d60606"></i> 3800+
+            `;
+            div.style.background = 'white';
+            div.style.padding = '10px';
+            div.style.border = '1px solid #333';
+            div.style.borderRadius = '5px';
+            //div.style.zIndex = "100000";
+            return div;
+          }
         });
 
-        callback(layer, georaster);
-      });
-    });
-}
+        // ========================= ДОДАЄМО ГЕОТІФФ =========================
+        function addGeoTiffLayer(url, colorScale, callback) {
+          fetch(url)
+            .then(res => res.arrayBuffer())
+            .then(arrayBuffer => {
+              parseGeoraster(arrayBuffer).then(georaster => {
+                var layer = new GeoRasterLayer({
+                  georaster: georaster,
+                  opacity: 0.5,
+                  pixelValuesToColorFn: colorScale,
+                  zIndex: 20,
+                  resolution: 128
+                });
+            
+                callback(layer, georaster);
+              });
+            });
+        }
 
-// ========================= ПОПАПИ =========================
-function createPopupHandler(georaster, isActive) {
-  return function (event) {
-    if (!isActive()) return;
-    
-    var lat = event.latlng.lat;
-    var lng = event.latlng.lng;
-    var value = geoblaze.identify(georaster, [lng, lat]);
-    
-    if (value !== undefined) {
-      L.popup()
-        .setLatLng([lat, lng])
-        .setContent(Number(value).toFixed(5))
-        .openOn(map);
-    }
-  };
-}
+        // ========================= ПОПАПИ =========================
+        function createPopupHandler(georaster, isActive) {
+          return function (event) {
+            if (!isActive()) return;
 
-// ========================= ЛЕГЕНДА =========================
-function toggleLegend(legendControl, legendInstance) {
-  if (legendInstance) {
-    map.removeControl(legendInstance);
-    return null;
-  } else {
-    let newLegend = new legendControl();
-    newLegend.addTo(map);
-    return newLegend;
-  }
-}
+            var lat = event.latlng.lat;
+            var lng = event.latlng.lng;
+            var value = geoblaze.identify(georaster, [lng, lat]);
 
-// ========================= КНОПКИ =========================
-function createLayerControlButton(icon, toggleLayerCallback) {
-  var ControlButton = L.Control.extend({
-    onAdd: function () {
-      var button = L.DomUtil.create('button');
-      button.innerHTML = icon;
-      button.style.backgroundColor = '#ffffff';
-      button.style.border = '1px solid #333';
-      button.style.padding = '5px';
-      button.style.fontSize = '25px';
-      button.style.cursor = 'pointer';
-      button.style.borderRadius = '5px';
+            if (value !== undefined) {
+              L.popup()
+                .setLatLng([lat, lng])
+                .setContent(Number(value).toFixed(5))
+                .openOn(map);
+            }
+          };
+        }
 
-      L.DomEvent.on(button, 'click', function (e) {
-        L.DomEvent.stopPropagation(e);
-        toggleLayerCallback();
-      });
+        // ========================= ЛЕГЕНДА =========================
+        function toggleLegend(legendControl, legendInstance) {
+          if (legendInstance) {
+            map.removeControl(legendInstance);
+            return null;
+          } else {
+            let newLegend = new legendControl();
+            newLegend.addTo(map);
+            return newLegend;
+          }
+        }
 
-      return button;
-    },
-    position: 'topleft'
-  });
-  map.addControl(new ControlButton());
-}
+        // ========================= КНОПКИ =========================
+        function createLayerControlButton(icon, toggleLayerCallback) {
+          var ControlButton = L.Control.extend({
+            onAdd: function () {
+              var button = L.DomUtil.create('button');
+              button.innerHTML = icon;
+              button.style.backgroundColor = '#ffffff';
+              button.style.border = '1px solid #333';
+              button.style.padding = '5px';
+              button.style.fontSize = '25px';
+              button.style.cursor = 'pointer';
+              button.style.borderRadius = '5px';
+            
+              L.DomEvent.on(button, 'click', function (e) {
+                L.DomEvent.stopPropagation(e);
+                toggleLayerCallback();
+              });
+          
+              return button;
+            },
+            position: 'topleft'
+          });
+          map.addControl(new ControlButton());
+        }
 
-
-
-
-// ========================= ДОДАЄМО ШАР ВІТРУ =========================
-addGeoTiffLayer(
-  geotiffUrlw,
-    v => (isNaN(v) || v < 7) ? null : 
-         v <= 7.3 ? '#f4fc03' : 
-         v <= 7.6 ? '#fcce03' : 
-         v <= 7.9 ? '#fc9003' : 
-         v <= 8.2 ? '#fc4e03' : 
-         v <= 8.5 ? '#d60606' : '#6e0000',
-  function (layer, georaster) {
-    layerWind = layer;
-    map.on("click", createPopupHandler(georaster, () => windPopupActive));
-
-    createLayerControlButton("🌪️", function () {
-      windPopupActive = !windPopupActive;
-      if (map.hasLayer(layerWind)) {
-        map.removeLayer(layerWind);
-        windLegend = toggleLegend(WindLegendControl, windLegend);
-      } else {
-        map.addLayer(layerWind);
-        windLegend = toggleLegend(WindLegendControl, windLegend);
-      }
-    });
-  }
-);
-
-// ========================= ДОДАЄМО ШАР СОНЦЯ =========================
-addGeoTiffLayer(
-  geotiffUrlNew,
-  v => v < 2999 ? null : 
-       v <= 3200 ? '#f4fc03' : 
-       v <= 3400 ? '#fcce03' : 
-       v <= 3600 ? '#fc9003' : 
-       v <= 3800 ? '#fc4e03' : '#fc4e03',
-  function (layer, georaster) {
-    layerSolar = layer;
-    map.on("click", createPopupHandler(georaster, () => solarPopupActive));
-
-    createLayerControlButton("⚡", function () {
-      solarPopupActive = !solarPopupActive;
-      if (map.hasLayer(layerSolar)) {
-        map.removeLayer(layerSolar);
-        solarLegend = toggleLegend(SolarLegendControl, solarLegend);
-      } else {
-        map.addLayer(layerSolar);
-        solarLegend = toggleLegend(SolarLegendControl, solarLegend);
-      }
-    });
-  }
-);
-
-
-
-
-
-
+        // ========================= ДОДАЄМО ШАР ВІТРУ =========================
+        addGeoTiffLayer(
+          geotiffUrlw,
+            v => (isNaN(v) || v < 7) ? null : 
+                 v <= 7.3 ? '#f4fc03' : 
+                 v <= 7.6 ? '#fcce03' : 
+                 v <= 7.9 ? '#fc9003' : 
+                 v <= 8.2 ? '#fc4e03' : 
+                 v <= 8.5 ? '#d60606' : '#6e0000',
+          function (layer, georaster) {
+            layerWind = layer;
+            map.on("click", createPopupHandler(georaster, () => windPopupActive));
+        
+            createLayerControlButton("🌪️", function () {
+              windPopupActive = !windPopupActive;
+              if (map.hasLayer(layerWind)) {
+                map.removeLayer(layerWind);
+                windLegend = toggleLegend(WindLegendControl, windLegend);
+              } else {
+                map.addLayer(layerWind);
+                windLegend = toggleLegend(WindLegendControl, windLegend);
+              }
+            });
+          }
+        );
+      
+        // ========================= ДОДАЄМО ШАР виробітки =========================
+        addGeoTiffLayer(
+          geotiffUrlNew,
+          v => v < 2999 ? null : 
+               v <= 3200 ? '#f4fc03' : 
+               v <= 3400 ? '#fcce03' : 
+               v <= 3600 ? '#fc9003' : 
+               v <= 3800 ? '#fc4e03' : '#fc4e03',
+          function (layer, georaster) {
+            layerSolar = layer;
+            map.on("click", createPopupHandler(georaster, () => solarPopupActive));
+        
+            createLayerControlButton("⚡", function () {
+              solarPopupActive = !solarPopupActive;
+              if (map.hasLayer(layerSolar)) {
+                map.removeLayer(layerSolar);
+                solarLegend = toggleLegend(SolarLegendControl, solarLegend);
+              } else {
+                map.addLayer(layerSolar);
+                solarLegend = toggleLegend(SolarLegendControl, solarLegend);
+              }
+            });
+          }
+        );
+      
 //---------------------------------------------------------------------------------------------------------------------------------
 
 
 
 
-
-
-var geojsonUrlNEK = 'https://mark-000.github.io/pl-power-vis-map.github.io/nek-pidstancii-pidkluch.geojson';
-
-fetch(geojsonUrlNEK)
-    .then(response => response.json())
-    .then(projektyGeojsonData => {
-        // Шар для potuznist35
-        var layerPotuznist35 = L.geoJSON(projektyGeojsonData, {
-            filter: function(feature) {
-                return feature.properties.potuznist35 != null && feature.properties.potuznist35 > 0;
-            },
-            pointToLayer: function(feature, latlng) {
-                let power = feature.properties.potuznist35;
-
-                let marker = L.circleMarker(latlng, {
-                    radius: Math.sqrt(power) * 1.2, // Розмір точки залежить від потужності
-                    fillColor: "blue",
-                    color: "black",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                });
-
-                let tooltipOffset = -Math.sqrt(power) * 1.2; 
-
-                marker.bindTooltip(`${power}`, {
-                    permanent: true,
-                    direction: 'top',
-                    className: 'custom-tooltip110', // Змінено на правильний клас
-                    offset: [0, tooltipOffset]
-                });
-
-                marker.bindPopup(`
-                    <b>ПС:</b> ${feature.properties.pidstancia}<br>
-                    <b>Потужність по 35кв:</b> ${power} МВт<br>
-                `);
-
-                return marker;
-            }
-        });
-
-
-        // Шар для potuznist110
-        var clusterGroup110 = L.markerClusterGroup({
-            showCoverageOnHover: false,
-            iconCreateFunction: function(cluster) {
-                let markers = cluster.getAllChildMarkers();
-                let totalPower = markers.reduce((sum, marker) => sum + (marker.options.power || 0), 0);
-                
-                return L.divIcon({
-                    html: `<div style="background-color: green;
-                                opacity: 0.8;
-                                font-size: 15px;
-                                border-radius: 50%; 
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                flex-direction: column;
-                                width: 50px; 
-                                height: 50px; 
-                                text-align: center; 
-                                color: white; 
-                                font-weight: bold;">
-                        ${totalPower}
-                    </div>`,
-                    className: 'custom-cluster',
-                    iconSize: [40, 40]
-                });
-            }
-        });
-
-// Завантажуємо GeoJSON
-fetch(geojsonUrlNEK)
-    .then(response => response.json())
-    .then(projektyGeojsonData => {
-        var layerPotuznist110 = L.geoJSON(projektyGeojsonData, {
-            filter: function(feature) {
-                return feature.properties.potuznist110 != null && feature.properties.potuznist110 > 0;
-            },
-            pointToLayer: function(feature, latlng) {
-                let power = feature.properties.potuznist110;
-                let pidstancia = feature.properties.pidstancia.toLowerCase(); // Приводимо до нижнього регістру для порівняння
-
-                // Перевірка на наявність слів "розділ" або "західна"
-                let fillColor = "green"; // За замовчуванням зелений
-                if (pidstancia.includes("стрий") || pidstancia.includes("калуш") || pidstancia.includes("воловець") || pidstancia.includes("тернопільська" || pidstancia.includes("хмельницька"))) {
-                    fillColor = "yellow"; // Змінюємо колір на жовтий, якщо умови виконуються
-                }
-
-                let marker = L.circleMarker(latlng, {
-                    radius: Math.sqrt(power) * 1.2, // Розмір точки залежить від потужності
-                    fillColor: fillColor,
-                    color: "black",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                });
-
-                let tooltipOffset = -Math.sqrt(power) * 1.2;
-
-                marker.bindTooltip(`
-                        ${power}<br>
-                    `, {
-                        permanent: true,
-                        direction: 'top',
-                        className: 'custom-tooltip110',
-                        offset: [0, tooltipOffset]
-                    });
-                marker.bindPopup(`
-                        <b>ПС:</b> ${feature.properties.pidstancia}<br>
-                        <b>Потужність по 110кв:</b> ${power} МВт<br>
-                    `);
-                marker.options.power = power;
-                return marker;
-            }
-        });
-
-
-        clusterGroup110.addLayer(layerPotuznist110);                                                      
-
-                // Додавання шару до кластерної групи 
-
-
-
-        var geojsonUrsmall_14_01 = 'https://mark-000.github.io/pl-power-vis-map.github.io/14-01-zahid-small.geojson';
-
+        var geojsonUrsmall_14_01 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/14-01-zahid-small.geojson';
         fetch(geojsonUrsmall_14_01)
             .then(response => response.json())
             .then(projektyGeojsonData => {
@@ -1285,8 +1281,8 @@ fetch(geojsonUrlNEK)
                         `);
                     }
                 });
-                var geojsonKonkurentyzahidvitr = 'https://mark-000.github.io/pl-power-vis-map.github.io/vitr-zahidnii-2z3c.geojson';
 
+        var geojsonKonkurentyzahidvitr = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/vitr-zahidnii-2z3c.geojson';
         fetch(geojsonKonkurentyzahidvitr)
             .then(response => response.json())
             .then(projektyGeojsonData => {
@@ -1308,345 +1304,280 @@ fetch(geojsonUrlNEK)
                     }
                 });
 
-                var geojsonUrlkonkurenty16 = 'https://mark-000.github.io/pl-power-vis-map.github.io/konkurenty_buffers_16.geojson';
-                            fetch(geojsonUrlkonkurenty16)
-                                .then(response => response.json())
-                                .then(borderGeojsonData => {
-                                    console.log(geojsonUrlkonkurenty16)
-                                    konkurentyLayer16 = L.geoJSON(borderGeojsonData, {
-                                        style: function(feature) {
-                                        return {
-                                            color: 'purple', // Колір шару
-                                            weight: 1, // Товщина ліній
-                                            fillOpacity: 0.5
-                                        };
-                                        },
-                                        onEachFeature: function(feature, layer) {
-                                            layer.bindPopup(`
-                                                <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
-                                                <b>Потужність:</b> ${feature.properties.height || 'Unknown'} МВт<br>
-                                            `);
-                                        }
-                                        
-                                    });
+        var geojsonUrlkonkurenty16 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/konkurenty_buffers_16.geojson';
+        fetch(geojsonUrlkonkurenty16)
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                console.log(geojsonUrlkonkurenty16)
+                konkurentyLayer16 = L.geoJSON(borderGeojsonData, {
+                    style: function(feature) {
+                    return {
+                        color: 'purple', // Колір шару
+                        weight: 1, // Товщина ліній
+                        fillOpacity: 0.5
+                    };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.name || 'Unknown'}<br>
+                            <b>Потужність:</b> ${feature.properties.height || 'Unknown'} МВт<br>
+                        `);
+                    }                   
+                });
             
 
-                var geojsonUrlAnimal = 'https://mark-000.github.io/pl-power-vis-map.github.io/animalss.geojson';
-                fetch(geojsonUrlAnimal)
-                    .then(response => response.json())
-                    .then(projektyGeojsonData => {
-                        // Фільтруємо дані: тільки де клас = 'Aves' або ряд = 'Chiroptera'
-                        let filteredData = {
-                            type: "FeatureCollection",
-                            features: projektyGeojsonData.features.filter(feature => 
-                                feature.properties.class === "Aves" || feature.properties.family === "Vespertilionidae" || feature.properties.family === "Rhinolophidae"
-                            )
-                        };
+        var geojsonUrlAnimal = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/animalss.geojson';
+        fetch(geojsonUrlAnimal)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або ряд = 'Chiroptera'
+                let filteredData = {
+                    type: "FeatureCollection",
+                    features: projektyGeojsonData.features.filter(feature => 
+                        feature.properties.class === "Aves" || feature.properties.family === "Vespertilionidae" || feature.properties.family === "Rhinolophidae"
+                    )
+                };
+                // Створюємо шар з відфільтрованими даними
+                animalLayer = L.geoJSON(filteredData, {
+                    pointToLayer: function(feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 4, 
+                            fillColor: "red",
+                            color: "black",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 1
+                        });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.scientificName || 'Unknown'}<br>
+                            <b>Клас:</b> ${feature.properties.class || 'Unknown'}<br>
+                            <b>Ряд:</b> ${feature.properties.order || 'Unknown'}<br>
+                            <b>Дата:</b> ${feature.properties.eventDate || 'Unknown'}
+                        `);
+                    }
+                })
 
-                        // Створюємо шар з відфільтрованими даними
-                        animalLayer = L.geoJSON(filteredData, {
-                            pointToLayer: function(feature, latlng) {
-                                return L.circleMarker(latlng, {
-                                    radius: 4, 
-                                    fillColor: "red",
-                                    color: "black",
-                                    weight: 1,
-                                    opacity: 1,
-                                    fillOpacity: 1
-                                });
-                            },
-                            onEachFeature: function(feature, layer) {
-                                layer.bindPopup(`
-                                    <b>Назва:</b> ${feature.properties.scientificName || 'Unknown'}<br>
-                                    <b>Клас:</b> ${feature.properties.class || 'Unknown'}<br>
-                                    <b>Ряд:</b> ${feature.properties.order || 'Unknown'}<br>
-                                    <b>Дата:</b> ${feature.properties.eventDate || 'Unknown'}
-                                `);
-                            }
-                        })
+        
 
-                        var geojsonUrlpidstobl = 'https://mark-000.github.io/pl-power-vis-map.github.io/obl-pidstancii-all-zahid.geojson';
-                        fetch(geojsonUrlpidstobl)
-    .then(response => response.json())
-    .then(projektyGeojsonData => {
-        // Функція перевірки, чи є хоча б одне значення voltage >= 35000
-        function voltageFilter(feature) {
-            if (!feature.properties.voltage) return false; // Якщо поле відсутнє
-            let voltages = feature.properties.voltage.split(";").map(v => parseInt(v.trim())); // Розділяємо та перетворюємо у числа
-            return voltages.some(v => v >= 35000); // Перевіряємо, чи є хоча б одне значення ≥ 35000
-        }
 
-        // Фільтруємо GeoJSON
-        let filteredData = {
-            type: "FeatureCollection",
-            features: projektyGeojsonData.features.filter(voltageFilter)
-        };
+// --------------------------------- points to mark наші локації ------------------------------------
 
-        // Створюємо шар з відфільтрованими даними
-        oblpidstLayer = L.geoJSON(filteredData, {
-            pointToLayer: function(feature, latlng) {
-                return L.circleMarker(latlng, {
-                    radius: 4,
-                    fillColor: "blue",
-                    color: "black",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 1
+        var geojsonUrlpointstomark = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/points-to-mark.geojson';
+        fetch(geojsonUrlpointstomark)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                pointstomark = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Генерація:</b> ${feature.properties["Генерація"] || 'Unknown'}<br>
+                            <b>Довжина до ПС:</b> ${feature.properties["Довжина до ПС"] || 'Unknown'}<br>
+                        `);
+                    }
                 });
-            },
-            onEachFeature: function(feature, layer) {
-                layer.bindPopup(`
-                    <b>Назва:</b> ${feature.properties.full_name || feature.properties.name || 'Unknown'}<br>
-                    <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}<br>
-                    <b>Потужність:</b> ${feature.properties.rating || 'Unknown'}<br>
-                    <b>Оператор:</b> ${feature.properties.operator || 'Unknown'}
-                `);
-            }
-        });
-
-                        
-                                         // points --------------------------------
-
-var geojsonUrlpointstomark = 'https://mark-000.github.io/pl-power-vis-map.github.io/points-to-mark.geojson';
-fetch(geojsonUrlpointstomark)
-    .then(response => response.json())
-    .then(projektyGeojsonData => {
-        // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
-
-        // Створюємо шар з відфільтрованими даними
-        pointstomark = L.geoJSON(projektyGeojsonData, {
-            pointToLayer: function(feature, latlng) {
-                // Створюємо кастомну іконку з SVG
-                var icon = L.divIcon({
-                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
-                    className: 'no-background-icon', // Уникаємо білого фону
-                    iconSize: [24, 24], // Розмір іконки
-                    iconAnchor: [12, 12] // Центруємо іконку по координатам
-                });
-
-                return L.marker(latlng, { icon: icon });
-            },
-            onEachFeature: function(feature, layer) {
-                layer.bindPopup(`
-                    <b>Генерація:</b> ${feature.properties["Генерація"] || 'Unknown'}<br>
-                    <b>Довжина до ПС:</b> ${feature.properties["Довжина до ПС"] || 'Unknown'}<br>
-
-                `);
-            }
-        });
-
-        var geojsonUrlbuffer40kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/40km-radius.geojson';
+            
+        var geojsonUrlbuffer40kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/40km-radius.geojson';
         fetch(geojsonUrlbuffer40kmpidst)
-        .then(response => response.json())
-        .then(borderGeojsonData => {
-            buffer40pidstLayer = L.geoJSON(borderGeojsonData, {
-                style: {
-                    color: '#2d0396', // Колір шару
-                    weight: 2, // Товщина ліній
-                    fillOpacity: 0,
-                    zIndex: 100, // Задаємо z-index
-                    dashArray: '5, 10'
-                },
-                interactive: false
-            });
-            var geojsonUrlbuffer25kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/25km-radius.geojson';
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                buffer40pidstLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: '#2d0396', // Колір шару
+                        weight: 2, // Товщина ліній
+                        fillOpacity: 0,
+                        zIndex: 100, // Задаємо z-index
+                        dashArray: '5, 10'
+                    },
+                    interactive: false
+                });
+        var geojsonUrlbuffer25kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/25km-radius.geojson';
         fetch(geojsonUrlbuffer25kmpidst)
-        .then(response => response.json())
-        .then(borderGeojsonData => {
-            buffer25pidstLayer = L.geoJSON(borderGeojsonData, {
-                style: {
-                    color: 'orange', // Колір шару
-                    weight: 2, // Товщина ліній
-                    fillOpacity: 0,
-                    zIndex: 101, // Задаємо z-index
-                    dashArray: '5, 10'
-                },
-                interactive: false
-            });
+            .then(response => response.json())
+            .then(borderGeojsonData => {
+                buffer25pidstLayer = L.geoJSON(borderGeojsonData, {
+                    style: {
+                        color: 'orange', // Колір шару
+                        weight: 2, // Товщина ліній
+                        fillOpacity: 0,
+                        zIndex: 101, // Задаємо z-index
+                        dashArray: '5, 10'
+                    },
+                    interactive: false
+                });
 
 
 
 
-
-          
-                
-//----------------------------------------------------------------shari-----------------------------------------------------------------
+//----------------------------------------------------------------shari контроль шарів-----------------------------------------------------------------
                 // Структура дерева шарів
-                var baseTree = {
-                    label: "<b>Базові карти</b>",
+        var baseTree = {
+            label: "<b>Базові карти</b>",
+            children: [
+                { label: "OpenStreetMap", layer: osmLayer, radioGroup: "basemap" },
+                { label: "Google Map", layer: googleLayer, radioGroup: "basemap" },
+                { label: "Topo Map", layer: topoLayer, radioGroup: "basemap" },
+            ]
+        };
+        // Дерево шарів
+        var overlaysTree = {
+            label: "<b>Шари</b>",
+            selectAllCheckbox: true,  // Додає чекбокс для вибору всіх шарів
+            children: [
+                { label: "Адміністративні межі", layer: borderLayer },
+                { label: "Кадастр підкладка", layer: cadastrLayer },
+                { 
+                    label: "<b>Електромережі</b>", 
                     children: [
-                        { label: "OpenStreetMap", layer: osmLayer, radioGroup: "basemap" },
-                        { label: "Google Map", layer: googleLayer, radioGroup: "basemap" },
-                        { label: "Topo Map", layer: topoLayer, radioGroup: "basemap" },
+                        { label: "НЕК підстанції", layer: NEKLayer },
+                        { label: "Підключення", layer: geoJsonClusterGroup },
+                        { label: "Потужність по 35кВ", layer: layerPotuznist35 },
+                        { label: "Потужність по 110кВ", layer: clusterGroup110 },
+                        { label: "Електростанції", layer: PUALayer },
+                        { label: "Обл підстанції", layer: oblpidstLayer },
+                        { label: "Лінії 220+", layer: reconsLayer },
+                        { label: "Лінії 110", layer: Layer110 }
                     ]
-                };
-
-                // Дерево шарів
-                var overlaysTree = {
-                    label: "<b>Шари</b>",
-                    selectAllCheckbox: true,  // Додає чекбокс для вибору всіх шарів
+                },
+                { 
+                    label: "<b>Проекти</b>", 
+                    collapsed: true,
                     children: [
-                        { label: "Адміністративні межі", layer: borderLayer },
-                        { label: "Кадастр підкладка", layer: cadastrLayer },
-                        { 
-                            label: "<b>Електромережі</b>", 
-                            children: [
-                                { label: "НЕК підстанції", layer: NEKLayer },
-                                { label: "Підключення", layer: geoJsonClusterGroup },
-                                { label: "Потужність по 35кВ", layer: layerPotuznist35 },
-                                { label: "Потужність по 110кВ", layer: clusterGroup110 },
-                                { label: "Електростанції", layer: PUALayer },
-                                { label: "Обл підстанції", layer: oblpidstLayer },
-                                { label: "Лінії 220+", layer: reconsLayer },
-                                { label: "Лінії 110", layer: Layer110 }
-                            ]
-                        },
-                        { 
-                            label: "<b>Проекти</b>", 
-                            collapsed: true,
-                            children: [
-                                { label: "Конкуренти", layer: konkurentyLayer16 },
-                                { label: "Вітропарк західний", layer: vitr_zahid },
-                                { label: "14.01 маленькі", layer: small_14_01 },
-                               // { label: "50км для проектів", layer: buffer50pidstLayer }buffer40pidstLayer
-                            ]
-                        },
-                        { 
-                            label: "<b>Оцінка проектів</b>", 
-                            collapsed: true,
-                            children: [
-                                { label: "Точки для оцінки", layer: pointstomark },
-                                { label: "25км для проектів", layer: buffer25pidstLayer },
-                                { label: "40км для проектів", layer: buffer40pidstLayer }
-                            ]
-                        },
-                        { 
-                            label: "<b>Обмеження</b>",
-                            collapsed: true, 
-                            children: [
-                                { label: "Львів", layer: buflvivLayer },
-                                { label: "Волинь", layer: volinLayer },
-                                { label: "Закарпаття", layer: zakarpatskLayer },
-                                { label: "Рівне", layer: rivneLayer },
-                                { label: "Тернопіль", layer: ternopilLayer },
-                                { label: "Франківськ", layer: frankivskLayer },
-                                { label: "Чернівці", layer: chernivciLayer },
-                                { label: "Хмельницьк", layer: hmelnitskLayer },
-                                { label: "Аеродроми", layer: ourairports },
-                                { label: "Приаеродромна 50км", layer: aerodromiLayer },
-                                { label: "Приаеродромна 16км", layer: aerodromiLayer16 },
-
-                            ]
-                        },
-                        { 
-                            label: "<b>Природоохоронні дані</b>", 
-                            collapsed: true,  // ❗ Згорнута група
-                            children: [
-                                { label: "<span>Птахи, кажани (ЧК)</span>", layer: animalLayer },
-                                { label: "<span>Рамсарська конвенція</span>", layer: waterPolyLayer },
-                                { label: "<span>Природно-заповідний фонд</span>", layer: dzkPzfLayer },
-                                { label: "<span>Смарагдова мережа</span>", layer: emeraldLayer }
-                            ]
-                        }
-                        
+                        { label: "Конкуренти", layer: konkurentyLayer16 },
+                        { label: "Вітропарк західний", layer: vitr_zahid },
+                        { label: "14.01 маленькі", layer: small_14_01 },
+                       // { label: "50км для проектів", layer: buffer50pidstLayer }buffer40pidstLayer
                     ]
-                };
-
-                // Додаємо контроль шарів
-                var layerControl = L.control.layers.tree(baseTree, overlaysTree, {
-                    namedToggle: false,  
-                    selectorBack: false, 
-                    closedSymbol: "▶",  
-                    openedSymbol: "▼",  
-                    collapsed: true
-
-                }).addTo(map);
+                },
+                { 
+                    label: "<b>Оцінка проектів</b>", 
+                    collapsed: true,
+                    children: [
+                        { label: "Точки для оцінки", layer: pointstomark },
+                        { label: "25км для проектів", layer: buffer25pidstLayer },
+                        { label: "40км для проектів", layer: buffer40pidstLayer }
+                    ]
+                },
+                { 
+                    label: "<b>Обмеження</b>",
+                    collapsed: true, 
+                    children: [
+                        { label: "Львів", layer: buflvivLayer },
+                        { label: "Волинь", layer: volinLayer },
+                        { label: "Закарпаття", layer: zakarpatskLayer },
+                        { label: "Рівне", layer: rivneLayer },
+                        { label: "Тернопіль", layer: ternopilLayer },
+                        { label: "Франківськ", layer: frankivskLayer },
+                        { label: "Чернівці", layer: chernivciLayer },
+                        { label: "Хмельницьк", layer: hmelnitskLayer },
+                        { label: "Аеродроми", layer: ourairports },
+                        { label: "Приаеродромна 50км", layer: aerodromiLayer },
+                        { label: "Приаеродромна 16км", layer: aerodromiLayer16 },
+                    ]
+                },
+                { 
+                    label: "<b>Природоохоронні дані</b>", 
+                    collapsed: true,  // ❗ Згорнута група
+                    children: [
+                        { label: "<span>Птахи, кажани (ЧК)</span>", layer: animalLayer },
+                        { label: "<span>Рамсарська конвенція</span>", layer: waterPolyLayer },
+                        { label: "<span>Природно-заповідний фонд</span>", layer: dzkPzfLayer },
+                        { label: "<span>Смарагдова мережа</span>", layer: emeraldLayer }
+                    ]
+                }
+                
+            ]
+        };
+        // Додаємо контроль шарів
+        var layerControl = L.control.layers.tree(baseTree, overlaysTree, {
+            namedToggle: false,  
+            selectorBack: false, 
+            closedSymbol: "▶",  
+            openedSymbol: "▼",  
+            collapsed: true
+        }).addTo(map);
                 
                 
-                reconsLayer.addTo(map);
-                clusterGroup110.addTo(map);
-                //geoJsonClusterGroup.addTo(map);
-                borderLayer.addTo(map);
-                legend.addTo(map)
+        reconsLayer.addTo(map);
+        clusterGroup110.addTo(map);
+        //geoJsonClusterGroup.addTo(map);
+        borderLayer.addTo(map);
+        legend.addTo(map)
 
 
 
 
 
             // Створюємо контейнер для меню
-            const menu = document.createElement('div');
-            menu.id = 'menu';
-            menu.style.position = 'absolute';
-            menu.style.top = '10px';
-            menu.style.left = '10px';
-            menu.style.background = 'white';
-            menu.style.padding = '10px';
-            menu.style.border = '1px solid black';
-            menu.style.display = 'none';
-            menu.style.zIndex = 10000000;
-            menu.innerHTML = `
-                <div style='padding-bottom: 5px; text-align: center; font-size: 20px;'>Cзз зміна кольору</div>
-                <label>Колір: <input type="color" id="colorPicker" value="#548be3"></label><br>
-                <label>Прозорість: <input type="range" id="opacityPicker" min="0" max="1" step="0.1" value="0.3"></label><br>
-                <button id="applyBtn" style='width: 100%; margin-top: 5px;'>OK</button>
-            `;
-            document.body.appendChild(menu);
-
-            // Змінні для збереження обраних значень
-            let selectedColor = '#3388ff';
-            let selectedOpacity = 0.5;
-
-            document.getElementById('colorPicker').addEventListener('input', (e) => {
-                selectedColor = e.target.value;
-            });
-
-            document.getElementById('opacityPicker').addEventListener('input', (e) => {
-                selectedOpacity = e.target.value;
-            });
-
-            // Кнопка відкриття меню
-            const menuBtn = L.control({ position: 'topleft' });
-            menuBtn.onAdd = function () {
-                const btn = L.DomUtil.create('button', 'menu-btn');
-                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>';
-                btn.style.position = 'absolute';
-                btn.style.top = '';
-                btn.style.left = '45px';
-                btn.style.background = 'white';
-                btn.style.cursor = 'pointer';
-                btn.style.borderRadius= '5px';
-                btn.onclick = () => {
-                    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-                };
-                return btn;
+        const menu = document.createElement('div');
+        menu.id = 'menu';
+        menu.style.position = 'absolute';
+        menu.style.top = '10px';
+        menu.style.left = '10px';
+        menu.style.background = 'white';
+        menu.style.padding = '10px';
+        menu.style.border = '1px solid black';
+        menu.style.display = 'none';
+        menu.style.zIndex = 10000000;
+        menu.innerHTML = `
+            <div style='padding-bottom: 5px; text-align: center; font-size: 20px;'>Cзз зміна кольору</div>
+            <label>Колір: <input type="color" id="colorPicker" value="#548be3"></label><br>
+            <label>Прозорість: <input type="range" id="opacityPicker" min="0" max="1" step="0.1" value="0.3"></label><br>
+            <button id="applyBtn" style='width: 100%; margin-top: 5px;'>OK</button>
+        `;
+        document.body.appendChild(menu);
+        // Змінні для збереження обраних значень
+        let selectedColor = '#3388ff';
+        let selectedOpacity = 0.5;
+        document.getElementById('colorPicker').addEventListener('input', (e) => {
+            selectedColor = e.target.value;
+        });
+        document.getElementById('opacityPicker').addEventListener('input', (e) => {
+            selectedOpacity = e.target.value;
+        });
+        // Кнопка відкриття меню
+        const menuBtn = L.control({ position: 'topleft' });
+        menuBtn.onAdd = function () {
+            const btn = L.DomUtil.create('button', 'menu-btn');
+            btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>';
+            btn.style.position = 'absolute';
+            btn.style.top = '';
+            btn.style.left = '45px';
+            btn.style.background = 'white';
+            btn.style.cursor = 'pointer';
+            btn.style.borderRadius= '5px';
+            btn.onclick = () => {
+                menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
             };
-            menuBtn.addTo(map);
+            return btn;
+        };
+        menuBtn.addTo(map);
+        // Кнопка застосування змін
+        document.getElementById('applyBtn').addEventListener('click', () => {
+            buflvivLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            volinLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            zakarpatskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            rivneLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            frankivskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            ternopilLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            chernivciLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            hmelnitskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
+            menu.style.display = 'none';
+        });
 
-            // Кнопка застосування змін
-            document.getElementById('applyBtn').addEventListener('click', () => {
-                buflvivLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                volinLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                zakarpatskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                rivneLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                frankivskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                ternopilLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                chernivciLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                hmelnitskLayer.setStyle({color: selectedColor, fillColor: selectedColor, fillOpacity: selectedOpacity });
-                menu.style.display = 'none';
-            });
 
-
-            })
-            .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-            })
-            .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-        })
-        .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-    })
-    .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-
-    })
-    .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
@@ -1691,7 +1622,17 @@ fetch(geojsonUrlpointstomark)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-  })
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
                                              
     </script>
