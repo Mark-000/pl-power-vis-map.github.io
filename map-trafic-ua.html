@@ -224,6 +224,124 @@
     position: absolute; 
     z-index:600 !important;
 }
+
+.leaflet-control-layers-list::-webkit-scrollbar {
+    width: 8px; /* Товщина скролбару */
+}
+
+/* Колір фону скролбару */
+.leaflet-control-layers-list::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+/* Колір та вигляд повзунка */
+.leaflet-control-layers-list::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 10px;
+}
+
+/* При наведенні змінюємо колір */
+.leaflet-control-layers-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+}
+:root {
+  --form-control-color: rgb(0, 0, 0);
+  --form-control-disabled: #959495;
+}
+.leaflet-layerstree-header-label{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em; /* Відступ між чекбоксом і текстом */
+    cursor: pointer;
+}
+input[type="checkbox"] {
+  appearance: none; /* Прибирає стандартний стиль */
+  display: inline-flex; /* Замість inline-block, щоб працював ::before */
+  align-items: center; /* Вирівнювання */
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  vertical-align: middle; /* Вирівнює з текстом */
+  margin-right: 0.5em; /* Відступ від тексту */
+  position: relative; /* Важливо для ::before */
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.75em;  /* Збільшений розмір */
+  height: 0.75em;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transform-origin: bottom left;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: CanvasText;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="checkbox"]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+
+input[type="checkbox"]:disabled {
+  --form-control-color: var(--form-control-disabled);
+  color: var(--form-control-disabled);
+  cursor: not-allowed;
+}
+
+input[type="radio"] {
+  appearance: none;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 50%; /* Робить кнопку круглою */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5em;
+  position: relative;
+  vertical-align: middle;
+}
+
+input[type="radio"]::before {
+  content: "";
+  position: absolute;
+  width: 0.65em;
+  height: 0.65em;
+  background-color: var(--form-control-color);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
         
     </style>
 </head>
