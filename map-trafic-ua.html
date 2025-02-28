@@ -352,6 +352,17 @@ input[type="radio"]::before {
 input[type="radio"]:checked::before {
   transform: scale(1);
 }
+
+.wind-legend {
+  opacity: 0; /* Початково приховано */
+  transform: translatex(-20px); /* Легка анімація появи знизу */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.wind-legend.show {
+  opacity: 1;
+  transform: translateY(0);
+}
         
     </style>
 </head>
@@ -1281,6 +1292,7 @@ fetch(geojsonUrlaeroruh)
             div.style.border = '1px solid #333';
             div.style.borderRadius = '5px';
             //div.style.zIndex = "100000";
+            setTimeout(() => div.classList.add('show'), 50);
             return div;
           }
         });
@@ -1302,6 +1314,7 @@ fetch(geojsonUrlaeroruh)
             div.style.border = '1px solid #333';
             div.style.borderRadius = '5px';
             //div.style.zIndex = "100000";
+            setTimeout(() => div.classList.add('show'), 50);
             return div;
           }
         });
