@@ -379,6 +379,41 @@ input[type="radio"]:checked::before {
     </style>
 </head>
 <body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+      
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQpI0dCWKbXACbnNi445Hro26SzrlsGdU",
+            authDomain: "my-map-pj-54751.firebaseapp.com",
+            projectId: "my-map-pj-54751",
+            storageBucket: "my-map-pj-54751.firebasestorage.app",
+            messagingSenderId: "349429907738",
+            appId: "1:349429907738:web:8a6d42bfeaf8eb0b612ca3",
+            measurementId: "G-T4XGCQ6PDH"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+      
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) {
+            window.location.href = "/login.html";
+        }
+      
+        document.getElementById("logout").addEventListener("click", () => {
+            signOut(auth)
+                .then(() => {
+                    localStorage.removeItem("user");
+                    window.location.href = "/login.html";
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                });
+        });
+      </script>
+
+    
     <div id="map"></div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
