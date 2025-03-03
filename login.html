@@ -1,0 +1,246 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden; /* Забороняє прокрутку */
+            font-family: "Audiowide", serif;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            background-color: black;
+            
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            position: relative; /* Необхідно для коректної роботи z-index */
+        }
+        .half {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease-in-out, z-index 0s ease 0.3s; /* Плавний перехід z-index */
+            filter: brightness(0.6) contrast(1.2) saturate(1.3);
+            position: relative; /* Для роботи z-index */
+        }
+        
+        .left {
+            background-image: url('https://mark-000.github.io/pl-power-vis-map.github.io/poland-part-img.jpg');
+            
+        }
+        .right {
+            background-image: url('https://mark-000.github.io/pl-power-vis-map.github.io/ukraine-part-img.jpg');
+            background-position: left center;
+            
+        }
+        .text-overlay {
+            position: absolute;
+            top: 20px; /* Відстань від верхнього краю */
+            left: 50%;
+            transform: translateX(-50%); /* Центрує текст по горизонталі */
+            font-size: 5rem;
+            color: white;
+            font-weight: bold;
+            z-index: 120;
+        }
+    
+        @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+.box {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+
+}
+.login-form {
+    min-width: 250px;
+    max-width: 400px;
+  border-radius: 24px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.616);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-top: 35px;
+}
+.login-form input[type = "email"] {
+  margin-top: 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.login-form input[type = "password"] {
+  margin-top: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+input {
+  outline: none;
+ }
+.links {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.links > a:first-of-type {
+  margin-right: 5px;
+}
+.links > a {  
+  background-color: #E0E0E0;
+  border-radius: 24px;
+  font-weight: 400;
+  color: black;
+  line-height: 12px;
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  font-family: 'Raleway';
+  transition: 0.25s;
+}
+.links > a:hover {  
+  opacity: 0.6;
+}
+.login-form input[type = "submit"] {
+  background-color:  #E0E0E0;
+  background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+  width: 100%;
+  color: white;
+    border: none;
+  margin-top: 35px;
+    cursor: pointer;
+  padding: 10px;
+    font-family: 'Raleway', sans-seriff;
+    font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+.login-form input[type = "submit"]:hover {
+  opacity: 0.8;
+}
+.login-form input[type = "email"]:focus, .login-form input[type = "password"]:focus {
+  border: 2px #59c77d solid;
+ }
+.login-form input[type = "email"], .login-form input[type = "password"] {
+  width: 100%;
+  border: none;
+  border-radius: 24px;
+    font-size: 1rem;
+    font-family: 'Raleway', sans-seriff;
+  background-color: gainsboro;
+  padding: 15px;
+} 
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-overlay">EnergyMap</div> 
+        <div class="half left"></div>
+        <div class="half right"></div>
+    </div>
+    <div class="box">
+        <form class="login-form" id="login-form">
+            <h1>Welcome</h1>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <input type="submit" name="Login" value="Login">
+          </form>
+        
+      </div>
+
+  <!-- Firebase scripts -->
+  <script type="module">
+    // Firebase SDK imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAQpI0dCWKbXACbnNi445Hro26SzrlsGdU",
+      authDomain: "my-map-pj-54751.firebaseapp.com",
+      projectId: "my-map-pj-54751",
+      storageBucket: "my-map-pj-54751.firebasestorage.app",
+      messagingSenderId: "349429907738",
+      appId: "1:349429907738:web:8a6d42bfeaf8eb0b612ca3",
+      measurementId: "G-T4XGCQ6PDH"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Handle login form submission
+    const form = document.getElementById("login-form");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Sign in with Firebase Auth
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          // Check if user is in the whitelist
+          const whiteList = ["myauthacc@auc.test"]; // Example whitelist
+          if (whiteList.includes(user.email)) {
+            // Store user info in localStorage
+            localStorage.setItem("user", JSON.stringify(user));
+            // Redirect to the main page
+            window.location.href = "map-trafic-ua.html";
+          } else {
+            alert("You are not authorized to access this site.");
+            
+            signOut(auth)
+              .then(() => {
+                // Clear localStorage if not authorized
+                localStorage.removeItem("user");
+                
+              })
+              .catch((error) => {
+                console.log(error.message);
+              });
+          }
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert("Error: " + errorMessage);
+        });
+    });
+  </script>
+
+</body>
+</html>
+
+
