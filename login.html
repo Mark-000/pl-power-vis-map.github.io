@@ -214,18 +214,13 @@ input {
           // Check if user is in the whitelist
           const whiteList = ["myauthacc@auc.test"]; // Example whitelist
           if (whiteList.includes(user.email)) {
-            // Store user info in localStorage
-            localStorage.setItem("user", JSON.stringify(user));
             // Redirect to the main page
             window.location.href = "map-trafic-ua.html";
           } else {
             alert("You are not authorized to access this site.");
-            
             signOut(auth)
               .then(() => {
-                // Clear localStorage if not authorized
-                localStorage.removeItem("user");
-                
+                // User is signed out
               })
               .catch((error) => {
                 console.log(error.message);
@@ -238,7 +233,8 @@ input {
           alert("Error: " + errorMessage);
         });
     });
-  </script>
+</script>
+
 
 </body>
 </html>
