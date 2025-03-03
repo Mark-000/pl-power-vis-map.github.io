@@ -77,8 +77,8 @@
 <body>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
-      
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+    
         const firebaseConfig = {
             apiKey: "AIzaSyAQpI0dCWKbXACbnNi445Hro26SzrlsGdU",
             authDomain: "my-map-pj-54751.firebaseapp.com",
@@ -88,26 +88,33 @@
             appId: "1:349429907738:web:8a6d42bfeaf8eb0b612ca3",
             measurementId: "G-T4XGCQ6PDH"
         };
-      
+    
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-      
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (!user) {
-            window.location.href = "/login.html";
-        }
-      
+    
+        // Перевірка стану користувача
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Якщо користувач не авторизований, перенаправляємо на сторінку входу
+                window.location.href = "/login.html";
+            } else {
+                console.log("User is logged in:", user.email);
+                // Тут можна показати дані користувача на сторінці
+            }
+        });
+    
+        // Обробка кнопки виходу
         document.getElementById("logout").addEventListener("click", () => {
             signOut(auth)
                 .then(() => {
-                    localStorage.removeItem("user");
+                    // Після виходу з системи перенаправляємо на сторінку входу
                     window.location.href = "https://mark-000.github.io/pl-power-vis-map.github.io/login.html";
                 })
                 .catch((error) => {
-                    console.log(error.message);
+                    console.error("Error signing out: ", error.message);
                 });
         });
-      </script>
+    </script>
     
     <div class="container">
         <div class="text-overlay">EnergyMap</div> 
