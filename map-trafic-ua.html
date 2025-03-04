@@ -463,18 +463,32 @@ input[type="radio"]:checked::before {
 
     <!-- Підключення самого плагіна Leaflet.Pattern -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-pattern/0.0.6/leaflet.pattern.min.js"></script>
-
+    <!-- глобус -->
+    <script src="https://unpkg.com/leaflet-globes"></script>
     <script>
         // URLs для GeoJSON файлів
        
 
         // Створення карти
-        var map = L.map('map', {
-            zoom: 7,
-            center: [49.763967421708514, 27.982313845924605],
+    var map = L.map('map', {
+        zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
+        attributionControl: false, // Приховуємо атрибуцію
+        center: [20, 0], // Початковий вигляд на глобус
+        zoom: 2,
+        globeView: true // Активуємо режим глобуса
+    });
 
+    var osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        maxZoom: 18
+    }).addTo(map);
+
+    // Затримка для анімації - обертання глобуса
+    setTimeout(() => {
+        map.flyTo([49.763967421708514, 27.982313845924605], 7, { // Задаємо координати та зум
+            animate: true,
+            duration: 3 // Тривалість анімації
         });
-
+    });
         var legend = L.control({ position: 'bottomleft' });
 
         legend.onAdd = function (map) {
@@ -499,7 +513,7 @@ input[type="radio"]:checked::before {
         };
 
         // Додавання плиток карти (OpenStreetMap)
-        var osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
+       // var osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
 
         // Додавання плиток Google Maps
         var googleLayer = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
@@ -511,7 +525,7 @@ input[type="radio"]:checked::before {
         });
 
     // За замовчуванням буде використовуватися OpenStreetMap
-        osmLayer.addTo(map);
+        //osmLayer.addTo(map);
 
 
        L.Control.Info = L.Control.extend({
