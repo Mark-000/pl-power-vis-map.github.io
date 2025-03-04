@@ -1780,11 +1780,18 @@ fetch(geojsonUrlaeroruh)
         }).addTo(map);
                 
                 
-        reconsLayer.addTo(map);
-        clusterGroup110.addTo(map);
-        //geoJsonClusterGroup.addTo(map);
-        borderLayer.addTo(map);
-        legend.addTo(map)
+        function addLayersAfterAnimation() {
+            setTimeout(() => {
+                // Додаємо шари після завершення анімації
+                reconsLayer.addTo(map);
+                clusterGroup110.addTo(map);
+                // geoJsonClusterGroup.addTo(map);  // якщо потрібно
+                borderLayer.addTo(map);
+                legend.addTo(map);
+            }, 1000); // затримка 4 секунди (тривалість анімації)
+        }
+                        
+        addLayersAfterAnimation();
 
 
 
