@@ -675,7 +675,54 @@ map.on('pm:drawstart', function (e) {
         });
     }
 });
+var selectedPolygon = null; // Тут зберігається вибраний полігон
 
+// Додаємо обробник кліку на полігон для вибору
+map.on('pm:create', function (e) {
+    e.layer.on('click', function () {
+        if (selectedPolygon) {
+            selectedPolygon.setStyle({ color: 'red' }); // Повертаємо попередній колір
+        }
+        selectedPolygon = this;
+        selectedPolygon.setStyle({ color: 'blue' }); // Виділяємо вибраний полігон
+    });
+});
+
+// Функція експорту вибраного полігону
+function exportSelectedGeoJSON() {
+    if (!selectedPolygon) {
+        alert("Виберіть полігон, клікнувши на нього!");
+        return;
+    }
+
+    // Отримуємо GeoJSON
+    var geojsonFeature = selectedPolygon.toGeoJSON();
+    var geojsonString = JSON.stringify(geojsonFeature, null, 2);
+
+    // Створюємо посилання для завантаження файлу
+    var blob = new Blob([geojsonString], { type: "application/json" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "selected_polygon.geojson";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Додаємо кнопку для завантаження конкретного полігону
+var downloadButton = L.control({ position: "bottomright" });
+
+downloadButton.onAdd = function (map) {
+    var div = L.DomUtil.create("div", "leaflet-bar leaflet-control leaflet-control-custom");
+    div.innerHTML = '<button style="background:#fff;border:1px solid #ccc;padding:5px 5px;cursor:pointer;">⬇️</button>';
+    div.onclick = exportSelectedGeoJSON;
+    return div;
+};
+
+// Додаємо кнопку на карту
+
+
+downloadButton.addTo(map);
 
 
 
