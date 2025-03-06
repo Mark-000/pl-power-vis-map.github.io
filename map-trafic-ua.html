@@ -463,14 +463,14 @@ input[type="radio"]:checked::before {
 
     <!-- Підключення самого плагіна Leaflet.Pattern -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-pattern/0.0.6/leaflet.pattern.min.js"></script>
-    <!-- глобус -->
+     <!-- глобус -->
     <script src="https://unpkg.com/leaflet-globes"></script>
     <script>
         // URLs для GeoJSON файлів
        
 
         // Створення карти
-    var map = L.map('map', {
+        var map = L.map('map', {
         zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
         attributionControl: false, // Приховуємо атрибуцію
         center: [20, 0], // Початковий вигляд на глобус
@@ -488,7 +488,8 @@ input[type="radio"]:checked::before {
             animate: true,
             duration: 3 // Тривалість анімації
         });
-    }, 600);
+    });
+
         var legend = L.control({ position: 'bottomleft' });
 
         legend.onAdd = function (map) {
@@ -515,6 +516,8 @@ input[type="radio"]:checked::before {
         // Додавання плиток карти (OpenStreetMap)
        // var osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
 
+        
+
         // Додавання плиток Google Maps
         var googleLayer = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
             attribution: 'Google Maps'
@@ -525,8 +528,24 @@ input[type="radio"]:checked::before {
         });
 
     // За замовчуванням буде використовуватися OpenStreetMap
-        //osmLayer.addTo(map);
+      //  osmLayer.addTo(map);
+      var coordDiv = L.control({ position: 'bottomright' });
 
+    coordDiv.onAdd = function () {
+        var div = L.DomUtil.create('div', 'coordinate-display');
+        div.style.padding = '5px';
+        div.style.background = 'white';
+        div.style.opacity = '0.8';
+        div.innerHTML = "Координати:";
+        return div;
+    };
+
+    coordDiv.addTo(map);
+
+    map.on('mousemove', function (e) {
+        document.querySelector('.coordinate-display').innerHTML = 
+            `${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}`;
+    });
 
        L.Control.Info = L.Control.extend({
             onAdd: function(map) {
@@ -568,7 +587,7 @@ input[type="radio"]:checked::before {
             position: 'bottomright', // Розташування панелі
             drawCircle: true,
             drawRectangle: false,
-            drawPolygon: true, // Вимкнути малювання кіл
+            drawPolygon: true, 
             drawMarker: false, // Вимкнути точки
             drawCircleMarker: false, // Вимкнути круглі маркери
             drawText: true, // Вимкнути текст
@@ -676,6 +695,7 @@ map.on('pm:drawstart', function (e) {
         });
     }
 });
+
 var selectedPolygon = null; // Тут зберігається вибраний полігон
 
 // Додаємо обробник кліку на полігон для вибору
@@ -724,7 +744,6 @@ downloadButton.onAdd = function (map) {
 
 
 downloadButton.addTo(map);
-
 
 
 
@@ -1671,13 +1690,13 @@ fetch(geojsonUrlaeroruh)
 
 // --------------------------------- points to mark наші локації ------------------------------------
 
-        var geojsonUrlpointstomark = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/points-to-mark.geojson';
-        fetch(geojsonUrlpointstomark)
+        var geojsonUrlpointskovel = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Kovel/vitryaki-kovel-zahid.geojson';
+        fetch(geojsonUrlpointskovel)
             .then(response => response.json())
             .then(projektyGeojsonData => {
                 // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
                 // Створюємо шар з відфільтрованими даними
-                pointstomark = L.geoJSON(projektyGeojsonData, {
+                vitryaki_kovel = L.geoJSON(projektyGeojsonData, {
                     pointToLayer: function(feature, latlng) {
                         // Створюємо кастомну іконку з SVG
                         var icon = L.divIcon({
@@ -1687,12 +1706,24 @@ fetch(geojsonUrlaeroruh)
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
                         return L.marker(latlng, { icon: icon });
-                    },
-                    onEachFeature: function(feature, layer) {
-                        layer.bindPopup(`
-                            <b>Генерація:</b> ${feature.properties["Генерація"] || 'Unknown'}<br>
-                            <b>Довжина до ПС:</b> ${feature.properties["Довжина до ПС"] || 'Unknown'}<br>
-                        `);
+                    }
+                });
+                var geojsonUrlpointsradiviliv = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Radiviliv/vitryaki-radiviliv.geojson';
+        fetch(geojsonUrlpointsradiviliv)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                vitryaki_radiviliv = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
                     }
                 });
             
@@ -1772,7 +1803,20 @@ fetch(geojsonUrlaeroruh)
                     label: "<b>Оцінка проектів</b>", 
                     collapsed: true,
                     children: [
-                        { label: "Точки для оцінки", layer: pointstomark },
+                    {
+                            label: "<b>Ковель</b>", 
+                            collapsed: true,
+                            children: [
+                            { label: "25 ВЕС 480969", layer: vitryaki_kovel },
+                            ]
+                        },
+                        {
+                            label: "<b>Радивилів</b>", 
+                            collapsed: true,
+                            children: [
+                            { label: "17 ВЕС 332200", layer: vitryaki_radiviliv },
+                            ]
+                        },
                         { label: "25км для проектів", layer: buffer25pidstLayer },
                         { label: "40км для проектів", layer: buffer40pidstLayer }
                     ]
@@ -1826,8 +1870,7 @@ fetch(geojsonUrlaeroruh)
             openedSymbol: "▼",  
             collapsed: true
         }).addTo(map);
-                
-                
+
         function addLayersAfterAnimation() {
             setTimeout(() => {
                 // Додаємо шари після завершення анімації
@@ -1836,6 +1879,7 @@ fetch(geojsonUrlaeroruh)
                 // geoJsonClusterGroup.addTo(map);  // якщо потрібно
                 borderLayer.addTo(map);
                 legend.addTo(map);
+                
             }, 1000); // затримка 4 секунди (тривалість анімації)
         }
                         
@@ -1902,6 +1946,8 @@ fetch(geojsonUrlaeroruh)
             menu.style.display = 'none';
         });
 
+        
+
 
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
@@ -1961,7 +2007,9 @@ fetch(geojsonUrlaeroruh)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                             
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                            
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
@@ -1983,5 +2031,4 @@ fetch(geojsonUrlaeroruh)
     </script>
 </body>
 </html>
-
 
