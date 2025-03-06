@@ -470,7 +470,7 @@ input[type="radio"]:checked::before {
        
 
         // Створення карти
-        var map = L.map('map', {
+    var map = L.map('map', {
         zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
         attributionControl: false, // Приховуємо атрибуцію
         center: [20, 0], // Початковий вигляд на глобус
@@ -514,7 +514,7 @@ input[type="radio"]:checked::before {
         };
 
         // Додавання плиток карти (OpenStreetMap)
-       // var osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
+       var WhiteLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
 
         
 
@@ -1765,6 +1765,7 @@ fetch(geojsonUrlaeroruh)
             label: "<b>Базові карти</b>",
             children: [
                 { label: "OpenStreetMap", layer: osmLayer, radioGroup: "basemap" },
+                { label: "White Map", layer: WhiteLayer, radioGroup: "basemap" },
                 { label: "Google Map", layer: googleLayer, radioGroup: "basemap" },
                 { label: "Topo Map", layer: topoLayer, radioGroup: "basemap" },
             ]
