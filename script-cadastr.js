@@ -60,16 +60,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Додаємо новий шар полігонів
             cadastralLayer = L.geoJSON(geoJsonData, {
-                style: {
-                    color: "red",
-                    weight: 1,
-                    fillColor: "rgba(255,0,0,0.3)",
-                    fillOpacity: 0.5
+                style: function (feature) {
+                    let fillColor = "rgba(255,0,0,0.3)"; // Червона заливка за замовчуванням
+            
+                    if (feature.properties.ownership === "Комунальна власність" || 
+                        feature.properties.ownership === "Державна власність") {
+                        fillColor = "rgba(0, 0, 255, 0.5)"; // Синя заливка для комунальної та державної власності
+                    }
+            
+                    return {
+                        color: "red",
+                        weight: 1,
+                        fillColor: fillColor,
+                        fillOpacity: 0.5
+                    };
                 },
                 onEachFeature: function (feature, layer) {
-                    // Додаємо popup з інформацією при кліку
                     layer.on("click", function (e) {
-                        const props = feature.properties || {}; // Отримуємо властивості
+                        const props = feature.properties || {};
                         const popupContent = `
                             <div style="font-family: Arial, sans-serif; font-size: 14px;">
                                 <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">Інформація про ділянку</h4>
@@ -80,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <div>🔗<a href="https://kadastr.live/parcel/${props.cadnum}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></p>
                             </div>
                         `;
-                    
+            
                         L.popup()
                             .setLatLng(e.latlng)
                             .setContent(popupContent)
