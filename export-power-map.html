@@ -103,6 +103,7 @@
         .donations-buttons button:hover{
             transform: scale(1.1, 1.1);
             cursor: pointer;
+            
         }
 
         .display-none {
@@ -203,6 +204,7 @@
         .svgload{font-weight:bold;max-width:600px;height:auto;}   
 
         
+        
     </style>    
 </head>
 <body>
@@ -227,7 +229,7 @@
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 // Якщо користувач не авторизований, перенаправляємо на сторінку входу
-                window.location.href = "https://mark-000.github.io/pl-power-vis-map.github.io/login.html";
+                window.location.href = "/login.html";
             } else {
                 console.log("User is logged in:", user.email);
                 // Тут можна показати дані користувача на сторінці
@@ -247,7 +249,8 @@
         });
     </script>
 
-    
+
+
     <div id="loader">
         <svg class="svgload"viewbox="0 0 100 20">
             <defs>
@@ -873,6 +876,7 @@
             weight: 2
         });
         console.log(arcgisLayer);
+        
         fetch(geojsonUrlLine)
             .then(response => response.json())
             .then(geojsonData => {
@@ -1102,7 +1106,59 @@
                                                                 });
                                                                 
                                                                 // Додавання шару до кластерної групи
-                                                                geoJsonClusterGroup.addLayer(gprelunJsonLayer);   
+                                                                geoJsonClusterGroup.addLayer(gprelunJsonLayer);  
+        
+        var proekty_pvurl = 'https://mark-000.github.io/pl-power-vis-map.github.io/proekty-pl-pv1.geojson';
+        fetch(proekty_pvurl)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                proekty_pv = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.Name || 'Unknown'}<br>
+                            <b>Потужність:</b> ${feature.properties.power || 'Unknown'}<br>
+                        `);
+                    }
+                }); 
+
+        var geojsonUrltrakcyjne = 'https://mark-000.github.io/pl-power-vis-map.github.io/pl-substation-trakcyjne.geojson';
+        fetch(geojsonUrltrakcyjne)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Функція перевірки, чи є хоча б одне значення voltage >= 35000
+                
+                // Створюємо шар з відфільтрованими даними
+                substation_trakcyjne = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 4,
+                            fillColor: "blue",
+                            color: "black",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 1
+                        });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.name || feature.properties.name || 'Unknown'}<br>
+                            <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}<br>
+                            <b>Оператор:</b> ${feature.properties.operator || 'Unknown'}<br>
+                        `);
+                    }
+                });         
                                                                    
                         // Додавання контролю для перемикання шарів
                                                 overlays = {
@@ -1117,7 +1173,9 @@
                                                     "<span style='color: black;'>PSE підстанції</span>": gpzLayer,
                                                     //"<span style='color: black;'>АЕС</span>": projektyJdr,
                                                     "<span style='color: black;'>PSE проекти GPZ</span>": projektyLayer,
-                                                    "<span style='color: red; text-decoration: underline;'>PSE проекти лінії</span>": reconsLayer
+                                                    "<span style='color: red; text-decoration: underline;'>PSE проекти лінії</span>": reconsLayer,
+                                                    "<span style='color: black;'>Тягові підстанції</span>": substation_trakcyjne,
+                                                    "<span style='color: black;'>Наші проекти</span>": proekty_pv,
                                                 };
                                                 
                                 // Додавання контролю для перемикання шарів
@@ -1141,8 +1199,10 @@
                     .catch(error => console.error('Error loading Projekty GeoJSON:', error));
                 })
                 .catch(error => console.error('Error loading GPZ GeoJSON:', error));
-           // })
-           // .catch(error => console.error('Error loading GeoJSON:', error));
+           })
+           .catch(error => console.error('Error loading GeoJSON:', error));
+        })
+           .catch(error => console.error('Error loading GeoJSON:', error));
             
 
     </script>
