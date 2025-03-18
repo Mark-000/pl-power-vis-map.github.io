@@ -236,17 +236,6 @@
             }
         });
     
-        // Обробка кнопки виходу
-        document.getElementById("logout").addEventListener("click", () => {
-            signOut(auth)
-                .then(() => {
-                    // Після виходу з системи перенаправляємо на сторінку входу
-                    window.location.href = "https://mark-000.github.io/pl-power-vis-map.github.io/login.html";
-                })
-                .catch((error) => {
-                    console.error("Error signing out: ", error.message);
-                });
-        });
     </script>
 
 
@@ -1158,7 +1147,71 @@
                             <b>Оператор:</b> ${feature.properties.operator || 'Unknown'}<br>
                         `);
                     }
-                });         
+                });     
+        var geojsonUrlgpz_all = 'https://mark-000.github.io/pl-power-vis-map.github.io/pl-gpz-all-openstreet.geojson';
+        fetch(geojsonUrlgpz_all)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Функція перевірки, чи є хоча б одне значення voltage >= 35000
+                
+                // Створюємо шар з відфільтрованими даними
+                substation_openstreet = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 3,
+                            fillColor: "black",
+                            color: "black",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 1
+                        });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`
+                            <b>Назва:</b> ${feature.properties.name || feature.properties.name || 'Unknown'}<br>
+                            <b>Напруга:</b> ${feature.properties.voltage || 'Unknown'}<br>
+                            <b>Оператор:</b> ${feature.properties.operator || 'Unknown'}<br>
+                        `);
+                    }
+                });    
+
+                var geojsongpzoperator = "https://mark-000.github.io/pl-power-vis-map.github.io/pl-gpz-operator.geojson";
+                fetch(geojsongpzoperator)
+                    .then(response => response.json())
+                    .then(reconsGeojsonData => {
+                        var gpzoperator = L.geoJSON(reconsGeojsonData, {
+                            pointToLayer: function(feature, latlng) {
+                                return L.circleMarker(latlng, {
+                                    radius: 3, 
+                                    fillColor: getColor(feature.properties.Operator),  
+                                    color: getColor(feature.properties.Operator),
+                                    weight: 1,
+                                    opacity: 1,
+                                    fillOpacity: 1 
+                                });
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.bindPopup(`
+                                    <b>Назва:</b> ${feature.properties.Nazwa || 'Unknown'}<br>
+                                    <b>Оператор:</b> ${feature.properties.Operator || 'Unknown'}
+                                `);
+                            }
+                        });
+
+
+
+                // Функція визначення кольору
+                function getColor(operator) {
+                    if (operator.includes('PGE')) {
+                        return '#ae3bd1';
+                    } else if (operator.includes('Tauron')) {
+                        return '#3bd1b5';
+                    } else if (operator.includes('Enea')) {
+                        return '#65d13b';
+                    } else {
+                        return '#d1b53b';
+                    }
+                }
                                                                    
                         // Додавання контролю для перемикання шарів
                                                 overlays = {
@@ -1174,6 +1227,8 @@
                                                     //"<span style='color: black;'>АЕС</span>": projektyJdr,
                                                     "<span style='color: black;'>PSE проекти GPZ</span>": projektyLayer,
                                                     "<span style='color: red; text-decoration: underline;'>PSE проекти лінії</span>": reconsLayer,
+                                                    "<span style='color: black;'>Підстанції оператор</span>": gpzoperator,
+                                                    "<span style='color: black;'>Підстанції всі</span>": substation_openstreet,
                                                     "<span style='color: black;'>Тягові підстанції</span>": substation_trakcyjne,
                                                     "<span style='color: black;'>Наші проекти</span>": proekty_pv,
                                                 };
@@ -1203,7 +1258,11 @@
            .catch(error => console.error('Error loading GeoJSON:', error));
         })
            .catch(error => console.error('Error loading GeoJSON:', error));
-            
+        })
+           .catch(error => console.error('Error loading GeoJSON:', error));
+        })
+           .catch(error => console.error('Error loading GeoJSON:', error));
+                
 
     </script>
 </body>
