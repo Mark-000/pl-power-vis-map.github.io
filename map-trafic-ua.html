@@ -1624,7 +1624,7 @@ fetch(geojsonUrlaeroruh)
                     },
                     onEachFeature: function(feature, layer) {
                         layer.bindPopup(`
-                            <b>Номер:</b> ${feature.properties.cadnum || 'Unknown'}<br>
+                            <b>Номер:</b> ${feature.properties.cadnum || feature.properties["landuse.cadnum"] || 'Unknown'}<br>
                             <b>LN:</b> ${feature.properties.LN || 'Unknown'}<br>
                         `);
                     }
