@@ -1,0 +1,32 @@
+{
+"type": "FeatureCollection",
+"name": "Ковель 25 ВЕУ-473797-3212",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32635" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 319304.432922886277083, 5677214.891543197445571 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 318391.546155385382008, 5675664.504949314519763 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 314894.277301656606141, 5675564.359316077083349 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 321692.450279463082552, 5677721.323991363868117 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 316368.593749408959411, 5679051.499972298741341 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 318686.20526241324842, 5673230.623874500393867 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 316395.009988722391427, 5676619.417404256761074 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 321854.083138800924644, 5676477.32024563383311 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 318874.295796883525327, 5676576.641762725077569 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 319918.593749456806108, 5671751.499972783960402 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 313918.593749371822923, 5676701.49997216463089 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 323422.643305987352505, 5677457.80542760156095 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 317396.760222962358966, 5674021.520752009004354 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 320091.841181566240266, 5678326.12862700689584 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 320037.535770101647358, 5674121.433902177028358 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 316986.576467931154184, 5678587.372672140598297 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 317297.962974287453108, 5675429.015649930574 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 321867.895331176463515, 5675383.383162902668118 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 315146.477203669957817, 5674878.091817903332412 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 319940.224400025443174, 5672785.844770733267069 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 320343.039473650162108, 5677177.180213509127498 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 322918.593749498715624, 5677051.499972824007273 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 317363.497631614212878, 5673189.50985998660326 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 317597.815960985375568, 5677670.775174984708428 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 314518.593749380728696, 5676351.49997222609818 ] } }
+]
+}
