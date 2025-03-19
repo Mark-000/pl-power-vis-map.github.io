@@ -1,6 +1,6 @@
 {
 "type": "FeatureCollection",
-"name": "Тернопіль-17 ВЕУ-339436 MWh",
+"name": "coordsss",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.2441609679442, 49.741171529082187 ] } },
@@ -17,7 +17,7 @@
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.328443169416353, 49.694294655115797 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.244050221722915, 49.708741407439028 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.289347599308197, 49.720046551144051 ] } },
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.337074094477483, 49.707096760293247 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.337046126431268, 49.704595760581476 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.219808493776274, 49.722050044545462 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.255342207568521, 49.739087336281933 ] } }
 ]
