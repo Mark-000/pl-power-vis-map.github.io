@@ -1,6 +1,6 @@
 {
 "type": "FeatureCollection",
-"name": "Луцьк 17 ВЕУ-341399 MWh-3404",
+"name": "Луцьк 17 ВЕУ-341267 MWh",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 24.98929238516574, 50.733525053091554 ] } },
@@ -19,6 +19,6 @@
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 24.956242536779705, 50.722759734307381 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.033812595753488, 50.74553448286764 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.002266284088567, 50.698021391996534 ] } },
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.08914807667173, 50.738329722246469 ] } }
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.089190992015968, 50.73906302524906 ] } }
 ]
 }
