@@ -1,6 +1,6 @@
 {
 "type": "FeatureCollection",
-"name": "Тернопіль-25 ВЕУ-488633 MWh",
+"name": "Тернопіль-25 ВЕУ-488485 MWh",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.2441609679442, 49.741171529082187 ] } },
@@ -18,11 +18,11 @@
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.239665282571615, 49.711287650794119 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.28782752255178, 49.719708783448773 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.330907076676457, 49.710066932585939 ] } },
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.219505385293402, 49.722145777270853 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.222015932931342, 49.721708798619773 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.253386636122091, 49.740061051110878 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.312970931025117, 49.73332344330673 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.330023876715028, 49.721191917401441 ] } },
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.228093142867458, 49.725314192163253 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.228093142867458, 49.725494519689192 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.299177916176621, 49.75147746260226 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.2598016953993, 49.700783264121412 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 25.342554938297873, 49.696372481052123 ] } },
