@@ -408,16 +408,7 @@ input[type="radio"]:checked::before {
         });
     
         // Обробка кнопки виходу
-        document.getElementById("logout").addEventListener("click", () => {
-            signOut(auth)
-                .then(() => {
-                    // Після виходу з системи перенаправляємо на сторінку входу
-                    window.location.href = "https://mark-000.github.io/pl-power-vis-map.github.io/login.html";
-                })
-                .catch((error) => {
-                    console.error("Error signing out: ", error.message);
-                });
-        });
+    
     </script>
     
     <div id="map"></div>
@@ -1690,13 +1681,13 @@ fetch(geojsonUrlaeroruh)
 
 // --------------------------------- points to mark наші локації ------------------------------------
 
-        var geojsonUrlpointskovel = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Kovel/vitryaki-kovel-zahid.geojson';
-        fetch(geojsonUrlpointskovel)
+        var geojsonUrlpointskovel17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Kovel/Ковель 17 ВЕУ-329957 MWh-3290.geojson';
+        fetch(geojsonUrlpointskovel17)
             .then(response => response.json())
             .then(projektyGeojsonData => {
                 // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
                 // Створюємо шар з відфільтрованими даними
-                vitryaki_kovel = L.geoJSON(projektyGeojsonData, {
+                vitryaki_kovel17 = L.geoJSON(projektyGeojsonData, {
                     pointToLayer: function(feature, latlng) {
                         // Створюємо кастомну іконку з SVG
                         var icon = L.divIcon({
@@ -1708,13 +1699,34 @@ fetch(geojsonUrlaeroruh)
                         return L.marker(latlng, { icon: icon });
                     }
                 });
-                var geojsonUrlpointsradiviliv = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Radiviliv/vitryaki-radiviliv.geojson';
-        fetch(geojsonUrlpointsradiviliv)
+                var geojsonUrlpointskovel25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Kovel/Ковель 25 ВЕУ-473797 MWh-3212.geojson';
+        fetch(geojsonUrlpointskovel25)
             .then(response => response.json())
             .then(projektyGeojsonData => {
                 // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
                 // Створюємо шар з відфільтрованими даними
-                vitryaki_radiviliv = L.geoJSON(projektyGeojsonData, {
+                vitryaki_kovel25 = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    }
+                });
+
+//------------------------------------------------radiviliv----------------------------------------------
+
+        var geojsonUrlpointsradiviliv17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Radiviliv/Радивилів 17 ВЕУ-323451 MWh- 3225.geojson';
+        fetch(geojsonUrlpointsradiviliv17)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                vitryaki_radiviliv17 = L.geoJSON(projektyGeojsonData, {
                     pointToLayer: function(feature, latlng) {
                         // Створюємо кастомну іконку з SVG
                         var icon = L.divIcon({
@@ -1726,6 +1738,107 @@ fetch(geojsonUrlaeroruh)
                         return L.marker(latlng, { icon: icon });
                     }
                 });
+        var geojsonUrlpointsradiviliv25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Radiviliv/Радивилів 25 ВЕУ-467013 MWh- 3166.geojson';
+        fetch(geojsonUrlpointsradiviliv25)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                vitryaki_radiviliv25 = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    }
+                });
+        //------------------------------------------------lutsk----------------------------------------------
+
+        var geojsonUrlpointslutsk17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Lutsk/Луцьк 17 ВЕУ-341399 MWh-3404.geojson';
+        fetch(geojsonUrlpointslutsk17)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                vitryaki_lutsk17 = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    }
+                });
+        var geojsonUrlpointslutsk25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Lutsk/Луцьк 25 ВЕУ-493208 MWh-3344.geojson';
+        fetch(geojsonUrlpointslutsk25)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                vitryaki_lutsk25 = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    }
+                });
+
+
+                //------------------------------------------------ternopil----------------------------------------------
+
+        var geojsonUrlpointsternopil17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Ternopil/Тернопіль-17 ВЕУ-339436 MWh.geojson';
+        fetch(geojsonUrlpointsternopil17)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                vitryaki_ternopil17 = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    }
+                });
+        var geojsonUrlpointsternopil25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Ternopil/Тернопіль-25 ВЕУ-488633 MWh.geojson';
+        fetch(geojsonUrlpointsternopil25)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                // Фільтруємо дані: тільки де клас = 'Aves' або родина = 'Vespertilionidae' чи 'Rhinolophidae'
+                // Створюємо шар з відфільтрованими даними
+                vitryaki_ternopil25 = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M480-80q-106 0-173-33.5T240-200q0-24 14.5-44.5T295-280l63 59q-9 4-19.5 9T322-200q13 16 60 28t98 12q51 0 98.5-12t60.5-28q-7-8-18-13t-21-9l62-60q28 16 43 36.5t15 45.5q0 53-67 86.5T480-80Zm1-220q99-73 149-146.5T680-594q0-102-65-154t-135-52q-70 0-135 52t-65 154q0 67 49 139.5T481-300Zm-1 100Q339-304 269.5-402T200-594q0-71 25.5-124.5T291-808q40-36 90-54t99-18q49 0 99 18t90 54q40 36 65.5 89.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520Zm0-80Z"/></svg>`,
+                            className: 'no-background-icon', // Уникаємо білого фону
+                            iconSize: [24, 24], // Розмір іконки
+                            iconAnchor: [12, 12] // Центруємо іконку по координатам
+                        });
+                        return L.marker(latlng, { icon: icon });
+                    }
+                });
+
+
+
+
+
             
         var geojsonUrlbuffer40kmpidst = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/40km-radius.geojson';
         fetch(geojsonUrlbuffer40kmpidst)
@@ -1808,14 +1921,32 @@ fetch(geojsonUrlaeroruh)
                             label: "<b>Ковель</b>", 
                             collapsed: true,
                             children: [
-                            { label: "25 ВЕС 480969", layer: vitryaki_kovel },
+                            { label: "17 ВЕС 329957 MWh", layer: vitryaki_kovel17 },
+                            { label: "25 ВЕС 473797 MWh", layer: vitryaki_kovel25 },
+                            ]
+                        },
+                        {
+                            label: "<b>Луцьк</b>", 
+                            collapsed: true,
+                            children: [
+                            { label: "17 ВЕС 341399 MWh", layer: vitryaki_lutsk17 },
+                            { label: "25 ВЕС 493208 MWh", layer: vitryaki_lutsk25 },
                             ]
                         },
                         {
                             label: "<b>Радивилів</b>", 
                             collapsed: true,
                             children: [
-                            { label: "17 ВЕС 332200", layer: vitryaki_radiviliv },
+                            { label: "17 ВЕС 323451 MWh", layer: vitryaki_radiviliv17 },
+                            { label: "25 ВЕС 467013 MWh", layer: vitryaki_radiviliv25 },
+                            ]
+                        },
+                        {
+                            label: "<b>Тернопіль</b>", 
+                            collapsed: true,
+                            children: [
+                            { label: "17 ВЕС 339436 MWh", layer: vitryaki_ternopil17 },
+                            { label: "25 ВЕС 488633 MWh", layer: vitryaki_ternopil25 },
                             ]
                         },
                         { label: "25км для проектів", layer: buffer25pidstLayer },
@@ -2010,7 +2141,19 @@ fetch(geojsonUrlaeroruh)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                            
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                    
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
