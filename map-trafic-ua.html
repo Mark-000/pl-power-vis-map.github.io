@@ -520,23 +520,42 @@ input[type="radio"]:checked::before {
 
     // За замовчуванням буде використовуватися OpenStreetMap
       //  osmLayer.addTo(map);
-      var coordDiv = L.control({ position: 'bottomright' });
+     var coordDiv = L.control({ position: 'bottomright' });
 
-    coordDiv.onAdd = function () {
-        var div = L.DomUtil.create('div', 'coordinate-display');
-        div.style.padding = '5px';
-        div.style.background = 'white';
-        div.style.opacity = '0.8';
-        div.innerHTML = "Координати:";
-        return div;
-    };
-
-    coordDiv.addTo(map);
-
-    map.on('mousemove', function (e) {
-        document.querySelector('.coordinate-display').innerHTML = 
-            `${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}`;
+coordDiv.onAdd = function () {
+    var div = L.DomUtil.create('div', 'coordinate-display');
+    div.style.padding = '5px';
+    div.style.background = 'white';
+    div.style.opacity = '0.8';
+    div.style.cursor = 'pointer'; // Додаємо стиль для вказівника миші
+    div.innerHTML = "Координати:";
+    
+    // Додаємо подію копіювання при кліку
+    div.addEventListener('click', function () {
+        const text = div.innerText.replace('Координати:', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+            div.innerHTML = `✅ Скопійовано ${text}`;
+            setTimeout(updateCenterCoordinates, 1500); // Повертаємо назад через 1.5 секунди
+        }).catch(err => console.error("Помилка копіювання:", err));
     });
+
+    return div;
+};
+
+coordDiv.addTo(map);
+
+// Функція для оновлення координат центру карти
+function updateCenterCoordinates() {
+    var center = map.getCenter();
+    document.querySelector('.coordinate-display').innerHTML = 
+        `${center.lat.toFixed(6)}, ${center.lng.toFixed(6)}`;
+}
+
+// Оновлюємо координати при русі карти
+map.on('moveend', updateCenterCoordinates);
+
+// Оновлюємо координати при завантаженні
+updateCenterCoordinates();
 
        L.Control.Info = L.Control.extend({
             onAdd: function(map) {
