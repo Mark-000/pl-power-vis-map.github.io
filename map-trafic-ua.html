@@ -520,7 +520,7 @@ input[type="radio"]:checked::before {
 
     // За замовчуванням буде використовуватися OpenStreetMap
       //  osmLayer.addTo(map);
-     var coordDiv = L.control({ position: 'bottomright' });
+      var coordDiv = L.control({ position: 'bottomright' });
 
 coordDiv.onAdd = function () {
     var div = L.DomUtil.create('div', 'coordinate-display');
@@ -556,6 +556,7 @@ map.on('moveend', updateCenterCoordinates);
 
 // Оновлюємо координати при завантаженні
 updateCenterCoordinates();
+
 
        L.Control.Info = L.Control.extend({
             onAdd: function(map) {
@@ -1390,6 +1391,9 @@ fetch(geojsonUrlaeroruh)
         var waterPolyLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/water_poly_ramsar/{z}/{x}/{y}.png');
         var dzkPzfLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__pzf/{z}/{x}/{y}.png');
         var cadastrLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/parcels/{z}/{x}/{y}.png');
+        var oblastLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__atu_oblast/{z}/{x}/{y}.png');
+        var raionLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__atu_rayon/{z}/{x}/{y}.png');
+        var otgLayer = L.tileLayer('https://cdn.kadastr.live/tiles/raster/styles/dzk__atu_terhromad__line/{z}/{x}/{y}.png');
 
         var geojsonUrlemerald = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/amerald_zahid.geojson';
         fetch(geojsonUrlemerald)
@@ -1945,8 +1949,6 @@ fetch(geojsonUrlaeroruh)
             label: "<b>Шари</b>",
             selectAllCheckbox: true,  // Додає чекбокс для вибору всіх шарів
             children: [
-                { label: "Адміністративні межі", layer: borderLayer },
-                { label: "Кадастр підкладка", layer: cadastrLayer },
                 { 
                     label: "<b>Електромережі</b>", 
                     children: [
@@ -2055,10 +2057,22 @@ fetch(geojsonUrlaeroruh)
                         { label: "<span>Природно-заповідний фонд</span>", layer: dzkPzfLayer },
                         { label: "<span>Смарагдова мережа</span>", layer: emeraldLayer }
                     ]
-                }
+                },
+                { 
+                    label: "<b>Адміністративний поділ</b>", 
+                    collapsed: true,
+                    children: [
+                    { label: "Межі України", layer: borderLayer },
+                    { label: "Межі областей", layer: oblastLayer },
+                    { label: "Межі районів", layer: raionLayer },
+                    { label: "Межі ОТГ", layer: otgLayer },
+                    { label: "Кадастр підкладка", layer: cadastrLayer },
+                    ]
+                },
                 
             ]
         };
+
         // Додаємо контроль шарів
         var layerControl = L.control.layers.tree(baseTree, overlaysTree, {
             namedToggle: false,  
