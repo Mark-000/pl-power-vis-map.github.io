@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "8 ВЕУ-108м 108024 MWh",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.510992492389416, 49.878073468889703 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.51226899503073, 49.871199804007176 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.531914269102071, 49.867293380701184 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.50494857404793, 49.882142653814221 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.486473264715013, 49.849370926380402 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.478000377105307, 49.851212611553557 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.478767732964307, 49.843776720987293 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.472271852463539, 49.846886601811775 ] } }
+]
+}
