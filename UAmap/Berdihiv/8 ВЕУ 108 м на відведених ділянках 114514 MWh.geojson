@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "8 ВЕУ 108 м на відведених ділянках 114514 MWh",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.510992492389416, 49.878073468889703 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.51226899503073, 49.871199804007176 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.531914269102071, 49.867293380701184 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.50494857404793, 49.882142653814221 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.564697023938091, 49.798932275072339 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.560070125106915, 49.806596338922034 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.526320681931093, 49.817401984011028 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.515152130306799, 49.813987175851089 ] } }
+]
+}
