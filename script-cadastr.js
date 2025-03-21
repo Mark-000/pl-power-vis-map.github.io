@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
             
                     return {
-                        color: "red",
+                        color: "#964848",
                         weight: 1,
                         fillColor: fillColor,
                         fillOpacity: 0.5
