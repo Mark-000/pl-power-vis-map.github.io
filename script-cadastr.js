@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
                     if (bluePurposeCodes.includes(feature.properties.purpose_code) || 
                         (feature.properties.category && feature.properties.category.includes("Землі житлової та громадської забудови"))) {
-                        fillColor = "rgba(129, 16, 204, 0.51)"; // Голуба заливка
+                        fillColor = "rgba(0, 238, 255, 0.51)"; // Голуба заливка
                     }
             
                     return {
