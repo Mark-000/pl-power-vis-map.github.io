@@ -1,0 +1,24 @@
+{
+"type": "FeatureCollection",
+"name": "ВЕУ конкурентів згідно ДПТ",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:IGNF::WGS84GEO" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.57682958629394, 49.809839726174836 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.570758740807207, 49.80711033388851 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.61783814755676, 49.81406410406661 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.564667659168862, 49.847500063296273 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.57197290990452, 49.815425359034897 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.537991352292536, 49.864727881639723 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.544740108858605, 49.853290104343102 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.556477076799588, 49.855514600451031 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.578281530172752, 49.846511609515304 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.528763667152674, 49.862122250378569 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.575546277011657, 49.839384864932299 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.574547960198284, 49.875038512470866 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.605936479825928, 49.86839567368461 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.58168907325971, 49.877901723117354 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.573774489514054, 49.882213606619437 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.56967329611858, 49.89014090358539 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.563755345999677, 49.816665072449595 ] } }
+]
+}
