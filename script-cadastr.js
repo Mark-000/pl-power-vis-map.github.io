@@ -62,10 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
             cadastralLayer = L.geoJSON(geoJsonData, {
                 style: function (feature) {
                     let fillColor = "rgba(255,0,0,0.3)"; // Червона заливка за замовчуванням
-            
+                    let colorr = "#d11d1d"
                     if (feature.properties.ownership === "Комунальна власність" || 
                         feature.properties.ownership === "Державна власність") {
                         fillColor = "rgba(0, 0, 255, 0.5)"; // Синя заливка для комунальної та державної власності
+                        colorr = "rgb(0, 0, 255)"
                     }
             
                     // Умова для голубої заливки
@@ -78,10 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (bluePurposeCodes.includes(feature.properties.purpose_code) || 
                         (feature.properties.category && feature.properties.category.includes("Землі житлової та громадської забудови"))) {
                         fillColor = "rgba(0, 238, 255, 0.51)"; // Голуба заливка
+                        colorr = "rgb(0, 238, 255)"
                     }
             
                     return {
-                        color: "#d11d1d",
+                        color: colorr,
                         weight: 1,
                         fillColor: fillColor,
                         fillOpacity: 0.5
