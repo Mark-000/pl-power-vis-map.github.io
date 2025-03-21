@@ -68,6 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         fillColor = "rgba(0, 0, 255, 0.5)"; // Синя заливка для комунальної та державної власності
                     }
             
+                    // Умова для голубої заливки
+                    const bluePurposeCodes = [
+                        "02.01", "02.02", "02.03", "02.04", "02.05", "02.06", "02.07", "02.08",
+                        "02.09", "02.10", "03.01", "03.02", "03.03", "03.04", "03.05", "03.06", 
+                        "03.15", "07.01", "07.03", "07.04", "07.05"
+                    ];
+            
+                    if (bluePurposeCodes.includes(feature.properties.purpose_code) || 
+                        (feature.properties.category && feature.properties.category.includes("Землі житлової та громадської забудови"))) {
+                        fillColor = "rgba(129, 16, 204, 0.51)"; // Голуба заливка
+                    }
+            
                     return {
                         color: "#d11d1d",
                         weight: 1,
