@@ -456,6 +456,11 @@ input[type="radio"]:checked::before {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-pattern/0.0.6/leaflet.pattern.min.js"></script>
      <!-- глобус -->
     <script src="https://unpkg.com/leaflet-globes"></script>
+
+        <!-- координати пошук -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
     <script>
         // URLs для GeoJSON файлів
        
@@ -752,9 +757,14 @@ downloadButton.onAdd = function (map) {
 };
 
 // Додаємо кнопку на карту
-
-
 downloadButton.addTo(map);
+
+L.Control.geocoder({
+    position: "topleft",
+    defaultMarkGeocode: false
+}).on('markgeocode', function(e) {
+    map.setView(e.geocode.center, 15);
+}).addTo(map);
 
 
 
