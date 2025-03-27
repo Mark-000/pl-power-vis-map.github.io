@@ -1740,8 +1740,8 @@ function toggleCircles(latlng) {
         delete circles[key];
     } else {
         // Додаємо нові кола (НЕінтерактивні)
-        var circle700 = L.circle(latlng, { radius: 700, color: 'blue', fillOpacity: 0.2, interactive: false }).addTo(map);
-        var circle150 = L.circle(latlng, { radius: 150, color: 'blue', fillOpacity: 0.2, interactive: false }).addTo(map);
+        var circle700 = L.circle(latlng, { radius: 700, color: '#02fae1', fillOpacity: 0.1, interactive: false }).addTo(map);
+        var circle150 = L.circle(latlng, { radius: 150, color: '#02fae1', fillOpacity: 0.1, interactive: false }).addTo(map);
         circles[key] = [circle700, circle150];
     }
 }
