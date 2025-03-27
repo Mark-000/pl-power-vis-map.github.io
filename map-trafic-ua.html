@@ -1730,23 +1730,46 @@ fetch(geojsonUrlaeroruh)
 
 
 // --------------------------------- points to mark наші локації ------------------------------------
+var circles = {};
+function toggleCircles(latlng) {
+    var key = latlng.toString(); // Унікальний ключ для точки
 
-        var geojsonUrlpointskovel17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Kovel/Ковель 17 ВЕУ-329957 MWh-3290.geojson';
-        fetch(geojsonUrlpointskovel17)
-            .then(response => response.json())
-            .then(projektyGeojsonData => {
-                vitryaki_kovel17 = L.geoJSON(projektyGeojsonData, {
-                    pointToLayer: function(feature, latlng) {
-                        // Створюємо кастомну іконку з SVG
-                        var icon = L.divIcon({
-                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
-                            className: 'no-background-icon', // Уникаємо білого фону
-                            iconSize: [24, 24], // Розмір іконки
-                            iconAnchor: [12, 12] // Центруємо іконку по координатам
-                        });
-                        return L.marker(latlng, { icon: icon });
-                    }
+    if (circles[key]) {
+        // Якщо кола вже є — видаляємо
+        circles[key].forEach(circle => map.removeLayer(circle));
+        delete circles[key];
+    } else {
+        // Додаємо нові кола (НЕінтерактивні)
+        var circle700 = L.circle(latlng, { radius: 700, color: 'blue', fillOpacity: 0.2, interactive: false }).addTo(map);
+        var circle150 = L.circle(latlng, { radius: 150, color: 'blue', fillOpacity: 0.2, interactive: false }).addTo(map);
+        circles[key] = [circle700, circle150];
+    }
+}
+
+var geojsonUrlpointskovel17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Kovel/Ковель 17 ВЕУ-329957 MWh-3290.geojson';
+ // Об'єкт для збереження кіл
+
+fetch(geojsonUrlpointskovel17)
+    .then(response => response.json())
+    .then(projektyGeojsonData => {
+        vitryaki_kovel17 = L.geoJSON(projektyGeojsonData, {
+            pointToLayer: function(feature, latlng) {
+                var icon = L.divIcon({
+                    html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                    className: 'no-background-icon',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12]
                 });
+
+                var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
                 var geojsonUrlpointskovel25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Kovel/Ковель 25 ВЕУ-473797 MWh-3212.geojson';
         fetch(geojsonUrlpointskovel25)
             .then(response => response.json())
@@ -1760,9 +1783,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                        marker.on('click', function() {
+                            toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                        });
+
+                        return marker;
                     }
-                });
+                })
 
 //------------------------------------------------radiviliv----------------------------------------------
 
@@ -1779,9 +1808,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
         var geojsonUrlpointsradiviliv25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Radiviliv/Радивилів 25 ВЕУ-467013 MWh- 3166.geojson';
         fetch(geojsonUrlpointsradiviliv25)
             .then(response => response.json())
@@ -1795,9 +1830,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
         //------------------------------------------------lutsk----------------------------------------------
 
         var geojsonUrlpointslutsk17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Lutsk/Луцьк 17 ВЕУ-341399 MWh-3404.geojson';
@@ -1813,9 +1854,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
         var geojsonUrlpointslutsk25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Lutsk/Луцьк 25 ВЕУ-493208 MWh-3344.geojson';
         fetch(geojsonUrlpointslutsk25)
             .then(response => response.json())
@@ -1829,9 +1876,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
 
 
                 //------------------------------------------------ternopil----------------------------------------------
@@ -1849,9 +1902,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
         var geojsonUrlpointsternopil25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Ternopil/Тернопіль-25 ВЕУ-488633 MWh.geojson';
         fetch(geojsonUrlpointsternopil25)
             .then(response => response.json())
@@ -1865,9 +1924,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
          //------------------------------------------------grabiv----------------------------------------------
 
          var geojsonUrlpointsgrabiv17 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Grabiv/Грабів 17 ВЕУ-332909 MWh.geojson';
@@ -1883,9 +1948,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
         var geojsonUrlpointsgrabiv25 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Grabiv/Грабів 25 ВЕУ-481663 MWh.geojson';
         fetch(geojsonUrlpointsgrabiv25)
             .then(response => response.json())
@@ -1899,9 +1970,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
                         //------------------------------------------------Berdihiv----------------------------------------------
 
         var geojsonUrlpointsBerdihiv8v1 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Berdihiv/8-ВЕУ на нових локаціях 114807MWh.geojson';
@@ -1917,9 +1994,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
                 var geojsonUrlpointsBerdihiv8v2 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Berdihiv/8 ВЕУ-108м 108024 MWh.geojson';
         fetch(geojsonUrlpointsBerdihiv8v2)
             .then(response => response.json())
@@ -1933,9 +2016,15 @@ fetch(geojsonUrlaeroruh)
                             iconSize: [24, 24], // Розмір іконки
                             iconAnchor: [12, 12] // Центруємо іконку по координатам
                         });
-                        return L.marker(latlng, { icon: icon });
-                    }
-                });
+                        var marker = L.marker(latlng, { icon: icon });
+
+                    marker.on('click', function() {
+                        toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                    });
+
+                    return marker;
+                }
+            })
 
 
 
@@ -2305,4 +2394,3 @@ fetch(geojsonUrlaeroruh)
     <script defer src="./script-cadastr.js"></script>
 </body>
 </html>
-
