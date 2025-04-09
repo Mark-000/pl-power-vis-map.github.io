@@ -1170,7 +1170,7 @@ fetch(prelunJsonUrl)
         var gprelunJsonLayer = L.geoJSON(geojsonData, {
             pointToLayer: function (feature, latlng) {
                 // Фільтрація за типом 'MEE'
-                if (feature.properties['Rodzaj instalacji'] === 'MEE') {
+                if (feature.properties['Rodzaj instalacji'].includes('MEE')) {
                     var color = getColorByInstallationType(feature.properties['Rodzaj instalacji']);
                     return L.circleMarker(latlng, {
                         radius: 8,
@@ -1183,7 +1183,7 @@ fetch(prelunJsonUrl)
                 }
             },
             onEachFeature: function (feature, layer) {
-                if (feature.properties['Rodzaj instalacji'] === 'MEE') {
+                if (feature.properties['Rodzaj instalacji'].includes('MEE')) {
                     layer.bindPopup(`
                         <b>Станція:</b> ${feature.properties.name || 'Невідомо'}<br>
                         <b>Генерація:</b> ${feature.properties['Moc przyłączeniowa wprowadzana do sieci\n[MW]2'] || 'Відсутнє'}<br>
