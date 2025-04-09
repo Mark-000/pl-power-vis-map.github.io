@@ -984,7 +984,7 @@
                                                             },
                                                             interactive: false
                                                             
-                                                        
+     /*------------------------------------------------------------------------------------------------------------------*/                                                   
                                                         });
                                                         var geoJsonClusterGroup = L.markerClusterGroup({
                                                             spiderfyOnMaxZoom: true, // Розпакування кластерів при максимальному масштабі
@@ -1099,6 +1099,107 @@
                                                                 
                                                                 // Додавання шару до кластерної групи
                                                                 geoJsonClusterGroup.addLayer(gprelunJsonLayer);  
+
+
+        /*-----------------------------------------------------------------------------*/
+var meeClusterGroup = L.markerClusterGroup({
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    spiderLegPolylineOptions: {
+        weight: 0,
+    },
+    spiderfyShapePositions: function (count, centerPt) {
+        var radius = 40;
+        var angleStep = (2 * Math.PI) / count;
+
+        return Array.from({ length: count }, (_, i) => {
+            var angle = i * angleStep;
+            return new L.Point(
+                centerPt.x + radius * Math.cos(angle),
+                centerPt.y + radius * Math.sin(angle)
+            );
+        });
+    },
+    iconCreateFunction: function (cluster) {
+        var sumvmerezu = 0;
+        var sumzmerezi = 0;
+
+        cluster.getAllChildMarkers().forEach(function (marker) {
+            var value1 = marker.feature.properties["Moc przyłączeniowa wprowadzana do sieci\n[MW]2"];
+            if (!isNaN(value1)) {
+                sumvmerezu += parseFloat(value1) / 1000;
+            }
+
+            var value2 = marker.feature.properties["Moc przyłączeniowa pobierana\nz sieci [MW]1"];
+            if (!isNaN(value2)) {
+                sumzmerezi += parseFloat(value2) / 1000;
+            }
+        });
+
+        return L.divIcon({
+            html: `
+                <div style="background-color: rgba(0, 123, 255, 0.3); 
+                            border-radius: 50%; 
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex-direction: column;
+                            width: 50px; 
+                            height: 50px; 
+                            text-align: center; 
+                            color: white; 
+                            font-weight: bold;">
+                    <div style="color: blue;">${sumvmerezu.toFixed(2)}</div>
+                    <div style="color: red;">-${sumzmerezi.toFixed(2)}</div>
+                </div>
+            `,
+            className: 'custom-cluster-icon',
+            iconSize: [50, 50]
+        });
+    }
+});
+
+// Завантаження GeoJSON
+var prelunJsonUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/PLmap/przylaczenie_updated_data_all.geojson';
+
+fetch(prelunJsonUrl)
+    .then(response => response.json())
+    .then(geojsonData => {
+        // Додавання маркерів типу MEE до нової кластерної групи
+        var gprelunJsonLayer = L.geoJSON(geojsonData, {
+            pointToLayer: function (feature, latlng) {
+                // Фільтрація за типом 'MEE'
+                if (feature.properties['Rodzaj instalacji'] === 'MEE') {
+                    var color = getColorByInstallationType(feature.properties['Rodzaj instalacji']);
+                    return L.circleMarker(latlng, {
+                        radius: 8,
+                        fillColor: color,
+                        color: '#000',
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    });
+                }
+            },
+            onEachFeature: function (feature, layer) {
+                if (feature.properties['Rodzaj instalacji'] === 'MEE') {
+                    layer.bindPopup(`
+                        <b>Станція:</b> ${feature.properties.name || 'Невідомо'}<br>
+                        <b>Генерація:</b> ${feature.properties['Moc przyłączeniowa wprowadzana do sieci\n[MW]2'] || 'Відсутнє'}<br>
+                        <b>Споживання:</b> ${feature.properties['Moc przyłączeniowa pobierana\nz sieci [MW]1'] || 'Відсутнє'}<br>
+                        <b>Тип:</b> ${feature.properties['Rodzaj instalacji'] || 'Невідомо'}<br>
+                        <b>Дата:</b> ${feature.properties['Data doręczenia Warunków Przyłączenia'] || 'Невідомо'}<br>
+                    `);
+                }
+            }
+        });
+        
+        // Додавання шару до кластерної групи для MEE
+        meeClusterGroup.addLayer(gprelunJsonLayer);
+
+
+        /*---------------------------------------------------------------------------------------------*/
         
         var proekty_pvurl = 'https://mark-000.github.io/pl-power-vis-map.github.io/PLmap/proekty-pl-pv1.geojson';
         fetch(proekty_pvurl)
@@ -1226,6 +1327,7 @@
                                                     "<span style='color: red;'>110kV Лінії</span>": layer110,
                                                     "<span style='color: black;'>Межі операторів</span>": arcgisLayer,
                                                     "<span style='color: black;'>Підключення</span>": geoJsonClusterGroup,
+                                                    "<span style='color: black;'>Підключення MEE</span>": meeClusterGroup,
                                                     "<span style='color: black;'>PSE підстанції</span>": gpzLayer,
                                                     //"<span style='color: black;'>АЕС</span>": projektyJdr,
                                                     "<span style='color: black;'>PSE проекти GPZ</span>": projektyLayer,
@@ -1265,7 +1367,9 @@
            .catch(error => console.error('Error loading GeoJSON:', error));
         })
            .catch(error => console.error('Error loading GeoJSON:', error));
-                
+        })
+           .catch(error => console.error('Error loading GeoJSON:', error));
+                   
 
     </script>
 </body>
