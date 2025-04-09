@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo-UA-map</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&family=Roboto+Slab:wght@100..900&family=Sofia+Sans:ital,wght@1,1..1000&family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
+    
+   
+    
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #map {
+            
+            height: 100%;
+            width: 100%;
+            /*font-family: 'Open Sans', sans-serif !important;*/
+            font-family: "Balsamiq Sans", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .export-import-tooltip{
+            background-color: rgba(255, 255, 128, .5);
+            
+        }
+        .imp-exp-block{
+            display: flex;
+            align-items: center;
+            align-content: center;
+            flex-direction: column;
+            background-color: white; ;
+            margin-top: 30%;
+        }
+        .leaflet-control{
+            background: white;
+            border: none !important;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px !important;
+        }
+        .leaflet-control-layers-list{
+            margin: 5px;
+        }
+        .leaflet-control-layers-list .leaflet-layerstree-header:hover{
+            /*text-decoration: underline;*/
+            background-color: rgb(240, 240, 240);
+            cursor: pointer;
+        }
+        .leaflet-control-layers {
+            transition: max-height 1s ease-out, opacity 0.3s ease-out;
+            max-height: 20vh; 
+            overflow: hidden;
+            opacity: 1;
+            }
+
+            .leaflet-control-layers:hover {
+            max-height: 100vh; 
+            opacity: 1;
+            }
+        
+        .custom-tooltip {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid black;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .transperent{
+            background-color: #0572a1;
+        }
+        .leaflet-tooltip.custom-tooltip1{
+            margin-top: 1.5px;
+            background-color: rgba(255, 255, 255, 0);
+            box-shadow: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .leaflet-tooltip.custom-tooltip1:before {
+            display: none !important; /* Вимикає стрілочку */
+        }
+        .leaflet-tooltip.custom-tooltip110{
+            margin-top: 1.5px;
+            background-color: rgba(255, 255, 255, 0);
+            box-shadow: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .leaflet-tooltip.custom-tooltip110:before {
+            display: none !important; /* Вимикає стрілочку */
+        }
+        .info-control {
+            padding: 3.5px 3.5px 0px 3.5px;
+            border-radius: 2px;
+        }
+        .info-control:hover {
+            cursor: pointer;
+        }
+        .legend i {
+            display: inline-block;
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border: 1px solid black;
+        }
+
+        .layer-measureboundary {
+    stroke: red !important; /* Червоний колір */
+    stroke-width: 4px !important; /* Товщина */
+    opacity: 0.8 !important; /* Прозорість */
+}
+
+/* Стилізація кінцевої лінії (результат вимірювання) */
+.layer-measure-resultline {
+    stroke: rgb(255, 0, 0) !important; /* Синій колір */
+    stroke-width: 4px !important; /* Товщина */
+    opacity: 1 !important;
+}
+
+/* Стилізація площі вимірювання */
+.layer-measure-resultarea {
+    fill: rgba(192, 70, 77, 0.3) !important; /* Прозорий зелений */
+    stroke: rgb(255, 0, 0) !important; /* Обведення зелене */
+    stroke-width: 4px !important;
+}
+
+/* Стилізація точок вимірювання */
+.layer-measurevertex {
+    fill: rgb(255, 0, 0) !important;
+    stroke: black !important;
+    stroke-width: 4px;
+    r: 6px; /* Радіус точки */
+}
+
+.leaflet-pm-text {
+    font-size: 20px;  /* Задайте бажаний розмір шрифту */
+    font-weight: bold; /* Можна також змінити товщину шрифту */
+    color: red; /* Колір шрифту */
+}
+.leaflet-bottom{
+    position: absolute; 
+    z-index:600 !important;
+}
+
+.leaflet-control-layers-list::-webkit-scrollbar {
+    width: 8px; /* Товщина скролбару */
+}
+
+/* Колір фону скролбару */
+.leaflet-control-layers-list::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+/* Колір та вигляд повзунка */
+.leaflet-control-layers-list::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 10px;
+}
+
+/* При наведенні змінюємо колір */
+.leaflet-control-layers-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+}
+:root {
+  --form-control-color: rgb(0, 0, 0);
+  --form-control-disabled: #959495;
+}
+.leaflet-layerstree-header-label{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em; /* Відступ між чекбоксом і текстом */
+    cursor: pointer;
+}
+.leaflet-layerstree-header-name b{
+    font-size: 1.15em;
+}
+input[type="checkbox"] {
+  appearance: none; /* Прибирає стандартний стиль */
+  display: inline-flex; /* Замість inline-block, щоб працював ::before */
+  align-items: center; /* Вирівнювання */
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  vertical-align: middle; /* Вирівнює з текстом */
+  margin-right: 0.5em; /* Відступ від тексту */
+  position: relative; /* Важливо для ::before */
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.75em;  /* Збільшений розмір */
+  height: 0.75em;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transform-origin: bottom left;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: CanvasText;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="checkbox"]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+
+input[type="checkbox"]:disabled {
+  --form-control-color: var(--form-control-disabled);
+  color: var(--form-control-disabled);
+  cursor: not-allowed;
+}
+
+input[type="radio"] {
+  appearance: none;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 50%; /* Робить кнопку круглою */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5em;
+  position: relative;
+  vertical-align: middle;
+}
+
+input[type="radio"]::before {
+  content: "";
+  position: absolute;
+  width: 0.65em;
+  height: 0.65em;
+  background-color: var(--form-control-color);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.wind-legend {
+  opacity: 0; /* Початково приховано */
+  transform: translatex(-20px); /* Легка анімація появи знизу */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.wind-legend.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.donations-box {
+            position: absolute;
+            z-index: 9999; 
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: 	rgb(235, 224, 224, 0.65);
+            width: 100%;
+        } 
+        .donations-block{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Comic Sans MS, Comic Sans, cursive;
+            padding-left: 2%;
+            padding-right: 2%;
+            width: 50%;
+            height: 100%;
+            max-height: 100%;
+            background-color: rgba(140, 140, 140, 0.7);
+            text-align: center;
+            -webkit-box-shadow: 0px 0px 13px 5px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 13px 5px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 13px 5px rgba(0,0,0,0.75);
+        }
+        .donation-text{
+            font-size: calc(0.8vw + 1vh);
+            margin-top: 2%;
+            
+        }
+        .donations-buttons{
+            margin-top: 7%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%;
+            
+        }
+        .donations-buttons button {
+            background-color: grey;
+            border: 1px solid black;
+            border-radius: 2%;
+            padding: 1%;
+            text-align: center;
+            width: 40%;
+            font-size: calc(0.8vw + 1vh);
+
+            font-family: Comic Sans MS, Comic Sans, cursive;
+            -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+        }
+        .donations-buttons button:hover{
+            transform: scale(1.1, 1.1);
+            cursor: pointer;
+            
+        }
+
+        .display-none {
+            display: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQpI0dCWKbXACbnNi445Hro26SzrlsGdU",
+            authDomain: "my-map-pj-54751.firebaseapp.com",
+            projectId: "my-map-pj-54751",
+            storageBucket: "my-map-pj-54751.firebasestorage.app",
+            messagingSenderId: "349429907738",
+            appId: "1:349429907738:web:8a6d42bfeaf8eb0b612ca3",
+            measurementId: "G-T4XGCQ6PDH"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+    
+        // Перевірка стану користувача
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Якщо користувач не авторизований, перенаправляємо на сторінку входу
+                window.location.href = "https://mark-000.github.io/pl-power-vis-map.github.io/login.html";
+            } else {
+                console.log("User is logged in:", user.email);
+                // Тут можна показати дані користувача на сторінці
+            }
+        });
+    
+        // Обробка кнопки виходу
+    
+    </script>
+
+    <div class="donations-box" id="donation">
+        <div class="donations-block">
+            <div>
+                <div style="font-size: calc(2.5vw + 1vh); font-weight: bold; margin-top: 20%;">Вітаємо на PLS!</div>
+                <div style="font-size: calc(1vw + 1vh); font-weight: bold;margin-top: 10px;">POLAND LAND SEARCH</div>
+            </div>
+            
+            <form class="project-form" id="project-form">
+              <div style="margin-top: 7%;">
+                <div class="donation-text">Щоб розпочати аналіз, необхідно вказати:</div>
+                <div class="donation-text">Координати підстанції, чи центру зони до аналізу</div>
+                <input type="text" id="coords" placeholder="Enter coordinates" required>
+                <div class="donation-text">Радіус зони до аналізу</div>
+                <input type="number" id="radius" placeholder="Enter radius (km)" required>
+                <div class="donation-text">Для прикладу, координати підстанції "Chełm" 400/220/110 kV - 51.15822, 23.44010 (широта, довгота) у системі WGS 84, зона аналізу радіусом 20 км.</div>
+              </div>
+              <input type="submit" name="Start" value="Start">
+            </form>
+
+            <div id="analysis-status" style="display: none; margin-top: 20px;">
+              <div style="font-weight: bold; font-size: 1.2em;">🔍 Аналіз виконується...</div>
+              <ul id="status-log" style="margin-top: 10px;"></ul>
+              <button onclick="hideDonationBox()" style="margin-top: 15px;">Закрити</button>
+            </div>
+            
+        </div>  
+        
+    
+    </div>
+    <button onclick="downloadAllGeoJSONLayers()" style="position: absolute; top: 10px; left: 50px; z-index: 999;">⬇️ Завантажити всі шари</button>
+
+
+    <div id="map"></div>
+
+
+    <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/leaflet.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/esri-leaflet.js"></script>
+    
+    <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/MarkerCluster.Default.css" />
+<!--
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://jjimenezshaw.github.io/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.js"></script>
+-->
+    
+    
+    <!-- JavaScript для MarkerCluster -->
+    <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/leaflet.markercluster.js"></script>
+
+    <!--line-->
+    <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/leaflet-measure.css" />
+    <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/leaflet-measure.js"></script>
+    <!--tiffff-->
+    <script src="https://cdn.jsdelivr.net/npm/georaster@1.6.0/dist/georaster.browser.bundle.min.js"></script>
+    <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/georaster-layer-for-leaflet.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rainbowvis.js@1.1.1/rainbowvis.js"></script>
+    <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/geoblaze.web.min.js"></script>
+    <!--derevo-->
+    <link rel="stylesheet" href="L.Control.Layers.Tree.css">
+    <script src="L.Control.Layers.Tree.js"></script>
+
+    <!-- draw tool-------->
+    <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/leaflet-geoman.css" />
+    <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/leaflet-geoman.min.js"></script>
+    <!--poligon pattern-->
+<!-- Підключення стилю плагіна Leaflet.Pattern -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-pattern/0.0.6/leaflet.pattern.min.css" />
+
+    <!-- Підключення самого плагіна Leaflet.Pattern -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-pattern/0.0.6/leaflet.pattern.min.js"></script>
+     <!-- глобус -->
+    <script src="https://unpkg.com/leaflet-globes"></script>
+    <!-- координати пошук -->
+    <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/Control.Geocoder.css" />
+    <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/Control.Geocoder.js"></script>
+
+
+    <!-- Додавання бібліотеки proj4js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<!-- GML-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
+<script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/togeojson.js"></script>
+
+
+
+
+
+
+
+
+    <script>
+
+        function clossebut(){
+            const dispNone = document.getElementById("donation")
+            dispNone.classList.add("display-none");
+        }
+
+
+  // Чекаємо, поки все завантажиться
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Створення карти
+let map = L.map('map', {
+    zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
+    attributionControl: false, // Приховуємо атрибуцію
+    center: [20, 0], // Початковий вигляд на глобус
+    zoom: 2,
+    globeView: true // Активуємо режим глобуса
+});
+
+var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18
+}).addTo(map);
+
+// Затримка для анімації - обертання глобуса
+setTimeout(() => {
+    map.flyTo([52.131907, 19.595214], 7, { // Задаємо координати та зум
+        animate: true,
+        duration: 3 // Тривалість анімації
+    });
+});
+
+// Додавання плиток карти (OpenStreetMap)
+var WhiteLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
+
+// Додавання плиток Google Maps
+var googleLayer = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
+    attribution: 'Google Maps'
+});
+// Topo map
+var topoLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
+    attribution: 'opentopomap'
+});
+
+let globalCoords = "";
+let globalRadius = 0;
+
+// Обробка сабміту
+document.getElementById("project-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    globalCoords = document.getElementById("coords").value.trim();
+    globalRadius = parseFloat(document.getElementById("radius").value);
+
+    if (globalCoords !== "" && !isNaN(globalRadius)) {
+        // Ховаємо форму
+        document.getElementById("project-form").style.display = "none";
+
+        // Показуємо блок аналізу
+        document.getElementById("analysis-status").style.display = "block";
+        fetchOrganicAddData();
+        fetchDzialkiPolygonsFromGeoportal();
+        // Додаємо статуси
+        addStatus("✅ Отримано координати: " + globalCoords);
+        addStatus("✅ Радіус зони: " + globalRadius + " км");
+        setTimeout(() => {
+            addStatus("📡 Завантаження геоданих...");
+            addPointAndCircleToMap(globalCoords, globalRadius);  // Викликаємо функцію додавання точки та кола
+        }, 1000);
+
+    } else {
+        alert("Будь ласка, заповніть координати та радіус.");
+    }
+});
+
+// Додає повідомлення в лог
+function addStatus(message) {
+    const li = document.createElement("li");
+    li.textContent = message;
+    document.getElementById("status-log").appendChild(li);
+}
+
+let pointLayer, circleLayer;
+
+function addPointAndCircleToMap(coords, radius) {
+    // Перетворення координат на масив
+    const coordsArray = coords.split(",").map(Number);
+    const lat = coordsArray[0];
+    const lon = coordsArray[1];
+
+    // Створення шарів для точки і кола
+    pointLayer = L.layerGroup();  // Шар для маркера
+    circleLayer = L.layerGroup(); // Шар для кола
+
+    // Додавання маркера (точки) на окремий шар
+    L.circleMarker([lat, lon], {
+        radius: 6, // Радіус точки
+        fillColor: "black", // Колір заповнення
+        color: "yellow", // Колір обведення
+        weight: 1, // Товщина обведення
+        opacity: 1, // Прозорість обведення
+        fillOpacity: 1 // Прозорість заповнення
+    }).addTo(pointLayer);
+
+    // Додавання кола (радіусу) на окремий шар
+    L.circle([lat, lon], {
+        color: 'blue',
+        fillColor: 'transparent',
+        interactive: false,
+        fillOpacity: 0.5,
+        radius: radius * 1000  // Перетворення радіусу в метри
+    }).addTo(circleLayer);
+
+    // Центруємо карту на точці
+    map.setView([lat, lon], 13);
+    
+    // Додаємо ці шари до контролю
+}
+
+function updateLayerControl() {
+    // Дерево шарів для контролю
+    var overlaysTree = {
+        label: "<b>Шари</b>",
+        selectAllCheckbox: true,  // Додає чекбокс для вибору всіх шарів
+        children: [
+            { 
+                label: "<b>Електромережі</b>", 
+                children: [
+                    { label: "Центр", layer: pointLayer },
+                    { label: "Зона", layer: circleLayer },
+                ]
+            }
+        ]
+    };
+
+    var baseTree = {
+        label: "<b>Базові карти</b>",
+        children: [
+            { label: "OpenStreetMap", layer: osmLayer, radioGroup: "basemap" },
+            { label: "White Map", layer: WhiteLayer, radioGroup: "basemap" },
+            { label: "Google Map", layer: googleLayer, radioGroup: "basemap" },
+            { label: "Topo Map", layer: topoLayer, radioGroup: "basemap" },
+        ]
+    };
+
+    // Додаємо контроль шарів
+    var layerControl = L.control.layers.tree(baseTree, overlaysTree, {
+        namedToggle: false,  
+        selectorBack: false, 
+        closedSymbol: "▶",  
+        openedSymbol: "▼",  
+        collapsed: true
+    }).addTo(map);
+
+    
+}
+
+window.hideDonationBox = function () {
+      updateLayerControl();
+      document.getElementById("donation").style.display = "none";
+    };
+
+
+
+
+    let filteredLayerGroup = L.layerGroup().addTo(map);        // торф'яні
+let filteredLsLayerGroup = L.layerGroup().addTo(map);  // <- оголошення ГЛОБАЛЬНО
+    map.addLayer(filteredLayerGroup);
+    map.addLayer(filteredLsLayerGroup);
+
+
+function fetchOrganicAddData(){
+
+
+
+// Define projections
+proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+proj4.defs("EPSG:2180", "+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs");
+let coordsArrayMain = globalCoords.split(",").map(Number);
+// Center point and diagonal
+const centerLat = Number(coordsArrayMain[0].toFixed(5)); // Center latitude
+const centerLon = Number(coordsArrayMain[1].toFixed(5)); // Center longitude
+const diagonalMeters = globalRadius * 1000*3; // 20 km in meters
+console.log(centerLat)
+console.log(centerLon)
+// Function to calculate bounding box in EPSG:4326 from center and diagonal in meters
+function getBoundingBoxFromCenterAndDiagonalLatLon(centerLat, centerLon, diagonalMeters) {
+    const metersPerDegreeLat = 111320; // 1 degree latitude ≈ 111.32 km
+    const metersPerDegreeLon = 111320 * Math.cos(centerLat * Math.PI / 180); // Adjust for longitude
+
+    // Assume a square box: width = height = diagonal / sqrt(2)
+    const widthMeters = diagonalMeters / Math.sqrt(2);
+    const heightMeters = widthMeters;
+
+    // Convert meters to degrees
+    const halfWidthDeg = (widthMeters / metersPerDegreeLon) / 2;
+    const halfHeightDeg = (heightMeters / metersPerDegreeLat) / 2;
+
+    return {
+        bottomLeft: {
+            lon: centerLon - halfWidthDeg,
+            lat: centerLat - halfHeightDeg
+        },
+        topRight: {
+            lon: centerLon + halfWidthDeg,
+            lat: centerLat + halfHeightDeg
+        }
+    };
+}
+
+// Calculate bounding box in EPSG:4326
+const { bottomLeft, topRight } = getBoundingBoxFromCenterAndDiagonalLatLon(centerLat, centerLon, diagonalMeters);
+
+// Transform coordinates to EPSG:2180
+const [x1, y1] = proj4("EPSG:4326", "EPSG:2180", [bottomLeft.lon, bottomLeft.lat]);
+const [x2, y2] = proj4("EPSG:4326", "EPSG:2180", [topRight.lon, topRight.lat]);
+
+// URL and params for the API query
+const url = "https://mapy.geoportal.gov.pl/gprest/services/MapaGlebowoRolnicza/MapServer/2/query";
+const params = {
+    geometry: `${x1},${y1},${x2},${y2}`, // Bounding box in EPSG:2180
+    geometryType: "esriGeometryEnvelope",
+    spatialRel: "esriSpatialRelIntersects",
+    outFields: "*",
+    outSR: "4326", // Output in EPSG:4326
+    returnGeometry: "true",
+    f: "geojson",
+    resultRecordCount: 2000,
+    resultOffset: 0
+};
+
+// Function to fetch all features
+async function getAllFeatures() {
+    let allFeatures = [];
+    let offset = 0;
+
+    while (true) {
+        params.resultOffset = offset;
+        const queryUrl = `${url}?${new URLSearchParams(params)}`;
+        console.log("Запит: ", queryUrl);
+        const apiUrlElement = document.getElementById("api-url");
+        if (apiUrlElement) apiUrlElement.textContent = queryUrl;
+
+        const response = await fetch(queryUrl);
+        const data = await response.json();
+
+        if (data && data.features) {
+            const features = data.features;
+            allFeatures = allFeatures.concat(features);
+            if (features.length < 2000) break;
+            offset += 2000;
+        } else {
+            console.log("❌ Помилка", data);
+            break;
+        }
+    }
+    return allFeatures;
+}
+
+// Filter features
+function filterFeatures(features) {
+    const torfyFeatures = [];
+    const lsFeatures = [];
+
+    features.forEach(feature => {
+        const props = feature.properties;
+
+        const uwagi = props.UWAGI || "";
+        const typpodtyp = props.TYPPODTYP || "";
+        const typpodtypNr = props.TYPPODTYP_NR || "";
+        const kompleks = props.KOMPLEKS || "";
+        const kompleksNr = props.KOMPLEKS_NR || "";
+
+        const rodzajFields = [
+            props.RODZAJGLEBYORGANICZNEJ1,
+            props.RODZAJGLEBYORGANICZNEJ2,
+            props.RODZAJGLEBYORGANICZNEJ3,
+            props.RODZAJGLEBYORGANICZNEJ4,
+            props.RODZAJGLEBYORGANICZNEJ5
+        ];
+
+        const isTorfowy =
+            uwagi.includes("torfy") ||
+            uwagi.includes("Tn") ||
+            typpodtyp === "T" ||
+            typpodtypNr === "T" ||
+            rodzajFields.some(field => field && field.trim() !== "");
+
+        const isLs =
+            kompleks === "Ls" ||
+            kompleksNr === "Ls";
+
+        if (isTorfowy) torfyFeatures.push(feature);
+        if (isLs) lsFeatures.push(feature);
+    });
+
+    return { torfyFeatures, lsFeatures };
+}
+
+// Add filtered polygons to map
+function addFilteredPolygonsToMap(features, layerGroup, color) {
+    layerGroup.clearLayers();
+    features.forEach(feature => {
+        L.geoJSON(feature.geometry, {
+            style: {
+                color: color,
+                weight: 2,
+                opacity: 0.6,
+                fillColor: color,
+                fillOpacity: 0.3
+            }
+        }).addTo(layerGroup);
+    });
+}
+
+
+// Fetch and add data
+async function fetchAndAddData() {
+    const features = await getAllFeatures();
+    const { torfyFeatures, lsFeatures } = filterFeatures(features);
+
+    if (torfyFeatures.length > 0) {
+        addFilteredPolygonsToMap(torfyFeatures, filteredLayerGroup, "blue");
+    }
+
+    if (lsFeatures.length > 0) {
+        addFilteredPolygonsToMap(lsFeatures, filteredLsLayerGroup, "green");
+    }
+
+    if (torfyFeatures.length === 0 && lsFeatures.length === 0) {
+        console.log("❌ Немає даних для відображення");
+    }
+}
+fetchAndAddData();
+// Execute the fetch
+// Викликаємо функцію для отримання та додавання даних на карту fetchAndAddData();
+}
+
+
+// Задаємо один раз проекції (поза функцією)
+proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+proj4.defs("EPSG:2180", "+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs");
+
+// Глобальний шар для dzialki
+let dzialkiLayerGroup = L.layerGroup().addTo(map);
+
+function fetchDzialkiPolygonsFromGeoportal() {
+    dzialkiLayerGroup.clearLayers(); // Очистити попередні дані
+
+    let coordsArrayMain = globalCoords.split(",").map(Number);
+    const centerLat = Number(coordsArrayMain[0].toFixed(5));
+    const centerLon = Number(coordsArrayMain[1].toFixed(5));
+    const diagonalMeters = globalRadius * 1000 * 3;
+
+    const metersPerDegreeLat = 111320;
+    const metersPerDegreeLon = 111320 * Math.cos(centerLat * Math.PI / 180);
+    const widthMeters = diagonalMeters / Math.sqrt(2);
+    const halfWidthDeg = (widthMeters / metersPerDegreeLon) / 2;
+    const halfHeightDeg = (widthMeters / metersPerDegreeLat) / 2;
+
+    const bottomLeft = {
+        lon: centerLon - halfWidthDeg,
+        lat: centerLat - halfHeightDeg
+    };
+    const topRight = {
+        lon: centerLon + halfWidthDeg,
+        lat: centerLat + halfHeightDeg
+    };
+
+    const [x1, y1] = proj4("EPSG:4326", "EPSG:2180", [bottomLeft.lon, bottomLeft.lat]);
+    const [x2, y2] = proj4("EPSG:4326", "EPSG:2180", [topRight.lon, topRight.lat]);
+    const bboxParam = `${x1},${y1},${x2},${y2}`;
+
+    const wfsUrl = `https://mapy.geoportal.gov.pl/wss/ext/kowr?service=WFS&version=1.1.0&request=GetFeature&typeName=ms:dzialki&srsName=EPSG:2180&bbox=${bboxParam}&outputFormat=text/xml; subtype=gml/3.1.1`;
+
+    fetch(wfsUrl)
+        .then(response => response.text())
+        .then(xmlText => {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+            const format = new ol.format.WFS();
+            const features = format.readFeatures(xmlDoc, {
+                dataProjection: 'EPSG:2180',
+                featureProjection: 'EPSG:4326' // Leaflet expects EPSG:4326
+            });
+
+            const geojsonFormat = new ol.format.GeoJSON();
+            const geojson = geojsonFormat.writeFeaturesObject(features);
+
+            console.log("✅ Завантажено ділянки:", geojson);
+
+            L.geoJSON(geojson, {
+                style: {
+                    color: "green",
+                    weight: 2,
+                    opacity: 0.7,
+                    fillOpacity: 0.1
+                }
+            }).addTo(dzialkiLayerGroup);
+        })
+        .catch(err => {
+            console.error("❌ Помилка завантаження WFS:", err);
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function downloadAllGeoJSONLayers() {
+    const zip = new JSZip();
+
+    function addLayerToZip(layerGroup, fileName) {
+        const geojson = {
+            type: "FeatureCollection",
+            features: []
+        };
+
+        layerGroup.eachLayer(layer => {
+            if (layer.toGeoJSON) {
+                const layerGeoJSON = layer.toGeoJSON();
+                if (Array.isArray(layerGeoJSON.features)) {
+                    geojson.features.push(...layerGeoJSON.features);
+                } else {
+                    geojson.features.push(layerGeoJSON);
+                }
+            }
+        });
+
+        if (geojson.features.length > 0) {
+            const geojsonStr = JSON.stringify(geojson, null, 2);
+            zip.file(fileName, geojsonStr);
+        }
+    }
+
+    // Додати всі шари до ZIP
+    addLayerToZip(pointLayer, "point.geojson");
+    //addLayerToZip(circleLayer, "circle.geojson");
+    addLayerToZip(filteredLayerGroup, "torfy.geojson");          // торф'яні
+    addLayerToZip(filteredLsLayerGroup, "ls.geojson");           // Ls комплекс
+
+    // Завантаження ZIP
+    zip.generateAsync({ type: "blob" }).then(content => {
+        saveAs(content, "map_layers.zip");
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // За замовчуванням буде використовуватися OpenStreetMap
+      //  osmLayer.addTo(map);
+      var coordDiv = L.control({ position: 'bottomright' });
+
+coordDiv.onAdd = function () {
+    var div = L.DomUtil.create('div', 'coordinate-display');
+    div.style.padding = '5px';
+    div.style.background = 'white';
+    div.style.opacity = '0.8';
+    div.style.cursor = 'pointer'; // Додаємо стиль для вказівника миші
+    div.innerHTML = "Координати:";
+    
+    // Додаємо подію копіювання при кліку
+    div.addEventListener('click', function () {
+        const text = div.innerText.replace('Координати:', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+            div.innerHTML = `✅ Скопійовано ${text}`;
+            setTimeout(updateCenterCoordinates, 1500); // Повертаємо назад через 1.5 секунди
+        }).catch(err => console.error("Помилка копіювання:", err));
+    });
+
+    return div;
+};
+
+coordDiv.addTo(map);
+
+// Функція для оновлення координат центру карти
+function updateCenterCoordinates() {
+    var center = map.getCenter();
+    document.querySelector('.coordinate-display').innerHTML = 
+        `${center.lat.toFixed(6)}, ${center.lng.toFixed(6)}`;
+}
+
+// Оновлюємо координати при русі карти
+map.on('moveend', updateCenterCoordinates);
+
+// Оновлюємо координати при завантаженні
+updateCenterCoordinates();
+
+       L.Control.Info = L.Control.extend({
+            onAdd: function(map) {
+                var container = L.DomUtil.create("div", "info-control");
+                container.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>';
+                container.title = "Натисніть для інформації";
+                
+                container.onclick = function() {
+                    alert("📌 Для отримання кадастрових даних натисніть правою кнопкою миші на карту.\n📌 Після натискання буде завантажено тайл з кадастровими даними.\n📌 Для очищення карти натисніть на колесико миші.");
+                };
+        
+                return container;
+            }
+        });
+
+        // Додаємо елемент на карту
+        var infoControl = new L.Control.Info({ position: "topleft" });
+        map.addControl(infoControl);
+//-----------------------------малювання - вимірювання--------------------------------------
+        var measureControl = new L.Control.Measure({
+            position: "topleft",
+            primaryLengthUnit: "meters",
+            secondaryLengthUnit: "kilometers", // Одиниці вимірювання
+            primaryAreaUnit: "hectares",
+            secondaryAreaUnit: "sqmeters",
+            showMeasurements: true, // Показує вимірювання ліній
+            captureZIndex: 10000,
+            measureControlTitle: "Виміряти відстань",
+            activeColor: '#ff0000',  // Колір лінії активного вимірювання
+            completedColor: '#0000ff'
+            
+        });
+
+        map.addControl(measureControl);
+
+        
+        // Додаємо елемент на карту
+        map.pm.addControls({
+            position: 'bottomright', // Розташування панелі
+            drawCircle: true,
+            drawRectangle: false,
+            drawPolygon: true, 
+            drawMarker: false, // Вимкнути точки
+            drawCircleMarker: false, // Вимкнути круглі маркери
+            drawText: true, // Вимкнути текст
+            measureControl: true,
+            editMode: false, // Вимикає режим редагування
+            cutPolygon: false,
+            rotateMode: false,
+        });
+
+        // 4. Включаємо режим вимірювання довжини/площі
+        map.pm.setGlobalOptions({
+            measureControl: true,  // Додає кнопку вимірювання
+            allowSelfIntersection: true, // Вимикає перетин самих себе
+            cutPolygon: false, // Вимикає вирізання полігонів
+            editMode: false,
+            rotateMode: false,
+            snappable: false,
+        });
+
+        map.pm.setPathOptions({
+            color: 'red',        // Колір ліній
+            fillColor: 'red',   // Колір заповнення полігонів
+            fillOpacity: 0,    // Прозорість полігонів
+            weight: 2           // Товщина ліній
+        });
+
+        let distanceTooltip;
+    
+        map.on('pm:drawstart', function (e) {
+            if (e.workingLayer instanceof L.Polyline) {
+                let totalDistance = 0;
+                let lastLatLng = null;
+
+                e.workingLayer.on('pm:vertexadded', function (event) {
+                    let latlngs = e.workingLayer.getLatLngs();
+                    let currentLatLng = latlngs[latlngs.length - 1]; 
+
+                    if (lastLatLng !== null) {
+                        totalDistance += lastLatLng.distanceTo(currentLatLng);
+                    }
+                    lastLatLng = currentLatLng;
+
+                    if (distanceTooltip) {
+                        map.removeLayer(distanceTooltip);
+                    }
+
+                    distanceTooltip = L.tooltip({
+                        permanent: false,
+                        direction: 'top',
+                        className: 'distance-tooltip'
+                    })
+                        .setLatLng(currentLatLng)
+                        .setContent(`${totalDistance.toFixed(2)} м`)
+                        .addTo(map);
+                });
+
+                map.once('pm:drawend', function () {
+                    if (distanceTooltip) {
+                        map.removeLayer(distanceTooltip);
+                    }
+                });
+            }
+        });
+
+
+
+
+map.on('pm:drawstart', function (e) {
+    if (e.workingLayer instanceof L.Circle) {
+        let centerLatLng = null;
+
+        // Слухач події для визначення центру кола
+        map.on('click', function setCenter(event) {
+            centerLatLng = event.latlng; // Встановлюємо центр кола на перше натискання на карту
+            map.off('click', setCenter); // Вимикаємо слухача після визначення центру
+
+            // Оновлюємо тултіп під час малювання
+            let moveListener = function (event) {
+                let currentLatLng = event.latlng;
+                let radius = centerLatLng.distanceTo(currentLatLng); // Відстань від центру кола до поточної точки
+
+                // Видаляємо старий тултіп
+                if (distanceTooltip) {
+                    map.removeLayer(distanceTooltip);
+                }
+
+                // Створюємо новий тултіп біля курсора
+                distanceTooltip = L.tooltip({
+                    permanent: false,
+                    direction: 'top',
+                    className: 'distance-tooltip'
+                })
+                    .setLatLng(currentLatLng) // Позиція тултіпа біля курсора
+                    .setContent(`Радіус: ${radius.toFixed(2)} м`)
+                    .addTo(map);
+            };
+
+            map.on('mousemove', moveListener); // Додаємо слухача для події mousemove після встановлення центру
+
+            // Після завершення малювання кола
+            map.once('pm:drawend', function () { // Використовуємо `once` для того, щоб обробляти подію тільки один раз
+                map.removeLayer(distanceTooltip);
+                map.off('mousemove', moveListener); // Вимикаємо оновлення тултіпа після завершення малювання
+            });
+        });
+    }
+});
+
+var selectedPolygon = null; // Тут зберігається вибраний полігон
+
+// Додаємо обробник кліку на полігон для вибору
+map.on('pm:create', function (e) {
+    e.layer.on('click', function () {
+        if (selectedPolygon) {
+            selectedPolygon.setStyle({ color: 'red' }); // Повертаємо попередній колір
+        }
+        selectedPolygon = this;
+        selectedPolygon.setStyle({ color: 'blue' }); // Виділяємо вибраний полігон
+    });
+});
+
+// Функція експорту вибраного полігону
+function exportSelectedGeoJSON() {
+    if (!selectedPolygon) {
+        alert("Виберіть полігон, клікнувши на нього!");
+        return;
+    }
+
+    // Отримуємо GeoJSON
+    var geojsonFeature = selectedPolygon.toGeoJSON();
+    var geojsonString = JSON.stringify(geojsonFeature, null, 2);
+
+    // Створюємо посилання для завантаження файлу
+    var blob = new Blob([geojsonString], { type: "application/json" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "selected_polygon.geojson";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Додаємо кнопку для завантаження конкретного полігону
+var downloadButton = L.control({ position: "bottomright" });
+
+downloadButton.onAdd = function (map) {
+    var div = L.DomUtil.create("div", "leaflet-bar leaflet-control leaflet-control-custom");
+    div.innerHTML = '<button style="background:#fff;border:1px solid #ccc;padding:5px 5px;cursor:pointer;">⬇️</button>';
+    div.onclick = exportSelectedGeoJSON;
+    return div;
+};
+
+// Додаємо кнопку на карту
+
+
+downloadButton.addTo(map);
+
+L.Control.geocoder({
+    position: "topleft",
+    defaultMarkGeocode: false
+}).on('markgeocode', function(e) {
+    map.setView(e.geocode.center, 15);
+}).addTo(map);
+
+
+
+
+//-----------------------------будування шарів--------------------------------------    
+
+
+//-----------------------------електромережі--------------------------------------    
+    
+//-----------------------------підключення до нек--------------------------------------
+        
+
+
+
+        function addLayersAfterAnimation() {
+            setTimeout(() => {
+            }, 1000); // затримка 4 секунди (тривалість анімації)
+        }
+                        
+        addLayersAfterAnimation();
+
+
+//})
+//.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+
+                                 
+    </script>
+</body>
+</html>
