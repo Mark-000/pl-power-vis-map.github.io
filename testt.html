@@ -465,6 +465,7 @@ input[type="radio"]:checked::before {
 
     <!-- Додавання бібліотеки proj4js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js"></script>
+    <script src="https://unpkg.com/proj4leaflet"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -473,6 +474,11 @@ input[type="radio"]:checked::before {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
 <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/togeojson.js"></script>
+
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+<!-- Додай в <head> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wellknown/1.0.1/wellknown.min.js"></script>
+
 
 
 
@@ -516,7 +522,7 @@ let map = L.map('map', {
     zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
     attributionControl: false, // Приховуємо атрибуцію
     center: [20, 0], // Початковий вигляд на глобус
-    zoom: 2,
+    zoom: 1,
     globeView: true // Активуємо режим глобуса
 });
 
@@ -561,7 +567,7 @@ document.getElementById("project-form").addEventListener("submit", function (e) 
         // Показуємо блок аналізу
         document.getElementById("analysis-status").style.display = "block";
         fetchOrganicAddData();
-        fetchDzialkiPolygonsFromGeoportal();
+        fetchDzialkiPolygonsFromGeoportal()
         // Додаємо статуси
         addStatus("✅ Отримано координати: " + globalCoords);
         addStatus("✅ Радіус зони: " + globalRadius + " км");
@@ -630,11 +636,13 @@ function updateLayerControl() {
                 children: [
                     { label: "Центр", layer: pointLayer },
                     { label: "Зона", layer: circleLayer },
+                    { label: "Kowr", layer: dzialkiKowrLayerGroup },
+                    { label: "Грунти органічні ", layer: filteredLayerGroup },
+                    { label: "Грунти лісу", layer: filteredLsLayerGroup },
                 ]
             }
         ]
     };
-
     var baseTree = {
         label: "<b>Базові карти</b>",
         children: [
@@ -644,7 +652,6 @@ function updateLayerControl() {
             { label: "Topo Map", layer: topoLayer, radioGroup: "basemap" },
         ]
     };
-
     // Додаємо контроль шарів
     var layerControl = L.control.layers.tree(baseTree, overlaysTree, {
         namedToggle: false,  
@@ -654,7 +661,6 @@ function updateLayerControl() {
         collapsed: true
     }).addTo(map);
 
-    
 }
 
 window.hideDonationBox = function () {
@@ -839,15 +845,19 @@ fetchAndAddData();
 }
 
 
-// Задаємо один раз проекції (поза функцією)
+
+
+
+
+
+// Define projections
 proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
 proj4.defs("EPSG:2180", "+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs");
 
-// Глобальний шар для dzialki
-let dzialkiLayerGroup = L.layerGroup().addTo(map);
+let dzialkiKowrLayerGroup = L.layerGroup().addTo(map);
 
 function fetchDzialkiPolygonsFromGeoportal() {
-    dzialkiLayerGroup.clearLayers(); // Очистити попередні дані
+    dzialkiKowrLayerGroup.clearLayers();
 
     let coordsArrayMain = globalCoords.split(",").map(Number);
     const centerLat = Number(coordsArrayMain[0].toFixed(5));
@@ -860,71 +870,348 @@ function fetchDzialkiPolygonsFromGeoportal() {
     const halfWidthDeg = (widthMeters / metersPerDegreeLon) / 2;
     const halfHeightDeg = (widthMeters / metersPerDegreeLat) / 2;
 
-    const bottomLeft = {
-        lon: centerLon - halfWidthDeg,
-        lat: centerLat - halfHeightDeg
-    };
-    const topRight = {
-        lon: centerLon + halfWidthDeg,
-        lat: centerLat + halfHeightDeg
-    };
+    const bottomLeft = { lon: centerLon - halfWidthDeg, lat: centerLat - halfHeightDeg };
+    const topRight = { lon: centerLon + halfWidthDeg, lat: centerLat + halfHeightDeg };
 
     const [x1, y1] = proj4("EPSG:4326", "EPSG:2180", [bottomLeft.lon, bottomLeft.lat]);
     const [x2, y2] = proj4("EPSG:4326", "EPSG:2180", [topRight.lon, topRight.lat]);
     const bboxParam = `${x1},${y1},${x2},${y2}`;
 
-    const wfsUrl = `https://mapy.geoportal.gov.pl/wss/ext/kowr?service=WFS&version=1.1.0&request=GetFeature&typeName=ms:dzialki&srsName=EPSG:2180&bbox=${bboxParam}&outputFormat=text/xml; subtype=gml/3.1.1`;
-
+    const wfsUrl = `https://mapy.geoportal.gov.pl/wss/ext/kowr?service=WFS&version=1.1.0&request=GetFeature&typeName=ms:dzialki&srsName=EPSG:2180&bbox=${bboxParam}&outputFormat=text/xml;%20subtype=gml/3.1.1`;
+    console.log(wfsUrl)
+    
     fetch(wfsUrl)
-        .then(response => response.text())
-        .then(xmlText => {
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+    .then(response => response.text())
+    .then(gmlText => {
+        // Парсинг GML
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(gmlText, "application/xml");
 
-            const format = new ol.format.WFS();
-            const features = format.readFeatures(xmlDoc, {
-                dataProjection: 'EPSG:2180',
-                featureProjection: 'EPSG:4326' // Leaflet expects EPSG:4326
-            });
+        // Збираємо всі геометрії
+        const features = xmlDoc.getElementsByTagName("gml:featureMember");
+        
+        
+// Визначення систем координат
+        proj4.defs('EPSG:2180', '+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs');
+        proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
 
-            const geojsonFormat = new ol.format.GeoJSON();
-            const geojson = geojsonFormat.writeFeaturesObject(features);
+        const geojson = {
+            type: "FeatureCollection",
+            features: []
+        };
 
-            console.log("✅ Завантажено ділянки:", geojson);
+for (let i = 0; i < features.length; i++) {
+    const feature = features[i];
+    const polygon = feature.getElementsByTagName("ms:msGeometry")[0];
+    const posList = polygon.getElementsByTagName("gml:posList")[0].textContent.trim();
 
-            L.geoJSON(geojson, {
-                style: {
-                    color: "green",
-                    weight: 2,
-                    opacity: 0.7,
-                    fillOpacity: 0.1
-                }
-            }).addTo(dzialkiLayerGroup);
+    // Отримуємо координати
+    const coords = posList.split(" ").map(coord => parseFloat(coord));
+    let swappedCoords = [];
+
+    // Конвертуємо координати з EPSG:2180 до EPSG:4326
+    for (let j = 0; j < coords.length; j += 2) {
+        const x = coords[j + 1]; // Схід (Easting)
+        const y = coords[j];     // Північ (Northing)
+        const [lon, lat] = proj4('EPSG:2180', 'EPSG:4326', [x, y]); // Конвертація
+        swappedCoords.push([lon, lat]); // Додаємо в правильному порядку: [довгота, широта]
+    }
+
+    // Додаємо координати як лінію в полігоні (GeoJSON)
+    geojson.features.push({
+        type: "Feature",
+        geometry: {
+            type: "Polygon",
+            coordinates: [swappedCoords] // Потрібно вкласти в масив для Polygon
+        },
+        properties: {}
+    });
+}
+    const kowrL = L.geoJSON(geojson, {
+            style: function () {
+                return {
+                    color: "#ff7800",    // Колір межі
+                    weight: 2,           // Товщина межі
+                    opacity: 0.65,       // Прозорість межі
+                    fillOpacity: 0.3     // Прозорість заповнення
+                };
+            }
         })
-        .catch(err => {
-            console.error("❌ Помилка завантаження WFS:", err);
-        });
+        dzialkiKowrLayerGroup.addLayer(kowrL);
+
+// Виводимо результат
+    console.log(JSON.stringify(geojson, null, 2));
+    })
+    .catch(error => {
+        console.error("❌ Error fetching or parsing GML:", error);
+    });
+
 }
 
 
 
 
+const geoJsonLayerGroupDilyanka = L.layerGroup().addTo(map);
+let geoJsonLayerGroupDilAdded = L.layerGroup().addTo(map);
+
+const crs2180 = new L.Proj.CRS(
+  "EPSG:2180",
+  "+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=0 +ellps=GRS80 +units=m +no_defs",
+  {
+    resolutions: [8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5],
+    origin: [0, 0],
+  }
+);
+
+map.on("click", function (e) {
+    let alreadyExists = false;
+
+  /*geoJsonLayerGroupDilyanka.eachLayer(function(layer) {
+    if (layer.getBounds && layer.getBounds().contains(e.latlng)) {
+      alreadyExists = true;
+    }
+  });
+
+  // Якщо в місці натискання є шар, не виконувати подальші дії
+  if (alreadyExists) {
+    console.log("Шар вже є в цьому місці, нічого не робимо.");
+    return; // Виходимо з функції, не додаючи новий полігон
+  }*/
+  geoJsonLayerGroupDilyanka.clearLayers();
+
+  const point2180 = proj4("EPSG:4326", "EPSG:2180", [e.latlng.lng, e.latlng.lat]);
+
+  const x = point2180[0];
+  const y = point2180[1];
+
+  // Свап координат перед формуванням BBOX (міняємо місцями X і Y)
+  const delta = 1.0; // розмір половини bbox у метрах
+  const bbox = [
+    y - delta,  // спочатку Y (південний захід)
+    x - delta,  // потім X (південний захід)
+    y + delta,  // потім Y (північний схід)
+    x + delta,  // потім X (північний схід)
+  ].join(",");
+
+  const baseUrl =
+    "https://mapy.geoportal.gov.pl/imapnext/api/prx/xsvc/?" +
+    "https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow";
+
+  const params = {
+    language: "pol",
+    SERVICE: "WMS",
+    REQUEST: "GetFeatureInfo",
+    VERSION: "1.3.0",
+    LAYERS: "numery_dzialek,dzialki,geoportal,budynki,kontury,uzytki",
+    QUERY_LAYERS: "numery_dzialek,dzialki,geoportal,budynki,kontury,uzytki",
+    CRS: "EPSG:2180",
+    BBOX: bbox,
+    INFO_FORMAT: "text/xml",
+    FORMAT: "image/png",
+    WIDTH: 101,
+    HEIGHT: 101,
+    I: 50,
+    J: 50,
+  };
+
+  const url =
+    baseUrl + "?" +
+    Object.entries(params)
+      .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
+      .join("&");
+
+  fetch(url)
+    
+    .then((res) => res.text())
+    .then((xmlText) => {
+        console.log("kadastr url", url)
+      // Тут ти можеш парсити XML і витягати потрібні дані
+      const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+    // Знаходимо всі елементи <gml:featureMember>
+    const featureMembers = xmlDoc.getElementsByTagName("gml:featureMember");
+
+    // Масив для збереження результатів
+    const jsonData = [];
+
+    // Перебираємо всі <gml:featureMember>
+    Array.from(featureMembers).forEach((feature) => {
+      // Створюємо об'єкт для цього запису
+      const attributes = {};
+
+      // Збираємо всі елементи <Attribute> для поточного feature
+      const attributeElements = feature.getElementsByTagName("Attribute");
+
+      Array.from(attributeElements).forEach((attr) => {
+        const name = attr.getAttribute("Name");
+        const value = attr.textContent.trim();
+
+        // Додаємо атрибути в об'єкт
+        attributes[name] = value;
+      });
+
+      // Додаємо об'єкт в масив
+      jsonData.push(attributes);
+    });
+
+    // Виводимо отриманий JSON
+    jsonData.forEach((item) => {
+      const parcelId = item["Identyfikator działki"];
+
+      // Формуємо URL для запиту за геометрією
+      const url2 = `https://uldk.gugik.gov.pl/?request=GetParcelById&id=${parcelId}&result=geom_wkt&srid=4326`;
+      console.log(url2);
+
+      fetch(url2)
+        .then(response => response.text())
+        .then(data => {
+          // Розділяємо дані, щоб отримати WKT (полігон)
+          const wktGeometry = data.split("\n")[1]; // Беремо другу строку
+
+          // Перетворюємо WKT в масив координат
+          const coordinates = wktGeometry
+            .match(/\(([^()]+)\)/)[1] // Отримуємо координати між дужками
+            .split(",") // Розділяємо пари координат
+            .map(coord => coord.trim().split(" ").map(Number)); // Перетворюємо у числовий формат
+
+          // Створюємо GeoJSON з додаванням атрибутів
+          const geoJson = {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [coordinates]
+            },
+            properties: {
+              ...item // Додаємо атрибути з XML до властивостей GeoJSON
+            }
+          };
+          const geoDilyanka = L.geoJSON(geoJson, {
+  onEachFeature: function(feature, layer) {
+    layer.bindPopup(`
+      <b>Ділянка:</b> ${feature.properties["Identyfikator działki"] || 'Unknown'}<br>
+      <button id="addToGroupButton">+ Додати до карти</button>
+      <button id="removeFromGroupButton">- Видалити з карти</button>
+    `);
+
+    // Додаємо обробники подій при відкритті попапу
+    layer.on('popupopen', function() {
+      const popupElement = layer.getPopup().getElement();
+
+      // Обробник для кнопки "Додати"
+      const addButton = popupElement.querySelector('#addToGroupButton');
+      if (addButton) {
+        addButton.replaceWith(addButton.cloneNode(true)); // Очищаємо старі обробники
+        const newAddButton = popupElement.querySelector('#addToGroupButton');
+        newAddButton.addEventListener('click', function() {
+          // Створюємо новий екземпляр шару для geoJsonLayerGroupDilAdded
+          const geoDilyankaCopy = L.geoJSON(geoJson, {
+            style: {
+              color: "purple",
+              weight: 2,
+              opacity: 0.65,
+              fillOpacity: 0.3
+            },
+            onEachFeature: function(feature, layer) {
+              // Прив’язуємо попап до нового шару
+              layer.bindPopup(`
+                <b>Ділянка:</b> ${feature.properties["Identyfikator działki"] || 'Unknown'}
+                <button id="removeFromAddedGroupButton">- Видалити з карти</button>
+              `);
+
+              layer.on('popupopen', function() {
+                const popupElementCopy = layer.getPopup().getElement();
+                const removeButton = popupElementCopy.querySelector('#removeFromAddedGroupButton');
+                if (removeButton) {
+                  removeButton.replaceWith(removeButton.cloneNode(true));
+                  const newRemoveButton = popupElementCopy.querySelector('#removeFromAddedGroupButton');
+                  newRemoveButton.addEventListener('click', function() {
+                    if (geoJsonLayerGroupDilAdded.hasLayer(geoDilyankaCopy)) {
+                      geoJsonLayerGroupDilAdded.removeLayer(geoDilyankaCopy);
+                      geoJsonLayerGroupDilyanka.removeLayer(geoDilyanka);
+                      console.log("Видалено з geoJsonLayerGroupDilAdded");
+                    }
+                    layer.closePopup();
+                  });
+                }
+              });
+            }
+          });
+          geoJsonLayerGroupDilAdded.addLayer(geoDilyankaCopy);
+          geoJsonLayerGroupDilyanka.removeLayer(geoDilyanka);
+          map.fitBounds(geoDilyankaCopy.getBounds());
+          layer.closePopup(); // Закриваємо попап після натискання
+        });
+      }
+
+      // Обробник для кнопки "Видалити"
+      const removeButton = popupElement.querySelector('#removeFromGroupButton');
+      if (removeButton) {
+        removeButton.replaceWith(removeButton.cloneNode(true)); // Очищаємо старі обробники
+        const newRemoveButton = popupElement.querySelector('#removeFromGroupButton');
+        newRemoveButton.addEventListener('click', function() {
+          if (geoJsonLayerGroupDilyanka.hasLayer(geoDilyanka)) {
+            geoJsonLayerGroupDilyanka.removeLayer(geoDilyanka);
+            console.log("Видалено з geoJsonLayerGroupDilyanka");
+          }
+          layer.closePopup();
+        });
+      }
+    });
+  },
+  style: function() {
+    return {
+      color: "black",
+      weight: 2,
+      opacity: 0.65,
+      fillOpacity: 0.3
+    };
+  }
+});
+
+// Додаємо полігон до основної групи
+geoJsonLayerGroupDilyanka.addLayer(geoDilyanka);
+geoDilyanka.eachLayer(function(layer) {
+  layer.openPopup();
+});
+
+// Виводимо результат
+console.log(JSON.stringify(geoJson, null, 2));
+
+});
+
+    
+});
+});
+});
 
 
 
 
+//https://integracja01.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow?VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=dzialki,numery_dzialek,budynki&SRS=EPSG:2180&WIDTH=1570&HEIGHT=916&TRANSPARENT=TRUE&FORMAT=image/png&BBOX=659944.766407799,486467.44840687,660557.657032805,486824.870281908
 
 
 
 
+const kadasrwms = L.tileLayer.wms("https://integracja01.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow", {
+  layers: "dzialki,kontury,numery_dzialek",
+  format: "image/png",
+  transparent: true,
+  version: "1.1.1",
+  attribution: "© GUGiK"
+});
 
+kadasrwms.addTo(map);
 
+/*const konturyWms = L.tileLayer.wms("https://wms16.epodgik.pl/cgi-bin/int_kuzg", {
+  layers: "kontury_klasyfikacyjne",
+  format: "image/png",
+  transparent: true,
+  version: "1.1.1",
+  attribution: "© GUGiK"
+});
 
-
-
-
-
-
+konturyWms.addTo(map);*/
 
 
 
@@ -975,7 +1262,9 @@ function downloadAllGeoJSONLayers() {
     addLayerToZip(pointLayer, "point.geojson");
     //addLayerToZip(circleLayer, "circle.geojson");
     addLayerToZip(filteredLayerGroup, "torfy.geojson");          // торф'яні
-    addLayerToZip(filteredLsLayerGroup, "ls.geojson");           // Ls комплекс
+    addLayerToZip(filteredLsLayerGroup, "ls.geojson");     
+    addLayerToZip(dzialkiKowrLayerGroup, "kowr.geojson");    
+    addLayerToZip(geoJsonLayerGroupDilAdded, "selectedDil.geojson");       // Ls комплекс
 
     // Завантаження ZIP
     zip.generateAsync({ type: "blob" }).then(content => {
