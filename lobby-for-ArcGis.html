@@ -7,8 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&family=Roboto+Slab:wght@100..900&family=Sofia+Sans:ital,wght@1,1..1000&family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
     
 </head>
-
-    <script type="module">
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
     import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 
@@ -38,10 +37,10 @@
 
     // Обробка кнопки виходу
 
-</script> 
+</script>
+
+
 <style>
-
-
 .good-grad {
   background: radial-gradient(
       #191919 0%,
@@ -144,8 +143,25 @@
         font-size: 0.95em;
     }
     .maps-box-element:hover{
-        transform: scale(1.1);
         
+        animation: shadowa 0.5s forwards;
+        
+        
+    }
+
+    @keyframes shadowa {
+      from {
+        transform: scale(1);
+        -webkit-box-shadow: 0px 0px 2px -1px rgba(255,255,255,0.78);
+        -moz-box-shadow: 0px 0px 2px -1px rgba(255,255,255,0.78);
+        box-shadow: 0px 0px 2px -1px rgba(255,255,255,0.78);
+      }
+      to {
+        transform: scale(1.05);
+        -webkit-box-shadow: 12px 10px 2px -1px rgba(255,255,255,0.78);
+        -moz-box-shadow: 12px 12px 2px -1px rgba(255,255,255,0.78);
+        box-shadow: 12px 12px 2px -1px rgba(255,255,255,0.78);
+      }
     }
     .maps-box-element img{
         width:300px;
@@ -213,6 +229,7 @@ font-size: 1.1em;
       transform-origin: center;
     }
 </style>
+
 <body>
     <nav>
         <diV class="nav-box">
