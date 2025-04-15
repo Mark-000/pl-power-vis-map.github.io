@@ -156,12 +156,12 @@ input{
   background-image: linear-gradient(19deg, #236979 0%, #04dede 100%);
   width: 100%;
   color: white;
-  border: none;
+    border: none;
   margin-top: 35px;
-  cursor: pointer;
+    cursor: pointer;
   padding: 10px;
     /*font-family: 'Raleway', sans-seriff;*/
-  font-size: 1.3rem;
+    font-size: 1.3rem;
   font-weight: bold;
   border-radius: 24px;
   transition: 0.25s;
@@ -219,10 +219,9 @@ input:-webkit-autofill:active{
 
   <!-- Firebase scripts -->
   <script type="module">
-    // Firebase SDK imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
-
+  
     const firebaseConfig = {
       apiKey: "AIzaSyAQpI0dCWKbXACbnNi445Hro26SzrlsGdU",
       authDomain: "my-map-pj-54751.firebaseapp.com",
@@ -232,48 +231,40 @@ input:-webkit-autofill:active{
       appId: "1:349429907738:web:8a6d42bfeaf8eb0b612ca3",
       measurementId: "G-T4XGCQ6PDH"
     };
-    
-    // Initialize Firebase
+  
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
-    // Handle login form submission
+  
     const form = document.getElementById("login-form");
-
+  
+    // Отримати redirect URL (або дефолт)
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get("redirect") || "https://mark-000.github.io/pl-power-vis-map.github.io/";
+  
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-
+  
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-
-      // Sign in with Firebase Auth
+  
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-
-          // Check if user is in the whitelist
-          const whiteList = ["myauthacc@auc.test"]; // Example whitelist
+  
+          // Whitelist-перевірка
+          const whiteList = ["myauthacc@auc.test"];
           if (whiteList.includes(user.email)) {
-            // Redirect to the main page
-            window.location.href = "https://mark-000.github.io/pl-power-vis-map.github.io/";
+            window.location.href = redirectUrl;
           } else {
             alert("You are not authorized to access this site.");
-            signOut(auth)
-              .then(() => {
-                // User is signed out
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
+            signOut(auth).catch((error) => console.log(error.message));
           }
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert("Error: " + errorMessage);
+          alert("Error: " + error.message);
         });
     });
-</script>
+  </script>
 
 
 </body>
