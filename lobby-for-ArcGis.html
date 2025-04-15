@@ -7,6 +7,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&family=Roboto+Slab:wght@100..900&family=Sofia+Sans:ital,wght@1,1..1000&family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
     
 </head>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+    import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAQpI0dCWKbXACbnNi445Hro26SzrlsGdU",
+        authDomain: "my-map-pj-54751.firebaseapp.com",
+        projectId: "my-map-pj-54751",
+        storageBucket: "my-map-pj-54751.firebasestorage.app",
+        messagingSenderId: "349429907738",
+        appId: "1:349429907738:web:8a6d42bfeaf8eb0b612ca3",
+        measurementId: "G-T4XGCQ6PDH"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Перевірка стану користувача
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            // Якщо користувач не авторизований, перенаправляємо на сторінку входу
+            window.location.href = "https://mark-000.github.io/pl-power-vis-map.github.io/login.html";
+        } else {
+            console.log("User is logged in:", user.email);
+            // Тут можна показати дані користувача на сторінці
+        }
+    });
+
+    // Обробка кнопки виходу
+
+</script> 
 <style>
 
 
