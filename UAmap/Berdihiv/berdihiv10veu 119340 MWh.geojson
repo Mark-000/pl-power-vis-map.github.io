@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "berdihiv10veu",
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.504579725481477, 49.881749095492076 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.510992499416172, 49.878073469291223 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.512269002056694, 49.871199804408931 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.531914276118076, 49.867293381100957 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.529425816666929, 49.85097599215166 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.478767740006479, 49.843776721394306 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.472271859509043, 49.84688660221935 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.478000384148029, 49.851212611960257 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.486473271753436, 49.84937092678625 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.506672241745701, 49.844748602146041 ] } }
+]
+}
