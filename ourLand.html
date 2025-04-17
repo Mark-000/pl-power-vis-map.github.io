@@ -475,7 +475,7 @@ input[type="radio"]:checked::before {
 
     // Затримка для анімації - обертання глобуса
     setTimeout(() => {
-        map.flyTo([49.763967421708514, 27.982313845924605], 7, { // Задаємо координати та зум
+        map.flyTo([49.888509, 23.526260], 7, { // Задаємо координати та зум
             animate: true,
             duration: 3 // Тривалість анімації
         });
@@ -748,30 +748,41 @@ L.Control.geocoder({
 
 //-----------------------------кадастр--------------------------------------  
 var geojsonUrsmall_14_01 = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ourkadnum-ur-all.geojson';
-        fetch(geojsonUrsmall_14_01)
-            .then(response => response.json())
-            .then(projektyGeojsonData => {
-                small_14_01 = L.geoJSON(projektyGeojsonData, {
-                    style: function(feature) {
-                        return {
-                            fillColor: "purple", // Колір заповнення полігону
-                            color: "black", // Колір обведення
-                            weight: 2, // Товщина обведення
-                            opacity: 1, // Прозорість обведення
-                            fillOpacity: 0.7 // Прозорість заповнення
-                        };
-                    },
-                    onEachFeature: function(feature, layer) {
-                        layer.bindPopup(`
-                            <b>Номер:</b> ${feature.properties["landuse.cadnum"] || 'Unknown'}<br>
-                            <b>Площа:</b> ${feature.properties.area || 'Unknown'}<br>
-                            <b>Використання:</b> ${feature.properties.use || 'Unknown'}<br>
-                            <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
-                            <b>Юридичка:</b> ${feature.properties['ЄДРПОУ'] || 'ownership'}<br>
-                            <div>🔗<a href="https://kadastr.live/parcel/${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></p>
-                        `);
-                    }
-                });  
+fetch(geojsonUrsmall_14_01)
+    .then(response => response.json())
+    .then(projektyGeojsonData => {
+        var small_14_01 = L.geoJSON(projektyGeojsonData, {
+            style: function(feature) {
+                // Визначення кольору залежно від значення "Сервітут"
+                var fillColor;
+                if (feature.properties['Сервітут'] === "True") {
+                    fillColor = "blue"; // Синій для сервітуту
+                } else if (feature.properties['Сервітут'] === "False") {
+                    fillColor = "red"; // Червоний для без сервітуту
+                } else {
+                    fillColor = "black"; // Чорний для відсутніх даних
+                }
+
+                return {
+                    fillColor: fillColor,
+                    color: "black", // Колір обведення
+                    weight: 2, // Товщина обведення
+                    opacity: 1, // Прозорість обведення
+                    fillOpacity: 0.8 // Прозорість заповнення
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup(`
+                    <b>Номер:</b> ${feature.properties["landuse.cadnum"] || 'Unknown'}<br>
+                    <b>Площа:</b> ${feature.properties.area || 'Unknown'}<br>
+                    <b>Сервітут:</b> ${feature.properties['Сервітут'] || 'Unknown'}<br>
+                    <b>Використання:</b> ${feature.properties.use || 'Unknown'}<br>
+                    <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
+                    <b>Юридичка:</b> ${feature.properties['Файл'] || 'ownership'}<br>
+                    <div>🔗<a href="https://kadastr.live/parcel/${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></div>
+                `);
+            }
+        }); 
     
 //-----------------------------підключення до нек--------------------------------------
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
