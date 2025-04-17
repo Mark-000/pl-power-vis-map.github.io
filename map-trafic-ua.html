@@ -2045,6 +2045,43 @@ fetch(geojsonUrlpointskovel17)
                     return marker;
                 }
             })
+            var geojsonUrlpointsBerdihiv10color = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/Berdihiv/10veu127966MWh.geojson';
+
+        fetch(geojsonUrlpointsBerdihiv10color)
+            .then(response => response.json())
+            .then(projektyGeojsonData => {
+                vitryaki_Berdihiv10color = L.geoJSON(projektyGeojsonData, {
+                    pointToLayer: function(feature, latlng) {
+                        // Визначаємо колір на основі id
+                        var id = feature.properties.id;
+                        var fillColor = "#fc6203"; // за замовчуванням (оранжевий)
+
+                        if (id === 1) {
+                            fillColor = "#30de04";
+                        } else if (id === 2) {
+                            fillColor = "orange";
+                        } else if (id === 3) {
+                            fillColor = "red";
+                        }
+
+                        // Створюємо кастомну іконку з SVG
+                        var icon = L.divIcon({
+                            html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${fillColor}"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                            className: 'no-background-icon',
+                            iconSize: [24, 24],
+                            iconAnchor: [12, 12]
+                        });
+
+                        var marker = L.marker(latlng, { icon: icon });
+
+                        marker.on('click', function() {
+                            toggleCircles(latlng);
+                        });
+
+                        return marker;
+                    }
+                });
+            
 
 
 
@@ -2174,6 +2211,7 @@ fetch(geojsonUrlpointskovel17)
                             { label: "8 ВЕУ 108м 114514 MWh нові", layer: vitryaki_Berdihiv8v1 },
                             { label: "8 ВЕУ 108м 108024 MWh відведені", layer: vitryaki_Berdihiv8v2 },
                             { label: "10 ВЕУ 119340 MWh", layer: vitryaki_Berdihiv10 },
+                            { label: "10 ВЕУ 127966 MWh", layer: vitryaki_Berdihiv10color },
                             ]
                         },
                         { label: "25км для проектів", layer: buffer25pidstLayer },
@@ -2403,7 +2441,9 @@ fetch(geojsonUrlpointskovel17)
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
 })
 .catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-                                  
+})
+.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
+                                   
     </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
