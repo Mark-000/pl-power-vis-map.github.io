@@ -112,10 +112,11 @@
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
+        /*align-items: flex-start;*/
     }
     .maps-box-element{
         width:300px;
-        min-height: 300px;
+        min-height: 350px;
         background-color: rgb(227, 227, 227);
         margin: 0.5%;
         margin-bottom: 5%;
@@ -126,6 +127,10 @@
   rgba(179, 179, 179, 0.09) 2px 16px 8px, 
   rgba(158, 158, 158, 0.09) 2px 32px 16px;
     color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
         
     }
     .maps-box-element .map-name{
@@ -167,12 +172,14 @@
     }
     .map-buttons {
   display: flex;
+  
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
               rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 .map-buttons a {
+    
 font-size: 1.1em;
   flex: 1 1 50%;
   text-align: center;
@@ -254,18 +261,31 @@ font-size: 1.1em;
         <div class="ourmaps">OUR MAPS</div>
         <div class="maps-box">
             <div class="maps-box-element">
-                
-                    <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/zimne-gpt.png"
-                    alt="Zimne img"/>
-                    <div class="map-name">- Зимне -</div>
-                    <div class="map-description">11 ВЕУ, 50 МВт </div>
+                    <div>
+                        <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/zimne-gpt.png"
+                        alt="Zimne img"/>
+                        <div class="map-name">- Зимне -</div>
+                        <div class="map-description">11 ВЕУ, 50 МВт </div>
+                    </div>
                     <div class="map-buttons">   
                         <a href="https://ba-2000.maps.arcgis.com/apps/mapviewer/index.html?webmap=f71cfc9b64264fceacd36905c9fc03d6" target="_blank">Editor</a>
                         <a href="https://experience.arcgis.com/experience/f77ecb0ad98e4d0cb7396ab7aabc3f5e" target="_blank">Viewer</a>
                     </div> 
+                    
+            </div>
+            <div class="maps-box-element">
+                <div>
+                    <img src="https://mark-000.github.io/pl-power-vis-map.github.io/ukraine-part-img.jpg"
+                    alt="UA img"/>
+                    <div class="map-name">- Україна -</div>
+                    <div class="map-description">Загальна карта України</div>
+                </div>
+                    <div class="map-buttons">   
+                    <a href="https://ba-2000.maps.arcgis.com/apps/mapviewer/index.html?webmap=7fd5378ea1214eb09b58c7725183c538" target="_blank">Editor</a>
+                    <a href="https://experience.arcgis.com/experience/19fe4fa1a27f4c34b087c5ed0311b9a8" target="_blank">Viewer</a>
+                </div> 
                 
             </div>
-            <div class="maps-box-element"></div>
             <div class="maps-box-element"></div>
             <div class="maps-box-element"></div>
             <div class="maps-box-element"></div>
