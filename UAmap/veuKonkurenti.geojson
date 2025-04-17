@@ -1,7 +1,6 @@
 {
 "type": "FeatureCollection",
 "name": "ВЕУ конкурентів згідно ДПТ",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:IGNF::WGS84GEO" } },
 "features": [
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.57682958629394, 49.809839726174836 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 23.570758740807207, 49.80711033388851 ] } },
