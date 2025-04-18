@@ -465,7 +465,7 @@ input[type="radio"]:checked::before {
         zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
         attributionControl: false, // Приховуємо атрибуцію
         center: [20, 0], // Початковий вигляд на глобус
-        zoom: 2,
+        zoom: 5,
         globeView: true // Активуємо режим глобуса
     });
 
@@ -475,7 +475,7 @@ input[type="radio"]:checked::before {
 
     // Затримка для анімації - обертання глобуса
     setTimeout(() => {
-        map.flyTo([49.888509, 23.526260], 7, { // Задаємо координати та зум
+        map.flyTo([49.888509, 23.526260], 10, { // Задаємо координати та зум
             animate: true,
             duration: 3 // Тривалість анімації
         });
