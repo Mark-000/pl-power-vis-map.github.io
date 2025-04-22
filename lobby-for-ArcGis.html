@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby ArcGis</title>
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&family=Roboto+Slab:wght@100..900&family=Sofia+Sans:ital,wght@1,1..1000&family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
@@ -51,9 +51,8 @@
             background: black;
         margin: 0;
         gap: 1em;
-        font-family: "Balsamiq Sans", sans-serif;
-            font-weight: 400;
-            font-style: normal;
+        font-family: 'Inter', sans-serif;
+            
     }
     nav {
         background-color: rgb(227, 227, 227);
@@ -66,6 +65,10 @@
     a:hover{
         cursor: pointer;
         
+    }
+    #green-logo{
+        width: 300px; 
+        height: 60px;
     }
 
     .nav-box{
@@ -110,7 +113,7 @@
     }
     .maps-box{
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         flex-wrap: wrap;
         /*align-items: flex-start;*/
     }
@@ -118,8 +121,8 @@
         width:300px;
         min-height: 350px;
         background-color: rgb(227, 227, 227);
-        margin: 0.5%;
-        margin-bottom: 5%;
+        margin: 2%;
+        margin-bottom: 3%;
         box-shadow: 
   rgba(255, 255, 255, 0.09) 2px 2px 1px, 
   rgba(241, 241, 241, 0.09) 2px 4px 2px, 
@@ -130,6 +133,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-radius: 0.95em;
     
         
     }
@@ -143,6 +147,14 @@
         padding: 5%;
         color: black;
         font-size: 0.95em;
+        text-align: center;
+    }
+    .maps-box-element img{
+        width:300px;
+        height: 180px;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+        border-top-right-radius: 0.95em;
+        border-top-left-radius: 0.95em;
     }
     .maps-box-element:hover{
         
@@ -165,17 +177,15 @@
         box-shadow: 12px 12px 2px -1px rgba(255,255,255,0.78);
       }
     }
-    .maps-box-element img{
-        width:300px;
-        height: 180px;
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-    }
+    
     .map-buttons {
   display: flex;
-  
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
               rgba(0, 0, 0, 0.22) 0px 15px 12px;
+              border-bottom-right-radius: 0.95em;
+              border-bottom-left-radius: 0.95em;
+
 }
 
 .map-buttons a {
@@ -189,9 +199,16 @@ font-size: 1.1em;
   text-decoration: none;
   transition: all 0.3s ease; /* важливо! */
   
+  
 }
 .map-buttons a:not(:last-child) {
   border-right: 2px solid #ccc; /* або будь-який колір */
+  border-bottom-left-radius: 0.95em;
+        
+}
+.map-buttons a:last-child {
+  border-bottom-right-radius: 0.95em;
+        
 }
 
 .map-buttons a:hover {
@@ -200,6 +217,7 @@ font-size: 1.1em;
   color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
               rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
 }
 
 
@@ -232,6 +250,88 @@ font-size: 1.1em;
       animation: rotation 10s infinite linear;
       transform-origin: center;
     }
+    @media only screen and (max-device-width: 1000px){
+        #animation{
+            display: none;
+        }
+        .main-cintainer{
+        padding-left: 10%;
+        padding-right: 10%;
+        
+        }
+    }
+    @media only screen and (max-device-width: 820px){
+        #animation{
+            display: none;
+        }
+        .main-cintainer{
+        padding-left: 5%;
+        padding-right: 5%;
+        
+        }
+    }
+    @media only screen and (max-device-width: 720px){
+        .menu-buttons{
+            display: none;
+        }
+        .nav-box{
+        display: flex;
+        justify-content: center;
+        }
+        #green-logo{
+        width: 250px; 
+        height: 45px;
+    }
+    }
+    @media only screen and (max-device-width: 350px){
+        .maps-box-element{
+        width:250px;
+        min-height: 300px;
+        margin: 1%;
+        margin-bottom: 3%;
+
+    }
+    .maps-box-element .map-name{
+        margin-top: 2%;
+        font-size: 1.6em;
+    }
+    .maps-box-element .map-description{
+        padding: 5%;
+        font-size: 0.95em;
+
+    }
+    .maps-box-element img{
+        width:250px;
+        height: 150px;
+    }
+    }
+
+    @media only screen and (max-device-width: 250px){
+        .maps-box-element{
+        width:190px;
+        min-height: 300px;
+        margin: 1%;
+        margin-bottom: 3%;
+
+    }
+    .maps-box-element .map-name{
+        margin-top: 2%;
+        font-size: 1.6em;
+    }
+    .maps-box-element .map-description{
+        padding: 5%;
+        font-size: 0.95em;
+
+    }
+    .maps-box-element img{
+        width:190px;
+        height: 150px;
+    }
+    #green-logo{
+        width: 150px; 
+        height: 35px;
+    }
+    }
 </style>
 
 <body>
@@ -239,9 +339,8 @@ font-size: 1.1em;
         <diV class="nav-box">
             <div>
                 <a>
-                    <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/greenville_gop-01a-black.png"
-                    alt="Greenville Logo"
-                    style="width: 300px; height: 60px;" />
+                    <img id="green-logo" src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/greenville_gop-01a-black.png"
+                    alt="Greenville Logo"/>
                 </a>
             </div>
             <div class="menu-buttons">
