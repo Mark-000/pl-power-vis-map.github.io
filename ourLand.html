@@ -408,7 +408,36 @@ input[type="radio"]:checked::before {
       </script>
     
     <div id="map"></div>
+    <div id="pdfViewerContainer" style="
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 850px;
+    height: 100%;
+    overflow-y: auto;
+    background: white;
+    border-left: 2px solid #888;
+    padding: 10px;
+    z-index: 1000;
+    display: none;
+">
+   <!-- Тег для рендеринга PDF --> <!-- Вміст PDF -->
+</div>
 
+<!-- Фіксована кнопка закриття (прихована за замовчуванням) -->
+<button id="closePDFBtn" onclick="closePDF()" style="
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1100;
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: none; /* кнопка прихована за замовчуванням */
+">Закрити</button>
     <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/leaflet.css" />
     
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
@@ -455,6 +484,10 @@ input[type="radio"]:checked::before {
     <!-- координати пошук -->
     <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/Control.Geocoder.css" />
     <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/Control.Geocoder.js"></script>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 
     <script>
         // URLs для GeoJSON файлів
@@ -745,7 +778,65 @@ L.Control.geocoder({
 
 
 
+function openPDF(kadastrNumber) {
+    const container = document.getElementById('pdfViewerContainer');
+    document.getElementById('pdfViewerContainer').style.display = 'block';
 
+    // Показуємо кнопку "Закрити"
+    document.getElementById('closePDFBtn').style.display = 'block';
+
+    const url = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ilovepdf_merged.pdf';
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    const loadingTask = pdfjsLib.getDocument(url);
+
+    loadingTask.promise.then(pdf => {
+        let foundPageIndex = null;
+
+        const renderAllPages = async () => {
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                const canvas = document.createElement('canvas');
+                canvas.id = `pdf-page-${i}`;
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+
+                await page.render(renderContext).promise;
+
+                // Пошук кадастрового номера
+                const textContent = await page.getTextContent();
+                const text = textContent.items.map(item => item.str).join(' ');
+                if (text.includes(kadastrNumber) && foundPageIndex === null) {
+                    foundPageIndex = i;
+                }
+
+                container.appendChild(canvas);
+            }
+
+            if (foundPageIndex !== null) {
+                const targetCanvas = document.getElementById(`pdf-page-${foundPageIndex}`);
+                targetCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                alert("Кадастровий номер не знайдено.");
+            }
+        };
+
+        renderAllPages();
+    });
+}
+function closePDF() {
+    // Приховуємо PDF і кнопку
+    document.getElementById('pdfViewerContainer').style.display = 'none';
+    document.getElementById('closePDFBtn').style.display = 'none';
+}
 
 
 
@@ -795,9 +886,13 @@ fetch(geojsonUrsmall_14_01)
                     <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
                     <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
                     <div>🔗<a href="https://kadastr.live/parcel/${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></div>
+                    <button onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити PDF</button>
                 `);
             }
         }); 
+
+
+        
     
 //-----------------------------підключення до нек--------------------------------------
                                                                                          //map.getPane('borderPane').style.zIndex = 400;
