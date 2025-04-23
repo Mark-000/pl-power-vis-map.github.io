@@ -879,10 +879,10 @@ fetch(geojsonUrsmall_14_01)
             },
             onEachFeature: function(feature, layer) {
                 layer.bindPopup(`
-                    <b>Номер:</b> ${feature.properties["landuse.cadnum"] || feature.properties.cadnum || 'Unknown'}<br>
+                    <b>Номер:</b> ${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}<br>
                     <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
                     <b>Сервітут:</b> ${feature.properties['Сервітут'] || 'Unknown'}<br>
-                    <b>Використання:</b> ${feature.properties.use || feature.properties.for || 'Unknown'}<br>
+                    <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
                     <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
                     <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
                     <div>🔗<a href="https://kadastr.live/parcel/${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></div>
