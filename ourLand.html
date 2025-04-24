@@ -794,40 +794,49 @@ function openPDF(kadastrNumber) {
         let foundPageIndex = null;
 
         const renderAllPages = async () => {
-            for (let i = 1; i <= pdf.numPages; i++) {
-                const page = await pdf.getPage(i);
-                const viewport = page.getViewport({ scale: 1.5 });
+    const dpiScale = window.devicePixelRatio || 1;
 
-                const canvas = document.createElement('canvas');
-                canvas.id = `pdf-page-${i}`;
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        
+        // масштаб для високої чіткості
+        const dpiScale = window.devicePixelRatio || 1;
+        const scale = dpiScale * 1.4; // збільшено для кращої якості
+        const viewport = page.getViewport({ scale });
 
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
+        const canvas = document.createElement('canvas');
+        canvas.id = `pdf-page-${i}`;
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-                await page.render(renderContext).promise;
+        // стилем ми зменшуємо візуально до "нормального" розміру
+        canvas.style.width = `${viewport.width / dpiScale}px`;
+        canvas.style.height = `${viewport.height / dpiScale}px`;
 
-                // Пошук кадастрового номера
-                const textContent = await page.getTextContent();
-                const text = textContent.items.map(item => item.str).join(' ');
-                if (text.includes(kadastrNumber) && foundPageIndex === null) {
-                    foundPageIndex = i;
-                }
-
-                container.appendChild(canvas);
-            }
-
-            if (foundPageIndex !== null) {
-                const targetCanvas = document.getElementById(`pdf-page-${foundPageIndex}`);
-                targetCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                alert("Кадастровий номер не знайдено.");
-            }
+        const renderContext = {
+            canvasContext: context,
+            viewport: viewport
         };
+
+        await page.render(renderContext).promise;
+
+        const textContent = await page.getTextContent();
+        const text = textContent.items.map(item => item.str).join(' ');
+        if (text.includes(kadastrNumber) && foundPageIndex === null) {
+            foundPageIndex = i;
+        }
+
+        container.appendChild(canvas);
+    }
+
+    if (foundPageIndex !== null) {
+        const targetCanvas = document.getElementById(`pdf-page-${foundPageIndex}`);
+        targetCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        alert("Кадастровий номер не знайдено.");
+    }
+};
 
         renderAllPages();
     });
