@@ -585,6 +585,9 @@
 
                     const groupedData = {};
                     filteredData.forEach(item => {
+                        if (item.Elektrownia === "Kozienice 1" || item.Elektrownia === "Kozienice 2") {
+                            item.Elektrownia = "Kozienice";
+                        }
                         const key = `${item.OREB}-${item.Elektrownia}`;
                         if (!groupedData[key]) {
                             groupedData[key] = { ...item, wartosc: 0 };
