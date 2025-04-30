@@ -577,10 +577,7 @@ function closePDF() {
     document.getElementById('pdfViewerContainer').style.display = 'none';
     document.getElementById('closePDFBtn').style.display = 'none';
 }
-        window.initMap = function () {
-            const { data1, data2 } = window.loadedGeojsons;
 
-        // Створення карти
         var map = L.map('map', {
             zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
             attributionControl: false, // Приховуємо атрибуцію
@@ -588,6 +585,11 @@ function closePDF() {
             zoom: 5,
             globeView: true // Активуємо режим глобуса
         });
+        window.initMap = function () {
+            const { data1, data2 } = window.loadedGeojsons;
+
+        // Створення карти
+        
 
         var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18
