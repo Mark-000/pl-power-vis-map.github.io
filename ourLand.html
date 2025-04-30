@@ -513,25 +513,25 @@ input[type="radio"]:checked::before {
             const { data1, data2 } = window.loadedGeojsons;
 
         // Створення карти
-    var map = L.map('map', {
-        zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
-        attributionControl: false, // Приховуємо атрибуцію
-        center: [20, 0], // Початковий вигляд на глобус
-        zoom: 5,
-        globeView: true // Активуємо режим глобуса
-    });
-
-    var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18
-    }).addTo(map);
-
-    // Затримка для анімації - обертання глобуса
-    setTimeout(() => {
-        map.flyTo([49.888509, 23.526260], 10, { // Задаємо координати та зум
-            animate: true,
-            duration: 3 // Тривалість анімації
+        var map = L.map('map', {
+            zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
+            attributionControl: false, // Приховуємо атрибуцію
+            center: [20, 0], // Початковий вигляд на глобус
+            zoom: 5,
+            globeView: true // Активуємо режим глобуса
         });
-    });
+
+        var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+        }).addTo(map);
+
+        // Затримка для анімації - обертання глобуса
+        setTimeout(() => {
+            map.flyTo([49.888509, 23.526260], 10, { // Задаємо координати та зум
+                animate: true,
+                duration: 3 // Тривалість анімації
+            });
+        });
 
 
         // Додавання плиток карти (OpenStreetMap)
@@ -676,10 +676,7 @@ input[type="radio"]:checked::before {
         addLayersAfterAnimation();
         
 
-}
-.catch(error => console.error('Помилка завантаження GeoJSON (підключення):', error));
-
-                                   
+    }                             
 </script>
 
     <!-- Завантажуємо бібліотеки через IIFE для кадастру-->
