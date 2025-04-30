@@ -570,8 +570,7 @@ input[type="radio"]:checked::before {
                     color: fillColor, // Колір обведення
                     weight: 2, // Товщина обведення
                     opacity: 1, // Прозорість обведення
-                    fillOpacity: 0.2 // Прозорість заповнення<button onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити PDF</button>
-               
+                    fillOpacity: 0.2 // Прозорість заповнення
                 };
             },
             onEachFeature: function(feature, layer) {
@@ -583,7 +582,9 @@ input[type="radio"]:checked::before {
                     <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
                     <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
                     <div>🔗<a href="https://kadastr.live/parcel/${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></div>
-                     `);
+                     <button onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити PDF</button>
+               
+                  `);
             }
         }); 
 
