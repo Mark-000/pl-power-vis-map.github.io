@@ -379,34 +379,7 @@ input[type="radio"]:checked::before {
 </head>
 <body>
     
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
-      
-        const firebaseConfig = {
-          apiKey: "AIzaSyAQpI0dCWKbXACbnNi445Hro26SzrlsGdU",
-          authDomain: "my-map-pj-54751.firebaseapp.com",
-          projectId: "my-map-pj-54751",
-          storageBucket: "my-map-pj-54751.firebasestorage.app",
-          messagingSenderId: "349429907738",
-          appId: "1:349429907738:web:8a6d42bfeaf8eb0b612ca3",
-          measurementId: "G-T4XGCQ6PDH"
-        };
-      
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-      
-        onAuthStateChanged(auth, (user) => {
-          if (!user) {
-            // Якщо користувач не авторизований, перекидаємо на login.html із redirect параметром
-            const currentUrl = window.location.href;
-            const loginUrl = https://mark-000.github.io/pl-power-vis-map.github.io/login.html?redirect=${encodeURIComponent(currentUrl)};
-            window.location.href = loginUrl;
-          } else {
-            console.log("User is logged in:", user.email);
-          }
-        });
-      </script>
+    <script type="module" src="https://mark-000.github.io/pl-power-vis-map.github.io/auth.js"></script>
     
     <div id="map"></div>
     <div id="pdfViewerContainer" style="
