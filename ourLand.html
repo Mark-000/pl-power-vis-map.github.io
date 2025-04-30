@@ -509,50 +509,7 @@ input[type="radio"]:checked::before {
     </script>
 
     <script>
-        window.initMap = function () {
-            const { data1, data2 } = window.loadedGeojsons;
-
-        // Створення карти
-        var map = L.map('map', {
-            zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
-            attributionControl: false, // Приховуємо атрибуцію
-            center: [20, 0], // Початковий вигляд на глобус
-            zoom: 5,
-            globeView: true // Активуємо режим глобуса
-        });
-
-        var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18
-        }).addTo(map);
-
-        // Затримка для анімації - обертання глобуса
-        setTimeout(() => {
-            map.flyTo([49.888509, 23.526260], 10, { // Задаємо координати та зум
-                animate: true,
-                duration: 3 // Тривалість анімації
-            });
-        });
-
-
-        // Додавання плиток карти (OpenStreetMap)
-       var WhiteLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
-
-        
-
-        // Додавання плиток Google Maps
-        var googleLayer = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
-            attribution: 'Google Maps'
-        });
-        //topo map
-        var topoLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
-            attribution: 'opentopomap'
-        });
-
-
-        //-----------------------------будування шарів--------------------------------------    
-
-
-function openPDF(kadastrNumber) {
+        function openPDF(kadastrNumber) {
     const container = document.getElementById('pdfViewerContainer');
     document.getElementById('pdfViewerContainer').style.display = 'block';
 
@@ -620,6 +577,50 @@ function closePDF() {
     document.getElementById('pdfViewerContainer').style.display = 'none';
     document.getElementById('closePDFBtn').style.display = 'none';
 }
+        window.initMap = function () {
+            const { data1, data2 } = window.loadedGeojsons;
+
+        // Створення карти
+        var map = L.map('map', {
+            zoomControl: false, // Ховаємо контрол зуму, щоб не заважав анімації
+            attributionControl: false, // Приховуємо атрибуцію
+            center: [20, 0], // Початковий вигляд на глобус
+            zoom: 5,
+            globeView: true // Активуємо режим глобуса
+        });
+
+        var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+        }).addTo(map);
+
+        // Затримка для анімації - обертання глобуса
+        setTimeout(() => {
+            map.flyTo([49.888509, 23.526260], 10, { // Задаємо координати та зум
+                animate: true,
+                duration: 3 // Тривалість анімації
+            });
+        });
+
+
+        // Додавання плиток карти (OpenStreetMap)
+       var WhiteLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
+
+        
+
+        // Додавання плиток Google Maps
+        var googleLayer = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
+            attribution: 'Google Maps'
+        });
+        //topo map
+        var topoLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: 'opentopomap'
+        });
+
+
+        //-----------------------------будування шарів--------------------------------------    
+
+
+
 
 
 
