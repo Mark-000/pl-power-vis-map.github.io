@@ -1,7 +1,6 @@
 {
 "type": "FeatureCollection",
 "name": "Ковель 17 ВЕУ-329957-3290",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:IGNF::WGS84RRAFGEO" } },
 "features": [
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 24.41295373990172, 51.217801580389853 ] } },
 { "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 24.40029177540471, 51.203557714047996 ] } },
