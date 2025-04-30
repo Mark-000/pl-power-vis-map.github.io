@@ -552,6 +552,83 @@ input[type="radio"]:checked::before {
         //-----------------------------будування шарів--------------------------------------    
 
 
+function openPDF(kadastrNumber) {
+    const container = document.getElementById('pdfViewerContainer');
+    document.getElementById('pdfViewerContainer').style.display = 'block';
+
+    // Показуємо кнопку "Закрити"
+    document.getElementById('closePDFBtn').style.display = 'block';
+
+    const url = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ilovepdf_merged.pdf';
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    const loadingTask = pdfjsLib.getDocument(url);
+
+    loadingTask.promise.then(pdf => {
+        let foundPageIndex = null;
+
+        const renderAllPages = async () => {
+    const dpiScale = window.devicePixelRatio || 1;
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        
+        // масштаб для високої чіткості
+        const dpiScale = window.devicePixelRatio || 1;
+        const scale = dpiScale * 1.4; // збільшено для кращої якості
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement('canvas');
+        canvas.id = `pdf-page-${i}`;
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        // стилем ми зменшуємо візуально до "нормального" розміру
+        canvas.style.width = `${viewport.width / dpiScale}px`;
+        canvas.style.height = `${viewport.height / dpiScale}px`;
+
+        const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+        };
+
+        await page.render(renderContext).promise;
+
+        const textContent = await page.getTextContent();
+        const text = textContent.items.map(item => item.str).join(' ');
+        if (text.includes(kadastrNumber) && foundPageIndex === null) {
+            foundPageIndex = i;
+        }
+
+        container.appendChild(canvas);
+    }
+
+    if (foundPageIndex !== null) {
+        const targetCanvas = document.getElementById(`pdf-page-${foundPageIndex}`);
+        targetCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        alert("Кадастровий номер не знайдено.");
+    }
+};
+
+        renderAllPages();
+    });
+}
+function closePDF() {
+    // Приховуємо PDF і кнопку
+    document.getElementById('pdfViewerContainer').style.display = 'none';
+    document.getElementById('closePDFBtn').style.display = 'none';
+}
+
+
+
+
+
+
+            
+
+
 //-----------------------------кадастр--------------------------------------  
         var small_14_01 = L.geoJSON(data1, {
             style: function(feature) {
@@ -922,80 +999,6 @@ L.Control.geocoder({
 }).on('markgeocode', function(e) {
     map.setView(e.geocode.center, 15);
 }).addTo(map);
-
-
-
-
-
-
-function openPDF(kadastrNumber) {
-    const container = document.getElementById('pdfViewerContainer');
-    document.getElementById('pdfViewerContainer').style.display = 'block';
-
-    // Показуємо кнопку "Закрити"
-    document.getElementById('closePDFBtn').style.display = 'block';
-
-    const url = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ilovepdf_merged.pdf';
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-    const loadingTask = pdfjsLib.getDocument(url);
-
-    loadingTask.promise.then(pdf => {
-        let foundPageIndex = null;
-
-        const renderAllPages = async () => {
-    const dpiScale = window.devicePixelRatio || 1;
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        
-        // масштаб для високої чіткості
-        const dpiScale = window.devicePixelRatio || 1;
-        const scale = dpiScale * 1.4; // збільшено для кращої якості
-        const viewport = page.getViewport({ scale });
-
-        const canvas = document.createElement('canvas');
-        canvas.id = `pdf-page-${i}`;
-        const context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        // стилем ми зменшуємо візуально до "нормального" розміру
-        canvas.style.width = `${viewport.width / dpiScale}px`;
-        canvas.style.height = `${viewport.height / dpiScale}px`;
-
-        const renderContext = {
-            canvasContext: context,
-            viewport: viewport
-        };
-
-        await page.render(renderContext).promise;
-
-        const textContent = await page.getTextContent();
-        const text = textContent.items.map(item => item.str).join(' ');
-        if (text.includes(kadastrNumber) && foundPageIndex === null) {
-            foundPageIndex = i;
-        }
-
-        container.appendChild(canvas);
-    }
-
-    if (foundPageIndex !== null) {
-        const targetCanvas = document.getElementById(`pdf-page-${foundPageIndex}`);
-        targetCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-        alert("Кадастровий номер не знайдено.");
-    }
-};
-
-        renderAllPages();
-    });
-}
-function closePDF() {
-    // Приховуємо PDF і кнопку
-    document.getElementById('pdfViewerContainer').style.display = 'none';
-    document.getElementById('closePDFBtn').style.display = 'none';
-}
         
 
     }                             
