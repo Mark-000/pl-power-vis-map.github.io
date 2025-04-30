@@ -493,8 +493,8 @@ input[type="radio"]:checked::before {
                 // Якщо користувач авторизований, завантажуємо дані
                 const storage = getStorage(app); // Використовуємо firebaseApp з уже ініціалізованим auth
                 try {
-                    const url1 = await getDownloadURL(ref(storage, '/ourkadnum-ur-all.geojson'));
-                    const url2 = await getDownloadURL(ref(storage, '/Berdihiv/8 ВЕУ-108м 108024 MWh.geojson'));
+                    const url1 = await getDownloadURL(ref(storage, 'ourkadnum-ur-all.geojson'));
+                    const url2 = await getDownloadURL(ref(storage, 'Berdihiv/8 ВЕУ-108м 108024 MWh.geojson'));
     
                     const data1 = await fetch(url1).then(r => r.json());
                     const data2 = await fetch(url2).then(r => r.json());
@@ -570,7 +570,8 @@ input[type="radio"]:checked::before {
                     color: fillColor, // Колір обведення
                     weight: 2, // Товщина обведення
                     opacity: 1, // Прозорість обведення
-                    fillOpacity: 0.2 // Прозорість заповнення
+                    fillOpacity: 0.2 // Прозорість заповнення<button onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити PDF</button>
+               
                 };
             },
             onEachFeature: function(feature, layer) {
@@ -582,8 +583,7 @@ input[type="radio"]:checked::before {
                     <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
                     <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
                     <div>🔗<a href="https://kadastr.live/parcel/${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></div>
-                    <button onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити PDF</button>
-                `);
+                     `);
             }
         }); 
 
