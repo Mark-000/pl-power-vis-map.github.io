@@ -509,68 +509,68 @@ input[type="radio"]:checked::before {
     </script>
 
     <script>
-        function openPDF(kadastrNumber) {
-    const container = document.getElementById('pdfViewerContainer');
-    document.getElementById('pdfViewerContainer').style.display = 'block';
+    let loadedPDF = null; // глобальна змінна
 
-    // Показуємо кнопку "Закрити"
+    const pdfUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ilovepdf_merged.pdf';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    // Завантаження PDF при старті
+    pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+        loadedPDF = pdf;
+    }).catch(error => {
+        console.error("Не вдалося завантажити PDF:", error);
+    });
+
+    function openPDF(kadastrNumber) {
+    const container = document.getElementById('pdfViewerContainer');
+    container.innerHTML = ''; // очищення старих canvas
+    container.style.display = 'block';
     document.getElementById('closePDFBtn').style.display = 'block';
 
-    const url = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ilovepdf_merged.pdf';
+    if (!loadedPDF) {
+        alert("PDF ще не завантажено. Спробуйте через кілька секунд.");
+        return;
+    }
 
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-    const loadingTask = pdfjsLib.getDocument(url);
+    const pdf = loadedPDF;
+    let foundPageIndex = null;
 
-    loadingTask.promise.then(pdf => {
-        let foundPageIndex = null;
-
-        const renderAllPages = async () => {
-    const dpiScale = window.devicePixelRatio || 1;
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        
-        // масштаб для високої чіткості
+    const renderAllPages = async () => {
         const dpiScale = window.devicePixelRatio || 1;
-        const scale = dpiScale * 1.4; // збільшено для кращої якості
-        const viewport = page.getViewport({ scale });
 
-        const canvas = document.createElement('canvas');
-        canvas.id = `pdf-page-${i}`;
-        const context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const scale = dpiScale * 1.4;
+            const viewport = page.getViewport({ scale });
 
-        // стилем ми зменшуємо візуально до "нормального" розміру
-        canvas.style.width = `${viewport.width / dpiScale}px`;
-        canvas.style.height = `${viewport.height / dpiScale}px`;
+            const canvas = document.createElement('canvas');
+            canvas.id = `pdf-page-${i}`;
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            canvas.style.width = `${viewport.width / dpiScale}px`;
+            canvas.style.height = `${viewport.height / dpiScale}px`;
 
-        const renderContext = {
-            canvasContext: context,
-            viewport: viewport
-        };
+            await page.render({ canvasContext: context, viewport }).promise;
 
-        await page.render(renderContext).promise;
+            const textContent = await page.getTextContent();
+            const text = textContent.items.map(item => item.str).join(' ');
+            if (text.includes(kadastrNumber) && foundPageIndex === null) {
+                foundPageIndex = i;
+            }
 
-        const textContent = await page.getTextContent();
-        const text = textContent.items.map(item => item.str).join(' ');
-        if (text.includes(kadastrNumber) && foundPageIndex === null) {
-            foundPageIndex = i;
+            container.appendChild(canvas);
         }
 
-        container.appendChild(canvas);
-    }
+        if (foundPageIndex !== null) {
+            const targetCanvas = document.getElementById(`pdf-page-${foundPageIndex}`);
+            targetCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            alert("Кадастровий номер не знайдено.");
+        }
+    };
 
-    if (foundPageIndex !== null) {
-        const targetCanvas = document.getElementById(`pdf-page-${foundPageIndex}`);
-        targetCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-        alert("Кадастровий номер не знайдено.");
-    }
-};
-
-        renderAllPages();
-    });
+    renderAllPages();
 }
 function closePDF() {
     // Приховуємо PDF і кнопку
