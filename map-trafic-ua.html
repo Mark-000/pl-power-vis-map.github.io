@@ -528,7 +528,10 @@ input[type="radio"]:checked::before {
         zoom: 2,
         globeView: true // Активуємо режим глобуса
     });
-    
+
+        var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+        }).addTo(map);
     
     
     window.initMap = function () {
@@ -536,9 +539,7 @@ input[type="radio"]:checked::before {
             , dataRadiviliv17, dataRadiviliv25, dataTernopil17, dataTernopil25,
             dataBerdihiv10veu127966, dataBerdihiv10veu119340, dataBerdihiv8veu108m, dataBerdihiv8veuNEW, dataNekPidkluch } = window.loadedGeojsons;
     
-        var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18
-        }).addTo(map);
+        
 
         // Затримка для анімації - обертання глобуса
         setTimeout(() => {
