@@ -462,11 +462,15 @@ input[type="radio"]:checked::before {
                     const dataGrabiv17 = await fetch(urlGrabiv17).then(r => r.json());
                     const dataGrabiv25 = await fetch(urlGrabiv25).then(r => r.json());
 
-                    const urlKovel17 = await getDownloadURL(ref(storage, 'Kovel/Ковель 17 ВЕУ-329957 MWh-3290.geojson'));
-                    const urlKovel25 = await getDownloadURL(ref(storage, 'Kovel/Ковель 25 ВЕУ-473797 MWh-3212.geojson'));
+                    const urlKovel11_12 = await getDownloadURL(ref(storage, 'Kovel/Концепції 1,1-1,2.geojson'));
+                    const urlKovel21_22 = await getDownloadURL(ref(storage, 'Kovel/Концепції 2,1-2,2.geojson'));
+                    const urlKovel31_32 = await getDownloadURL(ref(storage, 'Kovel/Концепції 3,1-3,2.geojson'));
+                    const urlKovel11_22_50mw = await getDownloadURL(ref(storage, 'Kovel/Концепції 1,1-1,2 50 МВт.geojson'));
     
-                    const dataKovel17 = await fetch(urlKovel17).then(r => r.json());
-                    const dataKovel25 = await fetch(urlKovel25).then(r => r.json());
+                    const dataKovel11_12 = await fetch(urlKovel11_12).then(r => r.json());
+                    const dataKovel21_22 = await fetch(urlKovel21_22).then(r => r.json());
+                    const dataKovel31_32 = await fetch(urlKovel31_32).then(r => r.json());
+                    const dataKovel11_12_50mw = await fetch(urlKovel11_22_50mw).then(r => r.json());
 
                     const urlLutsk17 = await getDownloadURL(ref(storage, 'Lutsk/Луцьк 17 ВЕУ-341399 MWh-3404.geojson'));
                     const urlLutsk25 = await getDownloadURL(ref(storage, 'Lutsk/Луцьк 25 ВЕУ-493208 MWh-3344.geojson'));
@@ -502,8 +506,8 @@ input[type="radio"]:checked::before {
                     const dataNekPidkluch = await fetch(urlNekPidkluch).then(r => r.json());
     
     
-                    window.loadedGeojsons = { dataGrabiv17, dataGrabiv25, dataKovel17, dataKovel25, dataLutsk17
-                        , dataLutsk25, dataRadiviliv17, dataRadiviliv25, dataTernopil17, dataTernopil25, 
+                    window.loadedGeojsons = { dataGrabiv17, dataGrabiv25, dataKovel11_12, dataKovel21_22, dataKovel31_32, dataKovel11_12_50mw,
+                         dataLutsk17, dataLutsk25, dataRadiviliv17, dataRadiviliv25, dataTernopil17, dataTernopil25, 
                         dataBerdihiv10veu127966, dataBerdihiv10veu119340, dataBerdihiv8veu108m, dataBerdihiv8veuNEW, dataNekPidkluch}; // передаємо дані до глобального простору
                     window.initMap(); // викликаємо побудову карти
                 } catch (error) {
@@ -528,14 +532,14 @@ input[type="radio"]:checked::before {
         zoom: 2,
         globeView: true // Активуємо режим глобуса
     });
-
-        var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    
+    var osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18
         }).addTo(map);
     
     
     window.initMap = function () {
-        const { dataGrabiv17, dataGrabiv25, dataKovel17, dataKovel25, dataLutsk17, dataLutsk25
+        const { dataGrabiv17, dataGrabiv25, dataKovel17, dataKovel11_12, dataKovel21_22, dataKovel31_32, dataKovel11_12_50mw, dataLutsk17, dataLutsk25
             , dataRadiviliv17, dataRadiviliv25, dataTernopil17, dataTernopil25,
             dataBerdihiv10veu127966, dataBerdihiv10veu119340, dataBerdihiv8veu108m, dataBerdihiv8veuNEW, dataNekPidkluch } = window.loadedGeojsons;
     
@@ -1804,46 +1808,193 @@ input[type="radio"]:checked::before {
         }
     }
 
-    // --------------------------------- Ковель ------------------------------------
+    // --------------------------------- Ковель 1.1 1.2 ------------------------------------
 
 
-            vitryaki_kovel17 = L.geoJSON(dataKovel17, {
-                pointToLayer: function(feature, latlng) {
-                    var icon = L.divIcon({
-                        html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
-                        className: 'no-background-icon',
-                        iconSize: [24, 24],
-                        iconAnchor: [12, 12]
-                    });
-
-                    var marker = L.marker(latlng, { icon: icon });
-
-                        marker.on('click', function() {
-                            toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
-                        });
-
-                        return marker;
-                    }
-                })
-                    
-                    vitryaki_kovel25 = L.geoJSON(dataKovel25, {
+                vitryaki_dataKovel11_12_nordex = L.geoJSON(dataKovel11_12, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "Nordex";
+                        },
                         pointToLayer: function(feature, latlng) {
-                            // Створюємо кастомну іконку з SVG
                             var icon = L.divIcon({
-                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
-                                className: 'no-background-icon', // Уникаємо білого фону
-                                iconSize: [24, 24], // Розмір іконки
-                                iconAnchor: [12, 12] // Центруємо іконку по координатам
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
                             });
-                            var marker = L.marker(latlng, { icon: icon });
+
+                            const marker = L.marker(latlng, { icon: icon });
 
                             marker.on('click', function() {
-                                toggleCircles(latlng); // Викликаємо функцію для створення/видалення кіл
+                                toggleCircles(latlng);
                             });
 
                             return marker;
                         }
-                    })
+                    });
+                    
+                    vitryaki_dataKovel11_12_vestas = L.geoJSON(dataKovel11_12, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "VESTAS";
+                        },
+                        pointToLayer: function(feature, latlng) {
+                            var icon = L.divIcon({
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            });
+
+                            const marker = L.marker(latlng, { icon: icon });
+
+                            marker.on('click', function() {
+                                toggleCircles(latlng);
+                            });
+
+                            return marker;
+                        }
+                    });
+
+                    // --------------------------------- Ковель dataKovel21_22 ------------------------------------
+
+
+                vitryaki_dataKovel21_22_nordex = L.geoJSON(dataKovel21_22, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "Nordex";
+                        },
+                        pointToLayer: function(feature, latlng) {
+                            var icon = L.divIcon({
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            });
+
+                            const marker = L.marker(latlng, { icon: icon });
+
+                            marker.on('click', function() {
+                                toggleCircles(latlng);
+                            });
+
+                            return marker;
+                        }
+                    });
+                    
+                    vitryaki_dataKovel21_22_vestas = L.geoJSON(dataKovel21_22, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "VESTAS";
+                        },
+                        pointToLayer: function(feature, latlng) {
+                            var icon = L.divIcon({
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            });
+
+                            const marker = L.marker(latlng, { icon: icon });
+
+                            marker.on('click', function() {
+                                toggleCircles(latlng);
+                            });
+
+                            return marker;
+                        }
+                    });
+
+                    // --------------------------------- Ковель dataKovel31_32 ------------------------------------
+
+
+                vitryaki_dataKovel31_32_nordex = L.geoJSON(dataKovel31_32, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "Nordex";
+                        },
+                        pointToLayer: function(feature, latlng) {
+                            var icon = L.divIcon({
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            });
+
+                            const marker = L.marker(latlng, { icon: icon });
+
+                            marker.on('click', function() {
+                                toggleCircles(latlng);
+                            });
+
+                            return marker;
+                        }
+                    });
+                    
+                    vitryaki_dataKovel31_32_vestas = L.geoJSON(dataKovel31_32, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "VESTAS";
+                        },
+                        pointToLayer: function(feature, latlng) {
+                            var icon = L.divIcon({
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            });
+
+                            const marker = L.marker(latlng, { icon: icon });
+
+                            marker.on('click', function() {
+                                toggleCircles(latlng);
+                            });
+
+                            return marker;
+                        }
+                    });
+
+                    // --------------------------------- Ковель dataKovel11_12_50mw ------------------------------------
+
+
+                vitryaki_dataKovel11_12_50mw_nordex = L.geoJSON(dataKovel11_12_50mw, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "Nordex";
+                        },
+                        pointToLayer: function(feature, latlng) {
+                            var icon = L.divIcon({
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff00c8"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            });
+
+                            const marker = L.marker(latlng, { icon: icon });
+
+                            marker.on('click', function() {
+                                toggleCircles(latlng);
+                            });
+
+                            return marker;
+                        }
+                    });
+                    
+                    vitryaki_dataKovel11_12_50mw_vestas = L.geoJSON(dataKovel11_12_50mw, {
+                        filter: function(feature) {
+                            return feature.properties.TYPE === "Vestas";
+                        },
+                        pointToLayer: function(feature, latlng) {
+                            var icon = L.divIcon({
+                                html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
+                                className: 'no-background-icon',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            });
+
+                            const marker = L.marker(latlng, { icon: icon });
+
+                            marker.on('click', function() {
+                                toggleCircles(latlng);
+                            });
+
+                            return marker;
+                        }
+                    });
 
     //------------------------------------------------radiviliv----------------------------------------------
 
@@ -2208,8 +2359,43 @@ input[type="radio"]:checked::before {
                                 label: "<b>Ковель</b>", 
                                 collapsed: true,
                                 children: [
-                                { label: "17 ВЕУ 329957 MWh", layer: vitryaki_kovel17 },
-                                { label: "25 ВЕУ 473797 MWh", layer: vitryaki_kovel25 },
+                                {
+                                    label: "<b>Концепція 1.1 1.2 Луків</b>", 
+                                    collapsed: true,
+                                    selectAllCheckbox: true,
+                                    children: [
+                                        { label: "1.1 Nordex 3249,8 MWh/MW", layer: vitryaki_dataKovel11_12_nordex },
+                                        { label: "1.2 Vestas 3773,5 MWh/MW", layer: vitryaki_dataKovel11_12_vestas },
+                                    ]
+                                },
+                                {
+                                    label: "<b>Концепція 2.1 2.2 Смідин</b>", 
+                                    collapsed: true,
+                                    selectAllCheckbox: true,
+                                    children: [
+                                        { label: "2.1 Nordex 3245,6 MWh/MW", layer: vitryaki_dataKovel21_22_nordex },
+                                        { label: "2.2 Vestas 3772,3 MWh/MW", layer: vitryaki_dataKovel21_22_vestas },
+                                    ]
+                                },
+                                {
+                                    label: "<b>Концепція 3.1 3.2 Луків+Смідин</b>", 
+                                    collapsed: true,
+                                    selectAllCheckbox: true,
+                                    children: [
+                                        { label: "3.1 Nordex 3267,5 MWh/MW", layer: vitryaki_dataKovel31_32_nordex },
+                                        { label: "3.2 Vestas 3783,4 MWh/MW", layer: vitryaki_dataKovel31_32_vestas },
+                                    ]
+                                },
+                                {
+                                    label: "<b>Концепція 1.1 1.2 50МВт Люблинець</b>", 
+                                    collapsed: true,
+                                    selectAllCheckbox: true,
+                                    children: [
+                                        { label: "1.1 Nordex 3126,7 MWh/MW", layer: vitryaki_dataKovel11_12_50mw_nordex },
+                                        { label: "1.2 Vestas 3666,1 MWh/MW", layer: vitryaki_dataKovel11_12_50mw_vestas },
+                                    ]
+                                },
+                                
                                 ]
                             },
                             {
