@@ -18,6 +18,11 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            
+        }
+        *{
+            font-family: "Balsamiq Sans", sans-serif;
+            font-style: normal;
         }
         #map {
             
@@ -64,99 +69,27 @@
             max-height: 100vh; 
             opacity: 1;
             }
-        
+
+            
+
+            .pdfbutton{
+                background: #f44336;
+                color: white;
+                border: none;
+                padding: 5px 12px;
+                cursor: pointer;
+                border-radius: 4px;
+
+            }
+            .pdfbutton:hover{
+                transform: scale(1.1);
+            }
         /*-------------------legend---------------*/
 
-        .leaflet-legend {
-            background: white;
-            padding: 5px;
-            margin: 10px;
-            max-width: 210px;
-            display: flex;
-            flex-direction: column;        
-            align-content: center;
-            justify-content: center;
-            border-radius: 5px;
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            /* Вирівнювання по центру */
-            gap: 8px; /* Відступ між іконкою та текстом */
-
-        }
-
-        .legend-icon {
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-        }
-
-
-        .leaflet-legend .l750{
-            background: #ba1806;
-        }
-        .leaflet-legend .l400{
-            background: #f505fa;
-        }
-        .leaflet-legend .l330{
-            background: #0572a1;
-        }
-        .leaflet-legend .l220{
-            background: green;
-        }
-        .leaflet-legend .l110{
-            background: #b89023;
-        }
-        
-        .leaflet-legend div{
-            display: flex;
-            flex-direction: row;
-            margin: 5px;
-        }
-
-        .leaflet-legend i {
-            min-width: 18px;
-            min-height: 18px;
-            max-width: 18px;
-            max-height: 18px;
-            float: left;
-            margin-right: 8px;
             
-            opacity: 0.7;
-        }
-        .leaflet-legend .ves {
-            background: green;
-            border-radius: 50%;
-            border: 2px solid black;
-        }
-        .leaflet-legend .p35 {
-            background: rgb(1, 33, 172);
-            border-radius: 50%;
-            border: 2px solid black;
-        }
-        .leaflet-legend .z700 {
-            background: rgba(15, 207, 207, 0.479);
-            border-radius: 50%;
-            border: 2px solid rgb(0, 247, 255);
-        }
-        .leaflet-legend .ses {
-            background: yellow;
-            border-radius: 50%;
-            border: 2px solid black;
-        }
-        .leaflet-legend .uze{
-            background: #a92dad;
-            border-radius: 50%;
-            border: 2px solid purple;
-        }
-        .leaflet-legend .all{
-            background: gray;
-            border-radius: 50%;
-            border: 2px solid black;
-        }
+
+
+
         .custom-tooltip {
             background-color: rgba(255, 255, 255, 0.8);
             border: 1px solid black;
@@ -364,16 +297,7 @@ input[type="radio"]:checked::before {
   transform: scale(1);
 }
 
-.wind-legend {
-  opacity: 0; /* Початково приховано */
-  transform: translatex(-20px); /* Легка анімація появи знизу */
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
 
-.wind-legend.show {
-  opacity: 1;
-  transform: translateY(0);
-}
         
     </style>
 </head>
@@ -509,6 +433,7 @@ input[type="radio"]:checked::before {
     </script>
 
     <script>
+
     let loadedPDF = null; // глобальна змінна
 
     const pdfUrl = 'https://mark-000.github.io/pl-power-vis-map.github.io/UAmap/ilovepdf_merged.pdf';
@@ -627,6 +552,7 @@ function closePDF() {
 
 
 
+    
 
 
             
@@ -655,15 +581,16 @@ function closePDF() {
             },
             onEachFeature: function(feature, layer) {
                 layer.bindPopup(`
-                    <b>Номер:</b> ${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}<br>
+                    <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}</h4>
                     <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
                     <b>Сервітут:</b> ${feature.properties['Сервітут'] || 'Unknown'}<br>
                     <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
                     <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
                     <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
-                    <div>🔗<a href="https://kadastr.live/parcel/${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі ділянки</a></div>
-                     <button onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити PDF</button>
-               
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">    
+                        <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі в ДЗК</a></div>
+                        <div><button class="pdfbutton" onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити в PDF</button></div>
+                    </div>
                   `);
             }
         }); 
@@ -721,6 +648,7 @@ function closePDF() {
                     label: "<b>Поділ</b>", 
                     collapsed: false,
                     children: [
+                    { label: "Наші ділянки", layer: vitryaki_Berdihiv8v2 },
                     { label: "Наші ділянки", layer: small_14_01 },
                     { label: "Кадастр підкладка", layer: cadastrLayer },
                     { label: "Межі областей", layer: oblastLayer },
