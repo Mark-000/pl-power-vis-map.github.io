@@ -456,52 +456,85 @@ input[type="radio"]:checked::before {
                 // Якщо користувач авторизований, завантажуємо дані
                 const storage = getStorage(app); // Використовуємо firebaseApp з уже ініціалізованим auth
                 try {
-                    const urlGrabiv17 = await getDownloadURL(ref(storage, 'Grabiv/Грабів 17 ВЕУ-332909 MWh.geojson'));
-                    const urlGrabiv25 = await getDownloadURL(ref(storage, 'Grabiv/Грабів 25 ВЕУ-481663 MWh.geojson'));
-    
-                    const dataGrabiv17 = await fetch(urlGrabiv17).then(r => r.json());
-                    const dataGrabiv25 = await fetch(urlGrabiv25).then(r => r.json());
-
-                    const urlKovel11_12 = await getDownloadURL(ref(storage, 'Kovel/Концепції 1,1-1,2.geojson'));
-                    const urlKovel21_22 = await getDownloadURL(ref(storage, 'Kovel/Концепції 2,1-2,2.geojson'));
-                    const urlKovel31_32 = await getDownloadURL(ref(storage, 'Kovel/Концепції 3,1-3,2.geojson'));
-                    const urlKovel11_22_50mw = await getDownloadURL(ref(storage, 'Kovel/Концепції 1,1-1,2 50 МВт.geojson'));
-    
-                    const dataKovel11_12 = await fetch(urlKovel11_12).then(r => r.json());
-                    const dataKovel21_22 = await fetch(urlKovel21_22).then(r => r.json());
-                    const dataKovel31_32 = await fetch(urlKovel31_32).then(r => r.json());
-                    const dataKovel11_12_50mw = await fetch(urlKovel11_22_50mw).then(r => r.json());
-
-                    const urlLutsk17 = await getDownloadURL(ref(storage, 'Lutsk/Луцьк 17 ВЕУ-341399 MWh-3404.geojson'));
-                    const urlLutsk25 = await getDownloadURL(ref(storage, 'Lutsk/Луцьк 25 ВЕУ-493208 MWh-3344.geojson'));
-    
-                    const dataLutsk17 = await fetch(urlLutsk17).then(r => r.json());
-                    const dataLutsk25 = await fetch(urlLutsk25).then(r => r.json());
-
-                    const urlRadiviliv17 = await getDownloadURL(ref(storage, 'Radiviliv/Радивилів 17 ВЕУ-323451 MWh- 3225.geojson'));
-                    const urlRadiviliv25 = await getDownloadURL(ref(storage, 'Radiviliv/Радивилів 25 ВЕУ-467013 MWh- 3166.geojson'));
-    
-                    const dataRadiviliv17 = await fetch(urlRadiviliv17).then(r => r.json());
-                    const dataRadiviliv25 = await fetch(urlRadiviliv25).then(r => r.json());
-
-                    const urlTernopil17 = await getDownloadURL(ref(storage, 'Ternopil/Тернопіль-17 ВЕУ-339436 MWh.geojson'));
-                    const urlTernopil25 = await getDownloadURL(ref(storage, 'Ternopil/Тернопіль-25 ВЕУ-488633 MWh.geojson'));
-    
-                    const dataTernopil17 = await fetch(urlTernopil17).then(r => r.json());
-                    const dataTernopil25 = await fetch(urlTernopil25).then(r => r.json());
-
-                    const urlBerdihiv10veu127966 = await getDownloadURL(ref(storage, 'Berdihiv/10veu127966MWh.geojson'));
-                    const urlBerdihiv8veu108m = await getDownloadURL(ref(storage, 'Berdihiv/8 ВЕУ-108м 108024 MWh.geojson'));
-                    const urlBerdihiv8veuNEW = await getDownloadURL(ref(storage, 'Berdihiv/8-ВЕУ на нових локаціях 114807MWh.geojson'));
-                    const urlBerdihiv10veu119340 = await getDownloadURL(ref(storage, 'Berdihiv/berdihiv10veu 119340 MWh.geojson'));
-    
-                    const dataBerdihiv10veu127966 = await fetch(urlBerdihiv10veu127966).then(r => r.json());
-                    const dataBerdihiv8veu108m = await fetch(urlBerdihiv8veu108m).then(r => r.json());
-                    const dataBerdihiv8veuNEW = await fetch(urlBerdihiv8veuNEW).then(r => r.json());
-                    const dataBerdihiv10veu119340 = await fetch(urlBerdihiv10veu119340).then(r => r.json());
-
-
-
+                    // --- Grabiv ---
+                    const [urlGrabiv17, urlGrabiv25] = await Promise.all([
+                        getDownloadURL(ref(storage, 'Grabiv/Грабів 17 ВЕУ-332909 MWh.geojson')),
+                        getDownloadURL(ref(storage, 'Grabiv/Грабів 25 ВЕУ-481663 MWh.geojson')),
+                    ]);
+                
+                    const [dataGrabiv17, dataGrabiv25] = await Promise.all([
+                        fetch(urlGrabiv17).then(r => r.json()),
+                        fetch(urlGrabiv25).then(r => r.json()),
+                    ]);
+                
+                    // --- Kovel ---
+                    const [urlKovel11_12, urlKovel21_22, urlKovel31_32, urlKovel11_22_50mw] = await Promise.all([
+                        getDownloadURL(ref(storage, 'Kovel/Концепції 1,1-1,2.geojson')),
+                        getDownloadURL(ref(storage, 'Kovel/Концепції 2,1-2,2.geojson')),
+                        getDownloadURL(ref(storage, 'Kovel/Концепції 3,1-3,2.geojson')),
+                        getDownloadURL(ref(storage, 'Kovel/Концепції 1,1-1,2 50 МВт.geojson')),
+                    ]);
+                
+                    const [dataKovel11_12, dataKovel21_22, dataKovel31_32, dataKovel11_12_50mw] = await Promise.all([
+                        fetch(urlKovel11_12).then(r => r.json()),
+                        fetch(urlKovel21_22).then(r => r.json()),
+                        fetch(urlKovel31_32).then(r => r.json()),
+                        fetch(urlKovel11_22_50mw).then(r => r.json()),
+                    ]);
+                
+                    // --- Lutsk ---
+                    const [urlLutsk17, urlLutsk25] = await Promise.all([
+                        getDownloadURL(ref(storage, 'Lutsk/Луцьк 17 ВЕУ-341399 MWh-3404.geojson')),
+                        getDownloadURL(ref(storage, 'Lutsk/Луцьк 25 ВЕУ-493208 MWh-3344.geojson')),
+                    ]);
+                
+                    const [dataLutsk17, dataLutsk25] = await Promise.all([
+                        fetch(urlLutsk17).then(r => r.json()),
+                        fetch(urlLutsk25).then(r => r.json()),
+                    ]);
+                
+                    // --- Radiviliv ---
+                    const [urlRadiviliv17, urlRadiviliv25] = await Promise.all([
+                        getDownloadURL(ref(storage, 'Radiviliv/Радивилів 17 ВЕУ-323451 MWh- 3225.geojson')),
+                        getDownloadURL(ref(storage, 'Radiviliv/Радивилів 25 ВЕУ-467013 MWh- 3166.geojson')),
+                    ]);
+                
+                    const [dataRadiviliv17, dataRadiviliv25] = await Promise.all([
+                        fetch(urlRadiviliv17).then(r => r.json()),
+                        fetch(urlRadiviliv25).then(r => r.json()),
+                    ]);
+                
+                    // --- Ternopil ---
+                    const [urlTernopil17, urlTernopil25] = await Promise.all([
+                        getDownloadURL(ref(storage, 'Ternopil/Тернопіль-17 ВЕУ-339436 MWh.geojson')),
+                        getDownloadURL(ref(storage, 'Ternopil/Тернопіль-25 ВЕУ-488633 MWh.geojson')),
+                    ]);
+                
+                    const [dataTernopil17, dataTernopil25] = await Promise.all([
+                        fetch(urlTernopil17).then(r => r.json()),
+                        fetch(urlTernopil25).then(r => r.json()),
+                    ]);
+                
+                    // --- Berdihiv ---
+                    const [
+                        urlBerdihiv10veu127966, urlBerdihiv8veu108m, urlBerdihiv8veuNEW, urlBerdihiv10veu119340
+                    ] = await Promise.all([
+                        getDownloadURL(ref(storage, 'Berdihiv/10veu127966MWh.geojson')),
+                        getDownloadURL(ref(storage, 'Berdihiv/8 ВЕУ-108м 108024 MWh.geojson')),
+                        getDownloadURL(ref(storage, 'Berdihiv/8-ВЕУ на нових локаціях 114807MWh.geojson')),
+                        getDownloadURL(ref(storage, 'Berdihiv/berdihiv10veu 119340 MWh.geojson')),
+                    ]);
+                
+                    const [
+                        dataBerdihiv10veu127966, dataBerdihiv8veu108m, dataBerdihiv8veuNEW, dataBerdihiv10veu119340
+                    ] = await Promise.all([
+                        fetch(urlBerdihiv10veu127966).then(r => r.json()),
+                        fetch(urlBerdihiv8veu108m).then(r => r.json()),
+                        fetch(urlBerdihiv8veuNEW).then(r => r.json()),
+                        fetch(urlBerdihiv10veu119340).then(r => r.json()),
+                    ]);
+                
+                    // --- NEK ---
                     const urlNekPidkluch = await getDownloadURL(ref(storage, 'nek-pidstancii-pidkluch.geojson'));
                     const dataNekPidkluch = await fetch(urlNekPidkluch).then(r => r.json());
     
