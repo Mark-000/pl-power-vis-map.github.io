@@ -47,11 +47,12 @@
 
     
 
-        body {
-            background: black;
+    body {
+        background: black;
         margin: 0;
         gap: 1em;
         font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
             
     }
     nav {
@@ -231,10 +232,12 @@ font-size: 1.1em;
   left: 77%;
   height: 40%;      /* Більший розмір */
   width: auto;
+  max-width: 100vw;      /* нове */
+  overflow: hidden;
       /* Щоб займав більше правої зони */
   z-index: 999;
   pointer-events: none;
-  
+  transition: position 0.1s, bottom 0.1s, top 0.1s;
 }
 
     @keyframes rotation {
@@ -305,34 +308,61 @@ font-size: 1.1em;
         width:250px;
         height: 150px;
     }
+    body {
+        
+        overflow-x: auto;
+            
+    }
     }
 
     @media only screen and (max-device-width: 250px){
         .maps-box-element{
-        width:190px;
-        min-height: 300px;
-        margin: 1%;
-        margin-bottom: 3%;
+            width:190px;
+            min-height: 300px;
+            margin: 1%;
+            margin-bottom: 3%;
 
-    }
-    .maps-box-element .map-name{
-        margin-top: 2%;
-        font-size: 1.6em;
-    }
-    .maps-box-element .map-description{
-        padding: 5%;
-        font-size: 0.95em;
+        }
+        .maps-box-element .map-name{
+            margin-top: 2%;
+            font-size: 1.6em;
+        }
+        .maps-box-element .map-description{
+            padding: 5%;
+            font-size: 0.95em;
 
+        }
+        .maps-box-element img{
+            width:190px;
+            height: 150px;
+        }
+        #green-logo{
+            width: 150px; 
+            height: 35px;
+        }
     }
-    .maps-box-element img{
-        width:190px;
-        height: 150px;
-    }
-    #green-logo{
-        width: 150px; 
-        height: 35px;
-    }
-    }
+
+   
+
+
+    svg {
+  display: block;
+  width: 200%;
+  position: relative;
+  left: 0px;
+  height: 8vh;
+}
+
+svg path {
+  fill: #008571;
+}
+
+.footerContent{
+    height: 100px;
+    background-color: #008571;
+}
+
+
 </style>
 
 <body>
@@ -441,12 +471,7 @@ font-size: 1.1em;
             <div class="maps-box-element"></div>
             <div class="maps-box-element"></div>
             <div class="maps-box-element"></div>
-            <div class="maps-box-element"></div>
-            <div class="maps-box-element"></div>
-            <div class="maps-box-element"></div>
-            <div class="maps-box-element"></div>
-            <div class="maps-box-element"></div>
-            <div class="maps-box-element"></div>
+            
         </div>
     </div>
     <svg id="animation" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -463,7 +488,55 @@ font-size: 1.1em;
             </g>
         </g>
     </svg>
+    <footer>
+<div class="svg-container">
+  <svg version="1.1" id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="8 0 2048 25" enable-background="new 8 0 2048 25" xml:space="preserve"preserveAspectRatio="none">
+  <path fill="#008571" d="M1833.1,1.6c-146.3,0-360.7,22.4-527,22.4s-274-10.6-274-10.6S955.4,1.6,809.1,1.6S448.4,24,282,24
+    S8,13.4,8,13.4V25h1024h1024V13.4C2056,13.4,1979.4,1.6,1833.1,1.6z"/>
+  </svg>
+</div>
+<div class="footerContent">
 
+</div>
+      </footer>
+      
+    <script>
+        const svg = document.getElementById('animation');
+        const footer = document.querySelector('footer');
+      
+        function updatePosition() {
+          const footerTop = footer.getBoundingClientRect().top;
+          const svgHeight = svg.getBoundingClientRect().height;
+          const windowHeight = window.innerHeight;
+          console.log("footerTop", footerTop)
+          console.log("svgHeight", svgHeight)
+          console.log("windowHeight", windowHeight)
+      
+          if (footerTop <= windowHeight) {
+            // Дійшли до футера — svg стоїть на ньому
+            const scrollY = window.scrollY;
+            const footerAbsoluteTop = scrollY + footerTop;
+            svg.style.position = 'absolute';
+            svg.style.top = `${footerAbsoluteTop - svgHeight + 25}px`;
+            svg.style.bottom = 'auto';
+          } else {
+            // SVG фіксований знизу
+            svg.style.position = 'fixed';
+            svg.style.bottom = '0';
+            svg.style.top = 'auto';
+          }
+        }
+      
+        window.addEventListener('scroll', updatePosition);
+        window.addEventListener('resize', updatePosition);
+        window.addEventListener('load', updatePosition);
+      </script>
 
 </body>
+
+
+
+
+
 </html>
