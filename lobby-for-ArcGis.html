@@ -345,17 +345,34 @@ font-size: 1.1em;
    
 
 
-    svg {
-  display: block;
-  width: 200%;
-  position: relative;
-  left: 0px;
-  height: 8vh;
-}
+    .svg-container {
+      position: relative;
+      height: 8vh;
+      overflow: hidden;
+    }
 
-svg path {
-  fill: #008571;
-}
+    .svg-container svg {
+      display: block;
+      width: 200%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    #svg {
+      z-index: 2;
+    }
+
+    #svg2 {
+      transform: scaleX(-1);
+      z-index: 1;
+      opacity: 0.4; /* Напівпрозорий задній SVG */
+    }
+
+    svg path {
+      fill: #008571;
+    }
 
 .footerContent{
     height: 100px;
@@ -489,13 +506,21 @@ svg path {
         </g>
     </svg>
     <footer>
-<div class="svg-container">
-  <svg version="1.1" id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-     viewBox="8 0 2048 25" enable-background="new 8 0 2048 25" xml:space="preserve"preserveAspectRatio="none">
-  <path fill="#008571" d="M1833.1,1.6c-146.3,0-360.7,22.4-527,22.4s-274-10.6-274-10.6S955.4,1.6,809.1,1.6S448.4,24,282,24
-    S8,13.4,8,13.4V25h1024h1024V13.4C2056,13.4,1979.4,1.6,1833.1,1.6z"/>
-  </svg>
-</div>
+        <div class="svg-container">
+            <svg version="1.1" id="svg" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="8 0 2048 25" preserveAspectRatio="none">
+              <path d="M1833.1,1.6c-146.3,0-360.7,22.4-527,22.4s-274-10.6-274-10.6
+                S955.4,1.6,809.1,1.6S448.4,24,282,24S8,13.4,8,13.4V25h1024h1024V13.4
+                C2056,13.4,1979.4,1.6,1833.1,1.6z"/>
+            </svg>
+        
+            <svg version="1.1" id="svg2" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="8 0 2048 25" preserveAspectRatio="none">
+              <path d="M1833.1,1.6c-146.3,0-360.7,22.4-527,22.4s-274-10.6-274-10.6
+                S955.4,1.6,809.1,1.6S448.4,24,282,24S8,13.4,8,13.4V25h1024h1024V13.4
+                C2056,13.4,1979.4,1.6,1833.1,1.6z"/>
+            </svg>
+          </div>
 <div class="footerContent">
 
 </div>
