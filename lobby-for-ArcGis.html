@@ -373,12 +373,53 @@ font-size: 1.1em;
     svg path {
       fill: #008571;
     }
-
-.footerContent{
-    height: 100px;
-    background-color: #008571;
-    margin-top: -2px;
+footer{
+    height: 350px;
+  overflow: hidden;
 }
+.footerContent{
+    
+    background-color: #008571;
+    
+}
+.panel-box {
+margin-top: -3px;
+  position: relative;
+  height: 300px;
+  overflow: visible;
+  pointer-events: none;
+
+}
+
+.solar-left{
+  position: absolute;
+  top: -100px;
+  width: 280px;
+  height: auto;
+  display: block;
+  pointer-events: auto;
+}
+.solar-left3 {
+  position: absolute;
+  top: -60px;
+  width: 450px;
+  height: auto;
+  display: block;
+  pointer-events: auto;
+}
+
+.solar-left {
+  left: -20px;
+  z-index: 21;
+}
+
+.solar-left3 {
+  left: -10px;
+  transform: rotate(-3deg);
+  z-index: 23;
+}
+
+
 
 
 </style>
@@ -544,9 +585,16 @@ font-size: 1.1em;
                 S955.4,1.6,809.1,1.6S448.4,24,282,24S8,13.4,8,13.4V25h1024h1024V13.4
                 C2056,13.4,1979.4,1.6,1833.1,1.6z"/>
             </svg>
-             
+            
           </div>
-          
+        <div class="panel-box" style="background-color: #008571;">
+            <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/solar panels3.png" alt="Сонячні панелі" class="solar-left">
+            <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/solar panels3.png" alt="Сонячні панелі" class="solar-left3">
+        </div>
+
+            
+
+           
       </footer>
       <div class="footerContent"></div>
     <script>
@@ -579,9 +627,6 @@ font-size: 1.1em;
       </script>
 
 </body>
-
-
-
 
 
 </html>
