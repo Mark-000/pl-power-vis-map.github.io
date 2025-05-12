@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo-UA-map</title>
-    <link rel="icon" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/leaflogo.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
@@ -536,9 +535,9 @@ input[type="radio"]:checked::before {
                     });
                     
                     vitryaki_dataKovel11_12_vestas = L.geoJSON(dataKovel11_12, {
-                        filter: function(feature) {
+                    /*    filter: function(feature) {
                             return feature.properties.TYPE === "VESTAS";
-                        },
+                        },*/
                         pointToLayer: function(feature, latlng) {
                             var icon = L.divIcon({
                                 html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
@@ -583,9 +582,9 @@ input[type="radio"]:checked::before {
                     });
                     
                     vitryaki_dataKovel21_22_vestas = L.geoJSON(dataKovel21_22, {
-                        filter: function(feature) {
+                    /*    filter: function(feature) {
                             return feature.properties.TYPE === "VESTAS";
-                        },
+                        },*/
                         pointToLayer: function(feature, latlng) {
                             var icon = L.divIcon({
                                 html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
@@ -632,9 +631,9 @@ input[type="radio"]:checked::before {
                     });
                     
                     vitryaki_dataKovel11_12_50mw_vestas = L.geoJSON(dataKovel11_12_50mw, {
-                        filter: function(feature) {
+                  /*      filter: function(feature) {
                             return feature.properties.TYPE === "Vestas";
-                        },
+                        },*/
                         pointToLayer: function(feature, latlng) {
                             var icon = L.divIcon({
                                 html: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020dd6"><path d="M360-80v-40q0-32 24-53.5t56-26.5v-286q-22-8-38.5-23T374-544l-76 20q-36 8-68.5-6T188-578l174-44q8-41 38-68t72-30l24-90q10-35 38.5-55.5T598-878l-50 180q25 16 38.5 42t13.5 56q0 13-3 25.5t-7 24.5l54 56q25 26 29.5 61T654-374L534-494q-3 3-6.5 4.5T520-486v286q32 5 56 26.5t24 53.5v40H360Zm120-460q25 0 42.5-17.5T540-600q0-25-17.5-42.5T480-660q-25 0-42.5 17.5T420-600q0 25 17.5 42.5T480-540Z"/></svg>`,
