@@ -68,7 +68,7 @@
         cursor: pointer;
         
     }
-        ::-moz-selection { /* Code for Firefox */
+    ::-moz-selection { /* Code for Firefox */
 
         background: rgb(137, 137, 137);
         }
@@ -100,10 +100,18 @@
         margin-left: 10%;
         
     }
-    .menu-buttons a:hover{
+    #searchline:hover:is(:active){
+       transform: scale(1.1);
+        border-bottom: 1px solid black; 
+
+    }
+    #searchline:active{
+        transform: scale(1.1);
+    }
+    .menu-buttons a:hover:is(:first-child){
 
         transform: scale(1.1);
-        
+        border-bottom: 1px solid black;
     }
     .main-cintainer{
         padding-left: 15%;
@@ -427,6 +435,32 @@ margin-top: -3px;
 }
 
 
+#searchline {
+  display: flex;
+  
+}
+
+#searchInput {
+  width: 0;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  transition: width 1s;
+  padding: 2px 0;
+  background: transparent;
+}
+#searchInput.expanded {
+  width: 200px;
+  transform: scale(1.1);
+ 
+}
+.searchbottonborder{
+    border-bottom: 1px solid black;
+    transform: scale(1.1);
+}
+
+
+
 
 
 </style>
@@ -441,9 +475,16 @@ margin-top: -3px;
                 </a>
             </div>
             <div class="menu-buttons">
-                <div>
-                    <div><a style="display: flex; flex-direction: row;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="32px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg><span>Search</span> </a></div>
+                <div id="searchline">
+                    <input id="searchInput" type="text" placeholder="...">
+                    <a id="searchA" onclick="searchbar()" style="display: flex; flex-direction: row;">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="32px" fill="#000000">
+                        <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+                        </svg>
+                        <span>Search</span>
+                    </a>
                 </div>
+
                 <div>
                     <div><a style="display: flex; flex-direction: row;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="32px" fill="#000000"><path d="m480-80-10-120h-10q-142 0-241-99t-99-241q0-142 99-241t241-99q71 0 132.5 26.5t108 73q46.5 46.5 73 108T800-540q0 75-24.5 144t-67 128q-42.5 59-101 107T480-80Zm80-146q71-60 115.5-140.5T720-540q0-109-75.5-184.5T460-800q-109 0-184.5 75.5T200-540q0 109 75.5 184.5T460-280h100v54Zm-101-95q17 0 29-12t12-29q0-17-12-29t-29-12q-17 0-29 12t-12 29q0 17 12 29t29 12Zm-29-127h60q0-30 6-42t38-44q18-18 30-39t12-45q0-51-34.5-76.5T460-720q-44 0-74 24.5T344-636l56 22q5-17 19-33.5t41-16.5q27 0 40.5 15t13.5 33q0 17-10 30.5T480-558q-35 30-42.5 47.5T430-448Zm30-65Z"/></svg>About</a></div>
                 </div>
@@ -627,7 +668,18 @@ margin-top: -3px;
       
         window.addEventListener('scroll', updatePosition);
         window.addEventListener('resize', updatePosition);
-        window.addEventListener('load', updatePosition);
+        window.addEventListener('load', updatePosition); 
+      </script>
+
+      <script>
+        function searchbar() {
+            const input = document.getElementById("searchInput");
+            const borderapear = document.getElementById("searchA");
+            borderapear.classList.toggle("searchbottonborder")
+            input.classList.toggle("expanded");
+            input.focus();
+        }
+
       </script>
 
 </body>
