@@ -101,17 +101,21 @@
         
     }
     #searchline:hover:is(:active){
-       transform: scale(1.1);
-        border-bottom: 1px solid black; 
+        border-bottom: 2px solid black; 
 
     }
-    #searchline:active{
-        transform: scale(1.1);
-    }
+    
     .menu-buttons a:hover:is(:first-child){
-
-        transform: scale(1.1);
-        border-bottom: 1px solid black;
+        
+        border-bottom: 2px solid black;
+    }
+    .menu-buttons a:hover:not(:first-child){
+        font-size: 22px;
+        border-bottom: 2px solid black;
+    }
+    .menu-buttons a:not(:first-child){
+        
+        border-bottom: 2px solid black;
     }
     .main-cintainer{
         padding-left: 15%;
@@ -443,7 +447,7 @@ margin-top: -3px;
 #searchInput {
   width: 0;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid black;
   outline: none;
   transition: width 1s;
   padding: 2px 0;
@@ -451,12 +455,12 @@ margin-top: -3px;
 }
 #searchInput.expanded {
   width: 200px;
-  transform: scale(1.1);
-  margin-right: 15px;
+ padding-right: 15px;
+ font-size: 22px;
 }
 .searchbottonborder{
-    border-bottom: 1px solid black;
-    transform: scale(1.1);
+    border-bottom: 2px solid black;
+    
 }
 
 
