@@ -39,22 +39,25 @@
 
 
 <style>
-.good-grad {
-  background: radial-gradient(
-      #191919 0%,
-      #000000 100%
-    );
-}
+
 
     
 
     body {
         background: black;
         margin: 0;
+      padding: 0;
         gap: 1em;
         font-family: 'Inter', sans-serif;
         overflow-x: hidden;
+        height: 100%;
             
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
     nav {
         background-color: rgb(227, 227, 227);
@@ -203,7 +206,7 @@
       }
     }
     
-    .map-buttons {
+.map-buttons {
   display: flex;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
@@ -469,9 +472,12 @@ margin-top: -3px;
 
 
 
+
+
 </style>
 
 <body>
+    <canvas id="dots"></canvas>
     <nav>
         <diV class="nav-box">
             <div>
@@ -570,6 +576,18 @@ margin-top: -3px;
             </div>
             <div class="maps-box-element">
                 <div>
+                    <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/berdihiv.png"
+                    alt="UA img"/>
+                    <div class="map-name">- Бердихів -</div>
+                    <div class="map-description">_</div>
+                </div>
+                    <div class="map-buttons">   
+                    <a href="https://ba-2000.maps.arcgis.com/apps/mapviewer/index.html?webmap=3af377a7f1394776a8fc58a6d15db835" target="_blank">Editor</a>
+                    <a href="" target="_blank">Viewer</a>
+                </div> 
+            </div>
+            <div class="maps-box-element">
+                <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/ourLand.png"
                     alt="UA img"/>
                     <div class="map-name">- Наші землі -</div>
@@ -607,6 +625,7 @@ margin-top: -3px;
                 </div> 
                 
             </div>
+            
             
             
         </div>
@@ -648,6 +667,8 @@ margin-top: -3px;
            
       </footer>
       <div class="footerContent"></div>
+
+     
     <script>
         const svg = document.getElementById('animation');
         const footer = document.querySelector('footer');
@@ -701,6 +722,53 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+</script>
+
+<script>
+  const canvas = document.getElementById("dots");
+  const ctx = canvas.getContext("2d");
+
+  // Зміна розміру при завантаженні та зміні вікна
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  // Генеруємо цятки
+  const dots = [];
+  const numDots = 60;
+
+  for (let i = 0; i < numDots; i++) {
+    dots.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 2 + 1,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: (Math.random() - 0.5) * 0.3,
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let dot of dots) {
+      dot.x += dot.dx;
+      dot.y += dot.dy;
+
+      // Відбивання від країв
+      if (dot.x < 0 || dot.x > canvas.width) dot.dx *= -1;
+      if (dot.y < 0 || dot.y > canvas.height) dot.dy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "#aaa"; // колір цяток
+      ctx.fill();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 </script>
 
 
