@@ -564,9 +564,9 @@ function closePDF() {
             style: function(feature) {
                 // Визначення кольору залежно від значення "Сервітут"
                 var fillColor;
-                if (feature.properties['Сервітут'] === "true") {
+                if (feature.properties['Сервітут'] === true) {
                     fillColor = "#5867c4"; // Синій для сервітуту
-                } else if (feature.properties['Сервітут'] === "false") {
+                } else if (feature.properties['Сервітут'] === false) {
                     fillColor = "#eb6e6e"; // Червоний для без сервітуту
                 } else {
                     fillColor = "black"; // Чорний для відсутніх даних
