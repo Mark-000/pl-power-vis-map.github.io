@@ -584,7 +584,7 @@ function closePDF() {
                 layer.bindPopup(`
                     <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}</h4>
                     <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
-                    <b>Сервітут:</b> ${feature.properties['Сервітут'] || 'Unknown'}<br>
+                    <b>Сервітут:</b> ${feature.properties['Сервітут'] === true ? "Так" : feature.properties['Сервітут'] === false ? "Ні" : "Unknown"}<br>
                     <b>Код:</b> ${feature.properties.purpose_code || 'Unknown'}<br>
                     <b>Призначення:</b> ${feature.properties.purpose || 'Unknown'}<br>
                     <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
