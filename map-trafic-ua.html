@@ -2393,20 +2393,11 @@ input[type="radio"]:checked::before {
         };
       }
     },
+    minZoom: 13,
     interactive: true,
     getFeatureId: f => f.properties.id || f.properties.mvt_id
   }
 );
-    map.on('zoomend', () => {
-      const zoom = map.getZoom();
-      if (zoom < 14) {
-        map.removeLayer(vectorTileLayer);
-      } else {
-        if (!map.hasLayer(vectorTileLayer)) {
-          map.addLayer(vectorTileLayer);
-        }
-      }
-    });
 
     vectorTileLayer.on('click', function(e) {
       const p = e.layer.properties;
