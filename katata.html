@@ -447,13 +447,12 @@ input[type="radio"]:checked::before {
 
 
 
-
 const parcelLayerGroup = L.layerGroup().addTo(map);
 
-// Геокодер без контролу (невидимий)
+// Геокодер (без контролу)
 const geocoder = L.Control.Geocoder.nominatim();
 
-// Функція: перевірка формату кадастрового номера
+// Перевірка кадастрового номера
 function isValidCadnum(input) {
   return /^\d{10}:\d{2}:\d{3}:\d{4}$/.test(input.trim());
 }
@@ -464,6 +463,7 @@ async function findParcel(cadnum) {
     const res = await fetch(`https://kadastr.live/api/parcels/${cadnum}/?format=json`);
     if (!res.ok) throw new Error("Не вдалося отримати ділянку");
     const data = await res.json();
+
     const geojson = L.geoJSON(data.geometry, {
       style: { color: '#ff6600', weight: 2, fillOpacity: 0.3 }
     });
@@ -474,6 +474,10 @@ async function findParcel(cadnum) {
     removeButton.innerHTML = '🗑️ Видалити';
     removeButton.style.background = 'red';
     removeButton.style.color = 'white';
+    removeButton.style.border = 'none';
+    removeButton.style.padding = '5px';
+    removeButton.style.cursor = 'pointer';
+
     removeButton.onclick = () => {
       parcelLayerGroup.removeLayer(geojson);
       map.closePopup();
@@ -494,60 +498,76 @@ async function findParcel(cadnum) {
   }
 }
 
-// Створюємо єдиний UI пошуку
+// Обгортка geocode у Promise
+function geocodePromise(query) {
+  return new Promise((resolve, reject) => {
+    geocoder.geocode(query, results => {
+      if (results && results.length > 0) resolve(results);
+      else reject(new Error("Нічого не знайдено"));
+    });
+  });
+}
+
+// 🔎 Єдиний UI пошуку
 const input = document.createElement('input');
 input.type = 'text';
 input.placeholder = 'Адреса або кадастровий номер';
 input.style.padding = '5px';
 input.style.width = '250px';
+input.style.border = '1px solid #ccc';
 
 const searchButton = document.createElement('button');
 searchButton.textContent = '🔍';
 searchButton.style.marginLeft = '5px';
+searchButton.style.padding = '5px';
 
 const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
 container.style.background = 'white';
 container.style.padding = '5px';
+container.style.display = 'flex';
+container.style.alignItems = 'center';
 container.appendChild(input);
 container.appendChild(searchButton);
 
+// Додаємо контрол на карту
 L.Control.SearchUnified = L.Control.extend({
-  onAdd: function() {
-    return container;
-  },
-  onRemove: function() {}
+  onAdd: () => container,
+  onRemove: () => {}
 });
 
-L.control.searchUnified = function(opts) {
-  return new L.Control.SearchUnified(opts);
-};
-
+L.control.searchUnified = opts => new L.Control.SearchUnified(opts);
 L.control.searchUnified({ position: 'topleft' }).addTo(map);
 
-// Обробка пошуку
+// Основна функція пошуку
 async function handleSearch() {
   const query = input.value.trim();
   if (!query) return;
-
+    console.log("Пошук, query =", query);
   if (isValidCadnum(query)) {
     await findParcel(query);
   } else {
-    geocoder.geocode(query, results => {
-      if (results && results.length > 0) {
+    if (geocoder && typeof geocoder.geocode === 'function') {
+      try {
+        console.log("Пошук геокодер");
+        const results = await geocodePromise(query);
+        console.log("Результати геокоду:", results);
         const result = results[0];
         map.setView(result.center, 15);
         L.popup()
           .setLatLng(result.center)
           .setContent(`<b>${result.name}</b>`)
           .openOn(map);
-      } else {
-        alert("Нічого не знайдено");
+      } catch (e) {
+        alert(e.message);
       }
-    });
+    } else {
+      console.error("Геокодер не готовий");
+    }
   }
 }
 
-// Обробка подій
+
+// Події
 searchButton.onclick = handleSearch;
 input.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
@@ -555,6 +575,7 @@ input.addEventListener('keydown', e => {
     handleSearch();
   }
 });
+
 
 
 
