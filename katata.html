@@ -339,6 +339,8 @@ input[type="radio"]:checked::before {
     <link rel="stylesheet" href="https://mark-000.github.io/pl-power-vis-map.github.io/libs/Control.Geocoder.css" />
     <script src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/Control.Geocoder.js"></script>
 
+<!-- ✅ CSS для геокодера -->
+
 
 
 
@@ -438,9 +440,153 @@ input[type="radio"]:checked::before {
                 maxZoom: 22
             });
 
+
+
+
+
+
+
+
+
+const parcelLayerGroup = L.layerGroup().addTo(map);
+
+// Геокодер без контролу (невидимий)
+const geocoder = L.Control.Geocoder.nominatim();
+
+// Функція: перевірка формату кадастрового номера
+function isValidCadnum(input) {
+  return /^\d{10}:\d{2}:\d{3}:\d{4}$/.test(input.trim());
+}
+
+// Пошук кадастрової ділянки
+async function findParcel(cadnum) {
+  try {
+    const res = await fetch(`https://kadastr.live/api/parcels/${cadnum}/?format=json`);
+    if (!res.ok) throw new Error("Не вдалося отримати ділянку");
+    const data = await res.json();
+    const geojson = L.geoJSON(data.geometry, {
+      style: { color: '#ff6600', weight: 2, fillOpacity: 0.3 }
+    });
+
+    const center = geojson.getBounds().getCenter();
+
+    const removeButton = document.createElement('button');
+    removeButton.innerHTML = '🗑️ Видалити';
+    removeButton.style.background = 'red';
+    removeButton.style.color = 'white';
+    removeButton.onclick = () => {
+      parcelLayerGroup.removeLayer(geojson);
+      map.closePopup();
+    };
+
+    geojson.bindPopup(() => {
+      const div = document.createElement('div');
+      div.innerHTML = `<b>Кадастровий номер:</b><br>${cadnum}<br><br>`;
+      div.appendChild(removeButton);
+      return div;
+    });
+
+    geojson.addTo(parcelLayerGroup);
+    map.setView(center, 17);
+    geojson.openPopup(center);
+  } catch (e) {
+    alert("Помилка: " + e.message);
+  }
+}
+
+// Створюємо єдиний UI пошуку
+const input = document.createElement('input');
+input.type = 'text';
+input.placeholder = 'Адреса або кадастровий номер';
+input.style.padding = '5px';
+input.style.width = '250px';
+
+const searchButton = document.createElement('button');
+searchButton.textContent = '🔍';
+searchButton.style.marginLeft = '5px';
+
+const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+container.style.background = 'white';
+container.style.padding = '5px';
+container.appendChild(input);
+container.appendChild(searchButton);
+
+L.Control.SearchUnified = L.Control.extend({
+  onAdd: function() {
+    return container;
+  },
+  onRemove: function() {}
+});
+
+L.control.searchUnified = function(opts) {
+  return new L.Control.SearchUnified(opts);
+};
+
+L.control.searchUnified({ position: 'topleft' }).addTo(map);
+
+// Обробка пошуку
+async function handleSearch() {
+  const query = input.value.trim();
+  if (!query) return;
+
+  if (isValidCadnum(query)) {
+    await findParcel(query);
+  } else {
+    geocoder.geocode(query, results => {
+      if (results && results.length > 0) {
+        const result = results[0];
+        map.setView(result.center, 15);
+        L.popup()
+          .setLatLng(result.center)
+          .setContent(`<b>${result.name}</b>`)
+          .openOn(map);
+      } else {
+        alert("Нічого не знайдено");
+      }
+    });
+  }
+}
+
+// Обробка подій
+searchButton.onclick = handleSearch;
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleSearch();
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // За замовчуванням буде використовуватися OpenStreetMap
         //  osmLayer.addTo(map);
-        var coordDiv = L.control({ position: 'bottomright' });
+    var coordDiv = L.control({ position: 'bottomright' });
 
     coordDiv.onAdd = function () {
         var div = L.DomUtil.create('div', 'coordinate-display');
@@ -675,12 +821,12 @@ input[type="radio"]:checked::before {
 
     downloadButton.addTo(map);
 
-    L.Control.geocoder({
+    /*L.Control.geocoder({
         position: "topleft",
         defaultMarkGeocode: false
     }).on('markgeocode', function(e) {
         map.setView(e.geocode.center, 15);
-    }).addTo(map);
+    }).addTo(map);*/
 
 
 
