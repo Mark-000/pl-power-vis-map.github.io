@@ -792,6 +792,12 @@ function filterFeatures(features) {
             uwagi.includes("Tn") ||
             typpodtyp === "T" ||
             typpodtypNr === "T" ||
+            typpodtyp === "Emt" ||
+            typpodtypNr === "Emt" ||
+            typpodtyp === "Etm" ||
+            typpodtypNr === "Etm" ||
+            typpodtyp === "E" ||
+            typpodtypNr === "E" ||
             rodzajFields.some(field => field && field.trim() !== "");
 
         const isLs =
