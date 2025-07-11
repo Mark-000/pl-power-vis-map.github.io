@@ -474,6 +474,57 @@ margin-top: -3px;
 
 
 
+.map-filters {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 6px;
+}
+.map-filters label {
+  margin-right: 15px;
+  font-size: 1em;
+}
+input[type="checkbox"] {
+  appearance: none; /* Прибирає стандартний стиль */
+  display: inline-flex; /* Замість inline-block, щоб працював ::before */
+  align-items: center; /* Вирівнювання */
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  border-bottom: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  vertical-align: middle; /* Вирівнює з текстом */
+  /*margin-right: 0.5em;  Відступ від тексту */
+  position: relative; /* Важливо для ::before */
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.75em;  /* Збільшений розмір */
+  height: 0.75em;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transform-origin: bottom left;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: CanvasText;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="checkbox"]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+
+input[type="checkbox"]:disabled {
+  --form-control-color: var(--form-control-disabled);
+  color: var(--form-control-disabled);
+  cursor: not-allowed;
+}
+
 
 
 
@@ -511,8 +562,14 @@ margin-top: -3px;
     </nav>
     <div class="good-grad main-cintainer">
         <div class="ourmaps">OUR MAPS</div>
+        <div class="map-filters">
+            <label><input type="checkbox" value="ukraine" > Україна</label>
+            <label><input type="checkbox" value="poland" > Польща</label>
+            <label><input type="checkbox" value="wind" > Вітер</label>
+            <label><input type="checkbox" value="solar" > Сонце</label>
+        </div>
         <div class="maps-box">
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/ukraine-part-img.jpg"
                     alt="UA img"/>
@@ -525,7 +582,7 @@ margin-top: -3px;
                 </div> 
                 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="poland">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/poland-part-img.jpg"
                     alt="UA img"/>
@@ -538,7 +595,7 @@ margin-top: -3px;
                 </div> 
                 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="poland solar">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/land-analyst.png"
                     alt="UA img"/>
@@ -551,7 +608,7 @@ margin-top: -3px;
                 </div> 
                 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/ourLand.png"
                     alt="UA img"/>
@@ -564,7 +621,7 @@ margin-top: -3px;
                 </div> 
                 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                     <div>
                         <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/zimne-gpt.png"
                         alt="Zimne img"/>
@@ -577,8 +634,7 @@ margin-top: -3px;
                     </div> 
                     
             </div>
-            
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/kovel.png"
                     alt="UA img"/>
@@ -590,7 +646,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/d9040267194c42678e60a49afa5c3504?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/mokryani.png"
                     alt="UA img"/>
@@ -602,7 +658,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/1d3794a5b4b34f6bbdfc90d444343ea5?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/berdihiv.png"
                     alt="UA img"/>
@@ -614,7 +670,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/17e93be2e95b46798556634b92f5dd30?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/grabiv.png"
                     alt="UA img"/>
@@ -626,7 +682,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/a4d413aa14dc4c5c8ebf3ce7174b0076?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/луцьк.png"
                     alt="UA img"/>
@@ -638,7 +694,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/2d10fa7fab524669b7fde29619611a98?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/radiviliv.png"
                     alt="UA img"/>
@@ -650,7 +706,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/eda57147551444c89898d6ef129ddf5c?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine wind">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/ternopil.png"
                     alt="UA img"/>
@@ -662,7 +718,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/59a839c4626b4bbeab2f5d43f84284b9?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="poland wind solar">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/chelm.png"
                     alt="UA img"/>
@@ -674,7 +730,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/ed6666ac17f84862a62a7fa58a2d1b78?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="poland wind solar">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/plock.png"
                     alt="Plock img"/>
@@ -686,7 +742,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/3f133fa1981e4f8f822ebda28b791e8a?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="poland solar">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/usciecice.png"
                     alt="Uścięcice img"/>
@@ -698,7 +754,7 @@ margin-top: -3px;
                     <a href="https://experience.arcgis.com/experience/2b900642c5324a93a0be4c516537113e?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="ukraine">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/ukraine-part-img.jpg"
                     alt="UA img"/>
@@ -711,7 +767,7 @@ margin-top: -3px;
                 </div> 
                 
             </div>
-            <div class="maps-box-element">
+            <div class="maps-box-element" data-category="poland">
                 <div>
                     <img src="https://mark-000.github.io/pl-power-vis-map.github.io/poland-part-img.jpg"
                     alt="UA img"/>
@@ -868,6 +924,34 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   animate();
+</script>
+
+<script>
+function filterMaps() {
+  const checked = Array.from(document.querySelectorAll('.map-filters input[type="checkbox"]:checked'));
+  const checkedValues = checked.map(cb => cb.value);
+
+  document.querySelectorAll('.maps-box-element').forEach(card => {
+    const cardCategories = (card.getAttribute('data-category') || '').split(' ');
+
+    if (checkedValues.length === 0) {
+      // Якщо нічого не вибрано — показати всі карти
+      card.style.display = 'flex';
+    } else {
+      // AND-фільтрація — всі вибрані категорії повинні бути в карті
+      const match = checkedValues.every(filter => cardCategories.includes(filter));
+      card.style.display = match ? 'flex' : 'none';
+    }
+  });
+}
+
+// Додаємо подію
+document.querySelectorAll('.map-filters input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', filterMaps);
+});
+
+// Початковий запуск
+filterMaps();
 </script>
 
 
