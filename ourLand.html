@@ -298,6 +298,50 @@ input[type="radio"]:checked::before {
                 transform: scale(1.1);
             }
 
+    .filter-panel {
+    position: absolute;
+    top: 10px;
+    right: 260px;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 300px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+
+  .filter-button2 {
+    all: unset;
+    position: relative;
+    right: -105px;
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    
+  }
+  .filter-button2-close {
+    all: unset;
+    
+    font-size: 15px;
+    cursor: pointer;
+    
+    
+  }
+  .filter-button2-close-block{
+    display: flex;
+    justify-content: right;
+    margin-bottom: -40px;
+  }
+  .filter-flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
 
         
     </style>
@@ -305,6 +349,68 @@ input[type="radio"]:checked::before {
 <body>
     
     <div id="map"></div>
+
+    
+    
+
+    <div class="filter-panel" id="filterPanel"> 
+        <div class="filter-button2-close-block"><button class="filter-button2-close" onclick="addfiltermenu()" id="filterToggle"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button></div>
+        <h1>Фільтр кадастру</h1>
+        <h3>Власність</h3>
+        <div class="filter-flex"><input type="checkbox" class="ownership-filter" value="Державна власність" checked>
+            <label > Державна</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="ownership-filter" value="Комунальна власність" checked>
+            <label > Комунальна</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="ownership-filter" value="Приватна власність" checked>
+            <label > Приватна</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="ownership-filter" value="Не визначено" checked>
+            <label > Не визначено</label><br></div>
+        <h3>Категорія <a target="_blank" href="https://zakon.rada.gov.ua/laws/show/z1011-10#Text:~:text=II.-,%D0%9A%D0%BB%D0%B0%D1%81%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%86%D1%96%D1%8F%20%D0%B2%D0%B8%D0%B4%D1%96%D0%B2%20%D1%86%D1%96%D0%BB%D1%8C%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%20%D0%BF%D1%80%D0%B8%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%B7%D0%B5%D0%BC%D0%B5%D0%BB%D1%8C,-%D0%9A%D0%BE%D0%B4%20%D0%9A%D0%92%D0%A6%D0%9F%D0%97"><svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#000000"><path d="M480-680q17 0 28.5-11.5T520-720q0-17-11.5-28.5T480-760q-17 0-28.5 11.5T440-720q0 17 11.5 28.5T480-680Zm-40 320h80v-240h-80v240ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg></a></h3>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі сільськогосподарського призначення" checked>
+            <label > Землі сільськогосподарського призначення</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі житлової та громадської забудови" checked>
+            <label > Землі житлової та громадської забудови</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі громадської забудови" checked>
+            <label > Землі громадської забудови</label ><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі природно-заповідного фонду та іншого природоохоронного призначення" checked>
+            <label > Землі природно-заповідного фонду та іншого природоохоронного призначення</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі іншого природоохоронного призначення" checked>
+            <label > Землі іншого природоохоронного призначення</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі оздоровчого призначення" checked>
+            <label > Землі оздоровчого призначення</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі рекреаційного призначення" checked>
+            <label > Землі рекреаційного призначення</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі історико-культурного призначення" checked>
+            <label > Землі історико-культурного призначення</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі лісогосподарського призначення" checked>
+            <label > Землі лісогосподарського призначення</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі водного фонду" checked>
+            <label > Землі водного фонду</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі промисловості, транспорту, зв'язку, енергетики, оборони та іншого призначення" checked>
+            <label > Землі промисловості, транспорту, зв'язку, енергетики, оборони та іншого призначення"</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі запасу, резервного фонду та загального користування" checked>
+            <label > Землі запасу, резервного фонду та загального користування</label><br></div>
+    </div>
+
+    <div id="legend" style="
+        position: absolute; 
+        bottom: 30px; 
+        left: 10px; 
+        background: white; 
+        padding: 10px; 
+        border-radius: 5px; 
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        display: none; /* спочатку прихована */
+        z-index: 1000;
+        ">
+        <h4>Легенда кадастру</h4>
+        <div><span style="background: rgba(255,0,0,0.3); width: 20px; height: 10px; display: inline-block; margin-right: 5px;"></span>Комунальна / Державна власність</div>
+        <div><span style="background: rgba(0, 238, 255, 0.5); width: 20px; height: 10px; display: inline-block; margin-right: 5px;"></span>Житлова та громадська забудова</div>
+        <div><span style="background: rgba(0,0,0,0.1); width: 20px; height: 10px; display: inline-block; margin-right: 5px;"></span>Інші ділянки</div>
+        </div>
+
     <div id="pdfViewerContainer" style="
     position: absolute;
     top: 0;
@@ -318,7 +424,7 @@ input[type="radio"]:checked::before {
     z-index: 1000;
     display: none;
 ">
-   <!-- Тег для рендеринга PDF --> <!-- Вміст PDF -->
+   <!-- Тег для рендеринга PDF --> <!-- Вміст PDF   <div class="filter-button" id="filterToggle">Фільтри ▾</div>-->
 </div>
 
 <!-- Фіксована кнопка закриття (прихована за замовчуванням) -->
@@ -1099,146 +1205,177 @@ input.addEventListener('keydown', e => {
 
 
 
-    const vectorTileLayer = L.vectorGrid.protobuf(
-      "https://cdn.kadastr.live/tiles/maps/kadastr/{z}/{x}/{y}.pbf?version=0.6.5", //https://cdn.kadastr.live/tiles/maps/kadastr/{z}/{x}/{y}.pbf?version=0.6.5        https://tiles.geoserver.click/maps/ctiles/{z}/{x}/{y}.pbf
-
-      {
-        vectorTileLayerStyles: {
-          // Назви шарів мають відповідати тому, що всередині PBF.
-          // ТИМЧАСОВО ставимо catch-all стиль
-          // Після того як побачимо назву шару — можна буде вказати точну
-          // показувати тільки з 13 зума
-          'land_polygons': function(properties, zoom) {
-          let  fillColor = "rgba(0, 0, 0, 0.2)";
-          let color = "rgb(0, 0, 0)";
-        
-
-        if (
-          properties.ownership === "Комунальна власність" ||
-          properties.ownership === "Державна власність"
-        ) {
-          fillColor = "rgba(255,0,0,0.3)";
-          color = "#d11d1d";
-        }
-
-        const bluePurposeCodes = [
-          "02.01", "02.02", "02.03", "02.04", "02.05", "02.06", "02.07", "02.08",
-          "02.09", "02.10", "03.01", "03.02", "03.03", "03.04", "03.05", "03.06", 
-          "03.15", "07.01", "07.03", "07.04", "07.05"
-        ];
-
-        if (
-          bluePurposeCodes.includes(properties.purpose_code) ||
-          (properties.category && properties.category.includes("Землі житлової та громадської забудови"))
-        ) {
-          fillColor = "rgba(0, 238, 255, 0.51)";
-          color = "rgb(0, 238, 255)";
-        }
-
-        return {
-          fill: true,
-          fillColor: fillColor,
-          fillOpacity: 0.3,
-          color: color,
-          weight: 0.5
-        };
-      }
-    },
-    //renderBuffer: 128,
-    minZoom: 13,
-    maxNativeZoom: 16,
-    interactive: true,
-    getFeatureId: f => f.properties.cadnum
-    //getFeatureId: f => f.properties.id || f.properties.mvt_id
-  }
-);
-
-vectorTileLayer.on('click', async function(e) {
-  const p = e.layer.properties;
-  const cadnum = p.cadnum;
-
-  if (!cadnum) {
-    // Якщо немає кадастрового номера, показати базовий попап
-    const popupContent = `
-      <div style="font-family: Arial, sans-serif; font-size: 14px;">
-        <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">Немає кадастрового номера</h4>
-      </div>
-    `;
-    L.popup()
-      .setLatLng(e.latlng)
-      .setContent(popupContent)
-      .openOn(map);
-    return;
-  }
-
-  try {
-    const response = await fetch(`https://kadastr.live/api/parcels/${cadnum}/?format=json`);
-    const data = await response.json();
-
-    const details = data || {};
-
-    const popupContent = `
-      <div style="font-family: Arial, sans-serif; font-size: 14px;">
-        <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">${cadnum}</h4>
-        <div><b>Власність:</b> ${details.ownership || p.ownership || "Немає даних"} </div>
-        <div><b>Площа:</b> ${details.area || "Немає даних"} ${details.unit_area}.</div>
-        <div><b>Використання:</b> ${details.use || "Немає даних"}</div>
-        <div><b>Призначення:</b> ${details.purpose || p.purpose || "Немає даних"} (${details.purpose_code})</div>
-        <div><b>Категорія:</b> ${details.category || p.category || "Немає даних"}</div>
-        <div><b>НГО:</b> ${details.valuation_value || "Немає даних"}</div>
-        <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${cadnum}" target="_blank" style="color: blue; text-decoration: underline;">Деталі в ДЗК</a></div>
-      </div>
-    `;
-
-    L.popup()
-      .setLatLng(e.latlng)
-      .setContent(popupContent)
-      .openOn(map);
-
-  } catch (error) {
-    console.error("Помилка отримання даних:", error);
-    const popupContent = `
-      <div style="font-family: Arial, sans-serif; font-size: 14px;">
-        <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">${cadnum}</h4>
-        <div style="color: red;">❌ Не вдалося отримати додаткові дані з сервера.</div>
-      </div>
-    `;
-    L.popup()
-      .setLatLng(e.latlng)
-      .setContent(popupContent)
-      .openOn(map);
-  }
-});
-
+let activeOwnershipFilters = ["Державна власність", "Комунальна власність", "Приватна власність", "Не визначено"];
+let activeCategoryFilters = ["Землі сільськогосподарського призначення","Землі житлової та громадської забудови","Землі громадської забудови","Землі природно-заповідного фонду та іншого природоохоронного призначення",
+"Землі іншого природоохоронного призначення","Землі оздоровчого призначення","Землі рекреаційного призначення","Землі історико-культурного призначення","Землі лісогосподарського призначення","Землі водного фонду","Землі промисловості, транспорту, зв'язку, енергетики, оборони та іншого призначення","Землі запасу, резервного фонду та загального користування"]
 let hoveredId = null;
+let vectorTileLayer = null;
 
-vectorTileLayer.on('mouseover', function(e) {
-  const id = vectorTileLayer.options.getFeatureId(e.layer);
+// Функція стилізації з урахуванням фільтра
+function getParcelStyle(properties, zoom) {
+  let fillColor = "rgba(0,0,0,0.1)";
+  let color = "rgb(0,0,0)";
 
-  if (id !== null) {
-    hoveredId = id;
-    vectorTileLayer.setFeatureStyle(id, {
-      fill: true,
-      fillColor: 'yellow',
-      fillOpacity: 0.2,
-      color: 'orange',
-      weight: 2
-    });
+  if (activeOwnershipFilters.includes(properties.ownership) && activeCategoryFilters.includes(properties.category) ) {
+    if (
+      properties.ownership === "Комунальна власність" ||
+      properties.ownership === "Державна власність"
+    ) {
+      fillColor = "rgba(255,0,0,0.3)";
+      color = "#d11d1d";
+    }
+
+    const bluePurposeCodes = [
+      "02.01", "02.02", "02.03", "02.04", "02.05", "02.06", "02.07", "02.08",
+      "02.09", "02.10", "03.01", "03.02", "03.03", "03.04", "03.05", "03.06", 
+      "03.15", "07.01", "07.03", "07.04", "07.05"
+    ];
+
+    if (
+      bluePurposeCodes.includes(properties.purpose_code) ||
+      (properties.category && properties.category.includes("Землі житлової та громадської забудови"))
+    ) {
+      fillColor = "rgba(0, 238, 255, 0.51)";
+      color = "rgb(0, 238, 255)";
+    }
+  } else {
+    // Якщо власність не входить до активних — прозорий (невидимий)
+    return {
+      fill: false,
+      stroke: false,
+      weight: 0
+    };
   }
+
+  return {
+    fill: true,
+    fillColor: fillColor,
+    fillOpacity: 0.3,
+    color: color,
+    weight: 0.5
+  };
+}
+
+// Функція створення шару з актуальними фільтрами
+function createVectorTileLayer() {
+  return L.vectorGrid.protobuf(
+    "https://cdn.kadastr.live/tiles/maps/kadastr/{z}/{x}/{y}.pbf?version=0.6.5",
+    {
+      vectorTileLayerStyles: {
+        land_polygons: function(properties, zoom) {
+          return getParcelStyle(properties, zoom);
+        }
+      },
+      minZoom: 13,
+      maxNativeZoom: 16,
+      interactive: true,
+      getFeatureId: f => f.properties.cadnum
+    }
+  );
+}
+
+// Прив’язка подій до шару
+function attachVectorLayerEvents(layer) {
+  layer.on('click', async function(e) {
+    const p = e.layer.properties;
+    const cadnum = p.cadnum;
+
+    if (!cadnum) {
+      L.popup()
+        .setLatLng(e.latlng)
+        .setContent(`<div><strong>Немає кадастрового номера</strong></div>`)
+        .openOn(map);
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://kadastr.live/api/parcels/${cadnum}/?format=json`);
+      const data = await response.json();
+
+      const popupContent = `
+        <div style="font-family: Arial, sans-serif; font-size: 14px;">
+          <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">${cadnum}</h4>
+          <div><b>Власність:</b> ${data.ownership || p.ownership || "Немає даних"}</div>
+          <div><b>Площа:</b> ${data.area || "Немає даних"} ${data.unit_area || ""}</div>
+          <div><b>Використання:</b> ${data.use || "Немає даних"}</div>
+          <div><b>Призначення:</b> ${data.purpose || p.purpose || "Немає даних"} (${data.purpose_code || ""})</div>
+          <div><b>Категорія:</b> ${data.category || p.category || "Немає даних"}</div>
+          <div><b>НГО:</b> ${data.valuation_value || "Немає даних"}</div>
+          <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${cadnum}" target="_blank">Деталі в ДЗК</a></div>
+        </div>
+      `;
+
+      L.popup()
+        .setLatLng(e.latlng)
+        .setContent(popupContent)
+        .openOn(map);
+    } catch (err) {
+      L.popup()
+        .setLatLng(e.latlng)
+        .setContent("❌ Помилка завантаження даних")
+        .openOn(map);
+    }
+  });
+
+  layer.on('mouseover', function(e) {
+    const id = layer.options.getFeatureId(e.layer);
+    if (id !== null) {
+      hoveredId = id;
+      layer.setFeatureStyle(id, {
+        fill: true,
+        fillColor: 'yellow',
+        fillOpacity: 0.2,
+        color: 'orange',
+        weight: 2
+      });
+    }
+  });
+
+  layer.on('mouseout', function(e) {
+    if (hoveredId !== null) {
+      layer.resetFeatureStyle(hoveredId);
+      hoveredId = null;
+    }
+  });
+}
+
+// Ініціалізація шару і подій
+vectorTileLayer = createVectorTileLayer()//.addTo(map);
+attachVectorLayerEvents(vectorTileLayer);
+
+// Логіка кнопки та фільтрів
+
+                window.addfiltermenu = function () {
+    const panel = document.getElementById("filterPanel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+};
+
+
+
+
+function updateFilters() {
+    // Оновлюємо обидва масиви
+    activeOwnershipFilters = Array.from(document.querySelectorAll(".ownership-filter:checked"))
+        .map(cb => cb.value);
+
+    activeCategoryFilters = Array.from(document.querySelectorAll(".category-filter:checked"))
+        .map(cb => cb.value);
+
+    // Перемалювати шар
+    if (vectorTileLayer) {
+        vectorTileLayer.redraw();
+    }
+}
+
+// Навішування подій для ownership
+document.querySelectorAll(".ownership-filter").forEach(cb => {
+    cb.addEventListener("change", updateFilters);
 });
 
-vectorTileLayer.on('mouseout', function(e) {
-  if (hoveredId !== null) {
-    // Повертаємо стиль за замовчуванням
-    vectorTileLayer.resetFeatureStyle(hoveredId);
-    hoveredId = null;
-  }
+// Навішування подій для category
+document.querySelectorAll(".category-filter").forEach(cb => {
+    cb.addEventListener("change", updateFilters);
 });
-
-
-
-
-
 
 
 
@@ -1332,13 +1469,15 @@ var small_14_01 = L.geoJSON(data1, {
                         { label: "Межі областей", layer: oblastLayer },
                         { label: "Межі районів", layer: raionLayer },
                         { label: "Межі ОТГ", layer: otgLayer },
-                        { label: "Кадастр", layer: vectorTileLayer },
+                        { label:  `Кадастр <button class="filter-button2" onclick="addfiltermenu()" id="filterToggle">⚙️</button>`, layer: vectorTileLayer}, // до цього шару фільтри
                         { label: "Кадастр підкладка", layer: cadastrLayer },
                         ]
                     },
                     
                 ]
             };
+            
+             // трохи зачекаємо, щоб DOM дерева точно встиг з'явитись
 
             // Додаємо контроль шарів
             var layerControl = L.control.layers.tree(baseTree, overlaysTree, {
@@ -1364,6 +1503,8 @@ var small_14_01 = L.geoJSON(data1, {
             addLayersAfterAnimation();
 
             
+
+
                 // Створюємо контейнер для меню
            
 
