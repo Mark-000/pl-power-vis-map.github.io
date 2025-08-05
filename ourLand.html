@@ -342,7 +342,11 @@ input[type="radio"]:checked::before {
     margin-bottom: 5px;
   }
 
-
+#legend{
+    font-family: "Balsamiq Sans", sans-serif;
+    border-radius: 5px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
         
     </style>
 </head>
@@ -390,26 +394,16 @@ input[type="radio"]:checked::before {
             <label > Землі промисловості, транспорту, зв'язку, енергетики, оборони та іншого призначення</label><br></div>
         <div class="filter-flex"><input type="checkbox" class="category-filter" value="Землі запасу, резервного фонду та загального користування" checked>
             <label > Землі запасу, резервного фонду та загального користування</label><br></div>
+        <div class="filter-flex"><input type="checkbox" class="category-filter" value="Не визначено" checked>
+            <label > Не визначено</label><br></div>
     </div>
 
-    <div id="legend" style="
-        position: absolute; 
-        bottom: 30px; 
-        left: 10px; 
-        background: white; 
-        padding: 10px; 
-        border-radius: 5px; 
-        box-shadow: 0 0 5px rgba(0,0,0,0.3);
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        display: none; /* спочатку прихована */
-        z-index: 1000;
-        ">
-        <h4>Легенда кадастру</h4>
+    <div id="legend" style="display:none; position:absolute; bottom:10px; left:10px; background:white; padding:10px; z-index:1000;">
+        <div style="text-align: center; margin-bottom: 5px;"><b>Легенда</b></div>
         <div><span style="background: rgba(255,0,0,0.3); width: 20px; height: 10px; display: inline-block; margin-right: 5px;"></span>Комунальна / Державна власність</div>
         <div><span style="background: rgba(0, 238, 255, 0.5); width: 20px; height: 10px; display: inline-block; margin-right: 5px;"></span>Житлова та громадська забудова</div>
-        <div><span style="background: rgba(0,0,0,0.1); width: 20px; height: 10px; display: inline-block; margin-right: 5px;"></span>Інші ділянки</div>
-        </div>
+        <div><span style="background: rgba(0,0,0,0.4); width: 20px; height: 10px; display: inline-block; margin-right: 5px;"></span>Інші ділянки</div>
+    </div>
 
     <div id="pdfViewerContainer" style="
     position: absolute;
@@ -1207,9 +1201,11 @@ input.addEventListener('keydown', e => {
 
 let activeOwnershipFilters = ["Державна власність", "Комунальна власність", "Приватна власність", "Не визначено"];
 let activeCategoryFilters = ["Землі сільськогосподарського призначення","Землі житлової та громадської забудови","Землі громадської забудови","Землі природно-заповідного фонду та іншого природоохоронного призначення",
-"Землі іншого природоохоронного призначення","Землі оздоровчого призначення","Землі рекреаційного призначення","Землі історико-культурного призначення","Землі лісогосподарського призначення","Землі водного фонду","Землі промисловості, транспорту, зв’язку, енергетики, оборони та іншого призначення","Землі запасу, резервного фонду та загального користування"]
+"Землі іншого природоохоронного призначення","Землі оздоровчого призначення","Землі рекреаційного призначення","Землі історико-культурного призначення","Землі лісогосподарського призначення","Землі водного фонду","Землі промисловості, транспорту, зв’язку, енергетики, оборони та іншого призначення","Землі запасу, резервного фонду та загального користування", "Не визначено"]
 let hoveredId = null;
 let vectorTileLayer = null;
+
+let isVectorLayerVisible = false;
 
 // Функція стилізації з урахуванням фільтра
 function getParcelStyle(properties, zoom) {
@@ -1272,7 +1268,24 @@ function createVectorTileLayer() {
       getFeatureId: f => f.properties.cadnum
     }
   );
+  layer.on('add', () => {
+    isVectorLayerVisible = true;
+    updateLegendVisibility();
+  });
+
+  // Подія вимкнення шару
+  layer.on('remove', () => {
+    isVectorLayerVisible = false;
+    updateLegendVisibility();
+  });
+
+  return layer;
 }
+
+
+map.on('zoomend', () => {
+  updateLegendVisibility();
+});
 
 // Прив’язка подій до шару
 function attachVectorLayerEvents(layer) {
@@ -1378,6 +1391,24 @@ document.querySelectorAll(".category-filter").forEach(cb => {
 });
 
 
+function updateLegendVisibility() {
+  const zoom = map.getZoom();
+  const legend = document.getElementById("legend");
+
+  if (zoom >= 13 && map.hasLayer(vectorTileLayer)) {
+    legend.style.display = "block";
+  } else {
+    legend.style.display = "none";
+  }
+}
+
+// Додати слухачі
+map.on("zoomend", updateLegendVisibility);
+map.on("layeradd", updateLegendVisibility);
+map.on("layerremove", updateLegendVisibility);
+
+// Вперше викликати після завантаження
+updateLegendVisibility();
 
 
 
@@ -1530,7 +1561,3 @@ var small_14_01 = L.geoJSON(data1, {
     <script defer src="./script-cadastr.js"></script>-->
 </body>
 </html>
-
-
-
-
