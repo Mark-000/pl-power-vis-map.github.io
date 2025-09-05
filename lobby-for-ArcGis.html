@@ -41,14 +41,15 @@
 <style>
 
 
-    
+    * {
+        font-family: 'Inter', sans-serif;
+    }
 
     body {
         background: black;
         margin: 0;
-      padding: 0;
+        padding: 0;
         gap: 1em;
-        font-family: 'Inter', sans-serif;
         overflow-x: hidden;
         height: 100%;
             
@@ -143,6 +144,12 @@
     }
     .maps-box{
         display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        /*align-items: flex-start;*/
+    }
+    .maps-box-archive{
+        display: none;
         justify-content: center;
         flex-wrap: wrap;
         /*align-items: flex-start;*/
@@ -476,7 +483,7 @@ margin-top: -3px;
 
 .map-filters {
 
-  padding: 10px;
+  
   
   background: #f4f4f4;
   border-radius: 6px;
@@ -543,6 +550,31 @@ input[type="checkbox"]:disabled {
         
     }
 
+.archive-button {
+  text-decoration: none;
+  border: 2px solid transparent; /* щоб рамка не стрибала */
+  font-size: 1em;
+  height: 100%;
+  background-color: transparent;
+  color: #000;
+
+  /* усі плавні переходи */
+  transition: color 0.3s, border-color 0.3s, background-color 0.3s, transform 0.3s;
+}
+
+.archive-button svg {
+  fill: currentColor; /* svg підхоплює колір */
+  transition: color 0.3s;
+}
+
+.archive-button:hover {
+  background-color: #000;
+  color: #f4f4f4;
+  border-color: white;
+  transform: scale(1.1);
+}
+
+
 </style>
 
 <body>
@@ -577,12 +609,20 @@ input[type="checkbox"]:disabled {
     </nav>
     <div class="good-grad main-cintainer">
         <div class="ourmaps">OUR MAPS</div>
-        <div class="map-filters" style="display: flex; justify-content: cester; ">
-            <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M360-440 129-735q-5-6-7-12.5t-2-12.5q0-16 11.5-28t28.5-12h560q17 0 28.5 12t11.5 28q0 6-2 12.5t-7 12.5L520-440v240q0 17-11.5 28.5T480-160h-80q-17 0-28.5-11.5T360-200v-240Zm400 240-56-56 63-64H600v-80h167l-63-64 56-56 160 160-160 160ZM440-468l198-252H242l198 252Z"/></svg>
-            <label><input type="checkbox" value="ukraine" > Україна</label>
-            <label><input type="checkbox" value="poland" > Польща</label>
-            <label><input type="checkbox" value="wind" > Вітер</label>
-            <label><input type="checkbox" value="solar" > Сонце</label>
+        <div class="map-filters" style="display: flex; justify-content: space-between;">
+            <div style="display: flex; justify-content: cester; margin:10px;">
+                <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M360-440 129-735q-5-6-7-12.5t-2-12.5q0-16 11.5-28t28.5-12h560q17 0 28.5 12t11.5 28q0 6-2 12.5t-7 12.5L520-440v240q0 17-11.5 28.5T480-160h-80q-17 0-28.5-11.5T360-200v-240Zm400 240-56-56 63-64H600v-80h167l-63-64 56-56 160 160-160 160ZM440-468l198-252H242l198 252Z"/></svg>
+                <label><input type="checkbox" value="ukraine" > Україна</label>
+                <label><input type="checkbox" value="poland" > Польща</label>
+                <label><input type="checkbox" value="wind" > Вітер</label>
+                <label><input type="checkbox" value="solar" > Сонце</label>
+            </div>
+            <div>
+                <button id="archiveBtn" class="archive-button" style="border-radius: 6px; display: flex; align-items: center; justify-content: space-between;" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z"/></svg>
+                    <span style="margin-left: 5px;">Archive</span>
+                </button>
+            </div>    
         </div>
         <div class="maps-box">
             <div class="maps-box-element" data-category="ukraine">
@@ -683,8 +723,8 @@ input[type="checkbox"]:disabled {
                     <div class="map-description">Концепції Мокряни (1, 2, 3, 4)</div>
                 </div>
                     <div class="map-buttons">   
-                    <a href="https://ba-2000.maps.arcgis.com/apps/mapviewer/index.html?webmap=19310656dcb4459fb3f68790da9dae14" target="_blank">Editor</a>
-                    <a href="https://experience.arcgis.com/experience/1d3794a5b4b34f6bbdfc90d444343ea5?draft=true" target="_blank">Viewer</a>
+                    <a href="https://ba-2000.maps.arcgis.com/apps/mapviewer/index.html?webmap=148506fdb12d442b81d5bde060c5e358" target="_blank">Editor</a>
+                    <a href="https://experience.arcgis.com/experience/20a781451e394fa2984b19c5aeb2ebd1?draft=true" target="_blank">Viewer</a>
                 </div> 
             </div>
             <div class="maps-box-element" data-category="ukraine wind">
@@ -812,6 +852,24 @@ input[type="checkbox"]:disabled {
             
             
             
+        </div>
+        <div class="maps-box-archive">
+
+            <div class="maps-box-element" data-category="ukraine wind">
+                <div>
+                    <img src="https://mark-000.github.io/pl-power-vis-map.github.io/libs/images/mokryani.png"
+                    alt="UA img"/>
+                    <div class="map-name">Мокряни концепції</div>
+                    <div class="map-description">Концепції Мокряни (1, 2, 3, 4)</div>
+                </div>
+                    <div class="map-buttons">   
+                    <a href="https://ba-2000.maps.arcgis.com/apps/mapviewer/index.html?webmap=19310656dcb4459fb3f68790da9dae14" target="_blank">Editor</a>
+                    <a href="https://experience.arcgis.com/experience/1d3794a5b4b34f6bbdfc90d444343ea5?draft=true" target="_blank">Viewer</a>
+                </div> 
+            </div>
+
+
+
         </div>
     </div>
     <svg id="animation" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -981,6 +1039,35 @@ document.querySelectorAll('.map-filters input[type="checkbox"]').forEach(cb => {
 
 // Початковий запуск
 filterMaps();
+</script>
+
+<script>
+  const btn = document.getElementById("archiveBtn");
+  const ourMaps = document.querySelector(".ourmaps");
+  const mapsBox = document.querySelector(".maps-box");
+  const mapsBoxArch = document.querySelector(".maps-box-archive");
+
+    let isArchive = false;
+
+
+    btn.addEventListener("click", () => {
+        if (!isArchive) {
+            // Перехід в "архівні"
+            ourMaps.textContent = "АРХІВНІ КАРТИ";
+            mapsBox.style.display = "none";
+            mapsBoxArch.style.display = "flex";
+            btn.textContent = "Back";
+        } else {
+            // Повертаємось в "OUR MAPS"
+            ourMaps.textContent = "OUR MAPS";
+            mapsBox.style.display = "flex";
+            mapsBoxArch.style.display = "none";
+            btn.textContent = "Archive";
+        }
+
+        isArchive = !isArchive; // перемикаємо стан
+    });
+
 </script>
 
 
