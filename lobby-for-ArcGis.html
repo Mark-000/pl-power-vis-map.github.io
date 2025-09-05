@@ -620,7 +620,7 @@ input[type="checkbox"]:disabled {
             <div>
                 <button id="archiveBtn" class="archive-button" style="border-radius: 6px; display: flex; align-items: center; justify-content: space-between;" >
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z"/></svg>
-                    <span style="margin-left: 5px;">Archive</span>
+                    <span class="archive-text" style="margin-left: 5px;">Archive</span>
                 </button>
             </div>    
         </div>
@@ -1046,6 +1046,7 @@ filterMaps();
   const ourMaps = document.querySelector(".ourmaps");
   const mapsBox = document.querySelector(".maps-box");
   const mapsBoxArch = document.querySelector(".maps-box-archive");
+  const mapsBoxArchText = document.querySelector(".archive-text");
 
     let isArchive = false;
 
@@ -1056,13 +1057,13 @@ filterMaps();
             ourMaps.textContent = "АРХІВНІ КАРТИ";
             mapsBox.style.display = "none";
             mapsBoxArch.style.display = "flex";
-            btn.textContent = "Back";
+            mapsBoxArchText.textContent = "Back";
         } else {
             // Повертаємось в "OUR MAPS"
             ourMaps.textContent = "OUR MAPS";
             mapsBox.style.display = "flex";
             mapsBoxArch.style.display = "none";
-            btn.textContent = "Archive";
+            mapsBoxArchText.textContent = "Archive";
         }
 
         isArchive = !isArchive; // перемикаємо стан
