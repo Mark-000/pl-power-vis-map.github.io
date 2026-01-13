@@ -1412,54 +1412,256 @@ updateLegendVisibility();
 
 
 
+var specialCadnums = [
+    "4620987600:31:000:0057",
+    "4620989100:10:000:0019",
+    "4620989100:17:001:0020",
+    "4620989100:08:000:0021",
+    "4620989100:07:000:0024",
+    "4620989100:09:000:0027",
+    "4620989100:13:000:0037",
+    "4620989100:13:000:0038",
+    "4620989100:13:000:0039",
+    "4625886700:01:000:0434",
+    "4625886700:01:000:0438",
+    "4625886700:01:000:0436",
+    "0721183400:14:000:0124",
+    "0721155000:07:000:0040",
+    "0721155000:07:000:0042",
+    "0721183401:01:001:0017",
+    "0721155000:07:000:0041",
+    "0720582003:03:001:0024",
+    "0720581300:00:001:0367",
+    "0720582000:00:001:0493",
+    "0720582000:00:001:0152",
+    "0720582000:06:001:0080",
+    "0720581300:00:001:0382",
+    "0720581300:05:004:0345",
+    "0720585300:00:001:0142",
+    "0720585300:00:001:0145",
+    "0720585300:00:001:0148",
+    "0720581300:00:001:0373",
+    "4625884500:08:000:0070",
+    "4625884500:05:000:0041",
+    "4625884500:05:000:0042",
+    "4625884500:05:000:0044",
+    "4625884500:05:000:0055",
+    "4625884500:05:000:0056",
+    "4625884500:05:000:0057",
+    "4625884500:08:000:0065",
+    "4625884500:08:000:0068",
+    "4625884500:08:000:0064",
+    "4625884500:08:000:0066",
+    "4625884500:05:000:0048",
+    "4625884500:05:000:0040",
+    "4625884500:05:000:0043",
+    "4625884500:05:000:0045",
+    "4625884500:05:000:0049",
+    "4625884500:05:000:0050",
+    "4625884500:05:000:0047",
+    "4625884500:05:000:0052",
+    "4625884500:05:000:0051",
+    "4625888600:03:000:0620",
+    "4625888600:03:000:0587",
+    "4625888600:03:000:0588",
+    "4625888600:03:000:0580",
+    "4625882200:01:000:0887",
+    "4625882200:01:000:0886",
+    "4625882200:01:000:0889"
+];
 
 
 
 
 
+var small_42001958 = L.geoJSON(data1, {
+
+    // ✅ ФІЛЬТР по полю "Файл"
+    filter: function(feature) {
+        var fileVal = feature.properties['Файл'] || "";
+        var urVal   = feature.properties['ur'] || "";
+
+        return fileVal.toString().includes("42001958") 
+            || urVal.toString().toUpperCase().includes("ЯВОРІВ ЕНЕРГО");
+    },
+
+    style: function(feature) {
+
+        var cadnum = feature.properties["landuse.cadnum"] 
+                  || feature.properties.cadnum 
+                  || feature.properties.Kad 
+                  || "";
+
+        var fillColor;
+
+        // 🟢 Якщо в масиві specialCadnums → інший колір
+        if (specialCadnums.includes(cadnum)) {
+            fillColor = "#fc03c6"; // яскраво-зелений (можеш змінити)
+        }
+        // далі твоя логіка по сервітуту
+        else if (feature.properties['Сервітут'] === true) {
+            fillColor = "#5867c4"; // синій
+        } 
+        else if (feature.properties['Сервітут'] === false) {
+            fillColor = "#eb6e6e"; // червоний
+        } 
+        else {
+            fillColor = "black";
+        }
+
+        return {
+            fillColor: fillColor,
+            color: fillColor,
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.2
+        };
+    },
+
+    onEachFeature: function(feature, layer) {
+        layer.bindPopup(`
+            <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">
+                ${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}
+            </h4>
+            <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
+            <b>Сервітут:</b> ${feature.properties['Сервітут'] === true ? "Так" : feature.properties['Сервітут'] === false ? "Ні" : "Unknown"}<br>
+            <b>Код:</b> ${feature.properties.purpose_code || 'Unknown'}<br>
+            <b>Призначення:</b> ${feature.properties.purpose || 'Unknown'}<br>
+            <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
+            <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
+            <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">    
+                <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі в ДЗК</a></div>
+                <div><button class="pdfbutton" onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити в PDF</button></div>
+            </div>
+        `);
+    }
+});
 
 
 
 
+        var small_42857415 = L.geoJSON(data1, {
 
+    // ✅ ФІЛЬТР по полю "Файл"
+    filter: function(feature) {
+        var fileVal = feature.properties['Файл'] || "";
+        return fileVal.toString().includes("42857415");
+    },
 
-var small_14_01 = L.geoJSON(data1, {
-            style: function(feature) {
-                // Визначення кольору залежно від значення "Сервітут"
-                var fillColor;
-                if (feature.properties['Сервітут'] === true) {
-                    fillColor = "#5867c4"; // Синій для сервітуту
-                } else if (feature.properties['Сервітут'] === false) {
-                    fillColor = "#eb6e6e"; // Червоний для без сервітуту
-                } else {
-                    fillColor = "black"; // Чорний для відсутніх даних
-                }
+    style: function(feature) {
 
-                return {
-                    fillColor: fillColor,
-                    color: fillColor, // Колір обведення
-                    weight: 2, // Товщина обведення
-                    opacity: 1, // Прозорість обведення
-                    fillOpacity: 0.2 // Прозорість заповнення
-                };
-            },
-            onEachFeature: function(feature, layer) {
-                layer.bindPopup(`
-                    <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}</h4>
-                    <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
-                    <b>Сервітут:</b> ${feature.properties['Сервітут'] === true ? "Так" : feature.properties['Сервітут'] === false ? "Ні" : "Unknown"}<br>
-                    <b>Код:</b> ${feature.properties.purpose_code || 'Unknown'}<br>
-                    <b>Призначення:</b> ${feature.properties.purpose || 'Unknown'}<br>
-                    <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
-                    <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
-                    <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">    
-                        <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі в ДЗК</a></div>
-                        <div><button class="pdfbutton" onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити в PDF</button></div>
-                    </div>
-                  `);
-            }
-        }); 
+        var cadnum = feature.properties["landuse.cadnum"] 
+                  || feature.properties.cadnum 
+                  || feature.properties.Kad 
+                  || "";
+
+        var fillColor;
+
+        // 🟢 Якщо в масиві specialCadnums → інший колір
+        if (specialCadnums.includes(cadnum)) {
+            fillColor = "#fc03c6"; // яскраво-зелений (можеш змінити)
+        }
+        // далі твоя логіка по сервітуту
+        else if (feature.properties['Сервітут'] === true) {
+            fillColor = "#5867c4"; // синій
+        } 
+        else if (feature.properties['Сервітут'] === false) {
+            fillColor = "#eb6e6e"; // червоний
+        } 
+        else {
+            fillColor = "black";
+        }
+
+        return {
+            fillColor: fillColor,
+            color: fillColor,
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.2
+        };
+    },
+
+    onEachFeature: function(feature, layer) {
+        layer.bindPopup(`
+            <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">
+                ${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}
+            </h4>
+            <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
+            <b>Сервітут:</b> ${feature.properties['Сервітут'] === true ? "Так" : feature.properties['Сервітут'] === false ? "Ні" : "Unknown"}<br>
+            <b>Код:</b> ${feature.properties.purpose_code || 'Unknown'}<br>
+            <b>Призначення:</b> ${feature.properties.purpose || 'Unknown'}<br>
+            <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
+            <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
+            <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">    
+                <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі в ДЗК</a></div>
+                <div><button class="pdfbutton" onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити в PDF</button></div>
+            </div>
+        `);
+    }
+});
+
+var small_37831311 = L.geoJSON(data1, {
+
+    // ✅ ФІЛЬТР по полю "Файл"
+    filter: function(feature) {
+        var fileVal = feature.properties['Файл'] || "";
+        return fileVal.toString().includes("37831311");
+    },
+
+    style: function(feature) {
+
+        var cadnum = feature.properties["landuse.cadnum"] 
+                  || feature.properties.cadnum 
+                  || feature.properties.Kad 
+                  || "";
+
+        var fillColor;
+
+        // 🟢 Якщо в масиві specialCadnums → інший колір
+        if (specialCadnums.includes(cadnum)) {
+            fillColor = "#fc03c6"; // яскраво-зелений (можеш змінити)
+        }
+        // далі твоя логіка по сервітуту
+        else if (feature.properties['Сервітут'] === true) {
+            fillColor = "#5867c4"; // синій
+        } 
+        else if (feature.properties['Сервітут'] === false) {
+            fillColor = "#eb6e6e"; // червоний
+        } 
+        else {
+            fillColor = "black";
+        }
+
+        return {
+            fillColor: fillColor,
+            color: fillColor,
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.2
+        };
+    },
+
+    onEachFeature: function(feature, layer) {
+        layer.bindPopup(`
+            <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">
+                ${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}
+            </h4>
+            <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
+            <b>Сервітут:</b> ${feature.properties['Сервітут'] === true ? "Так" : feature.properties['Сервітут'] === false ? "Ні" : "Unknown"}<br>
+            <b>Код:</b> ${feature.properties.purpose_code || 'Unknown'}<br>
+            <b>Призначення:</b> ${feature.properties.purpose || 'Unknown'}<br>
+            <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
+            <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
+            <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">    
+                <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі в ДЗК</a></div>
+                <div><button class="pdfbutton" onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити в PDF</button></div>
+            </div>
+        `);
+    }
+});
 
 
 
@@ -1481,7 +1683,9 @@ var small_14_01 = L.geoJSON(data1, {
                 label: "<b>Шари</b>",
                 selectAllCheckbox: true,  // Додає чекбокс для вибору всіх шарів
                 children: [
-                    { label: "Наші ділянки", layer: small_14_01 },
+                    { label: "ЯВОРІВ ЕНЕРГО", layer: small_42001958 },
+                    { label: "ВІНД ПАВЕР GSI", layer: small_37831311 },
+                    { label: "ВІНД ПАВЕР GSI ВОЛИНЬ2", layer: small_42857415 },
                     { 
                         label: "<b>Природоохоронні дані</b>", 
                         collapsed: false,  // ❗ Згорнута група
