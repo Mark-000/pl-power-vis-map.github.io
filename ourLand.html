@@ -1496,7 +1496,7 @@ var small_42001958 = L.geoJSON(data1, {
 
         // 🟢 Якщо в масиві specialCadnums → інший колір
         if (specialCadnums.includes(cadnum)) {
-            fillColor = "#fc03c6"; // яскраво-зелений (можеш змінити)
+            fillColor = "#00ff1a"; // яскраво-зелений (можеш змінити)
         }
         // далі твоя логіка по сервітуту
         else if (feature.properties['Сервітут'] === true) {
@@ -1560,7 +1560,7 @@ var small_42001958 = L.geoJSON(data1, {
 
         // 🟢 Якщо в масиві specialCadnums → інший колір
         if (specialCadnums.includes(cadnum)) {
-            fillColor = "#fc03c6"; // яскраво-зелений (можеш змінити)
+            fillColor = "#00ff1a"; // яскраво-зелений (можеш змінити)
         }
         // далі твоя логіка по сервітуту
         else if (feature.properties['Сервітут'] === true) {
@@ -1621,7 +1621,68 @@ var small_37831311 = L.geoJSON(data1, {
 
         // 🟢 Якщо в масиві specialCadnums → інший колір
         if (specialCadnums.includes(cadnum)) {
-            fillColor = "#fc03c6"; // яскраво-зелений (можеш змінити)
+            fillColor = "#00ff1a"; // яскраво-зелений (можеш змінити)
+        }
+        // далі твоя логіка по сервітуту
+        else if (feature.properties['Сервітут'] === true) {
+            fillColor = "#5867c4"; // синій
+        } 
+        else if (feature.properties['Сервітут'] === false) {
+            fillColor = "#eb6e6e"; // червоний
+        } 
+        else {
+            fillColor = "black";
+        }
+
+        return {
+            fillColor: fillColor,
+            color: fillColor,
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.2
+        };
+    },
+
+    onEachFeature: function(feature, layer) {
+        layer.bindPopup(`
+            <h4 style="margin: 5px 0; font-size: 16px; color: #d9534f;">
+                ${feature.properties["landuse.cadnum"] || feature.properties.cadnum || feature.properties.Kad || 'Unknown'}
+            </h4>
+            <b>Площа:</b> ${feature.properties.area || feature.properties["_AS____________________________________________________"] || 'Unknown'}<br>
+            <b>Сервітут:</b> ${feature.properties['Сервітут'] === true ? "Так" : feature.properties['Сервітут'] === false ? "Ні" : "Unknown"}<br>
+            <b>Код:</b> ${feature.properties.purpose_code || 'Unknown'}<br>
+            <b>Призначення:</b> ${feature.properties.purpose || 'Unknown'}<br>
+            <b>Використання:</b> ${feature.properties.use || feature.properties.for || feature.properties["_TX__________________________________________________________________________"] || 'Unknown'}<br>
+            <b>Категорія:</b> ${feature.properties.category || 'Unknown'}<br>
+            <b>Юридичка:</b> ${feature.properties['Файл'] || feature.properties.ur || 'ownership'}<br>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">    
+                <div>🔗<a href="https://e.land.gov.ua/back/cadaster/?cad_num=${feature.properties["landuse.cadnum"]}" target="_blank" style="color: blue; text-decoration: underline;"> Деталі в ДЗК</a></div>
+                <div><button class="pdfbutton" onclick="openPDF('${feature.properties["landuse.cadnum"] || feature.properties.cadnum}')">Відкрити в PDF</button></div>
+            </div>
+        `);
+    }
+});
+
+var small_ya_plus = L.geoJSON(data1, {
+
+    // ✅ ФІЛЬТР по полю "Файл"
+    filter: function(feature) {
+        var fileVal = feature.properties['Файл'] || "";
+        return fileVal.toString().includes("Західна ВЕС");
+    },
+
+    style: function(feature) {
+
+        var cadnum = feature.properties["landuse.cadnum"] 
+                  || feature.properties.cadnum 
+                  || feature.properties.Kad 
+                  || "";
+
+        var fillColor;
+
+        // 🟢 Якщо в масиві specialCadnums → інший колір
+        if (specialCadnums.includes(cadnum)) {
+            fillColor = "#00ff1a"; // яскраво-зелений (можеш змінити)
         }
         // далі твоя логіка по сервітуту
         else if (feature.properties['Сервітут'] === true) {
@@ -1676,6 +1737,7 @@ var small_37831311 = L.geoJSON(data1, {
                     { label: "White Map", layer: WhiteLayer, radioGroup: "basemap" },
                     { label: "Google Map", layer: googleLayer, radioGroup: "basemap" },
                     { label: "Topo Map", layer: topoLayer, radioGroup: "basemap" },
+                    
                 ]
             };
             // Дерево шарів
@@ -1686,6 +1748,7 @@ var small_37831311 = L.geoJSON(data1, {
                     { label: "ЯВОРІВ ЕНЕРГО", layer: small_42001958 },
                     { label: "ВІНД ПАВЕР GSI", layer: small_37831311 },
                     { label: "ВІНД ПАВЕР GSI ВОЛИНЬ2", layer: small_42857415 },
+                    { label: "Західна ВЕС (ЯЕ+)", layer: small_ya_plus },
                     { 
                         label: "<b>Природоохоронні дані</b>", 
                         collapsed: false,  // ❗ Згорнута група
