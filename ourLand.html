@@ -1625,7 +1625,7 @@ var small_42001958 = L.geoJSON(data1, {
     // ✅ ФІЛЬТР по полю "Файл"
     filter: function(feature) {
         var fileVal = feature.properties['Файл'] || "";
-        return fileVal.toString().includes("42857415");
+        return fileVal.toString().includes("42857415") || fileVal.toString().includes("Волинь 2");
     },
 
     style: function(feature) {
@@ -1907,3 +1907,4 @@ var small_ya_plus = L.geoJSON(data1, {
     <script defer src="./script-cadastr.js"></script>-->
 </body>
 </html>
+
