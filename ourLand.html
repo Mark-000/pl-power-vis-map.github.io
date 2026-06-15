@@ -1255,7 +1255,7 @@ function getParcelStyle(properties, zoom) {
 // Функція створення шару з актуальними фільтрами
 function createVectorTileLayer() {
   return L.vectorGrid.protobuf(
-    "https://cdn.kadastr.live/tiles/maps/kadastr/{z}/{x}/{y}.pbf?version=0.6.5",
+    "https://tiles.geoserver.click/maps/ctiles/{z}/{x}/{y}.pbf",
     {
       vectorTileLayerStyles: {
         land_polygons: function(properties, zoom) {
