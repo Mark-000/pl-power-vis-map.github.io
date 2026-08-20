@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DXF Web Viewer (Leaflet)</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.vectorgrid@1.3.0/dist/Leaflet.VectorGrid.bundled.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dxf-parser/dist/dxf-parser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/proj4@2.9.0/dist/proj4.js"></script>
+<script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
+
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.js"></script>
+
+
+<style>
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#map-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    width: 320px;
+    max-height: calc(100vh - 20px);
+
+    background: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.25);
+
+    z-index: 1000;
+
+    overflow-y: auto;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* Заголовок */
+
+.panel-header {
+    padding: 12px;
+
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.panel-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* Кнопка додавання */
+
+.upload-button {
+    background: #1976d2;
+
+    color: white;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+.upload-button:hover {
+    background: #1565c0;
+}
+
+
+/* Секції */
+
+.panel-section {
+    padding: 10px 12px;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.section-title {
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #555;
+
+    margin-bottom: 8px;
+}
+
+
+/* Підкладки */
+
+.base-layer {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 5px 0;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+
+/* DXF layer */
+
+.dxf-layer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    padding: 7px 5px;
+
+    border-radius: 5px;
+}
+
+.dxf-layer-item:hover {
+    background: #f2f2f2;
+}
+
+.dxf-layer-checkbox {
+    flex-shrink: 0;
+}
+
+.dxf-layer-name {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+
+    font-size: 14px;
+    line-height: 1.3;
+    color: #050505;
+}
+
+
+/* Кнопка видалення */
+
+.delete-layer {
+    border: none;
+
+    background: #e74c3c;
+
+    color: white;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+.delete-layer:hover {
+    background: #c0392b;
+}
+
+
+/* Порожній список */
+
+.empty-layers {
+    color: #888;
+
+    font-size: 13px;
+
+    padding: 5px 0;
+}
+
+
+/* Легенда */
+
+.legend-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 3px 0;
+
+    font-size: 13px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+
+    border-radius: 3px;
+    border: 1px solid #777;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+.legend-color:hover {
+    transform: scale(1.1);
+}
+
+.dxf-main-row {
+    display: flex;
+    align-items: flex-start;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.dxf-crs-row {
+    display: flex;
+    align-items: center;
+
+    margin-top: 8px;
+    padding-left: 25px;
+
+    min-width: 0;
+}
+
+
+.dxf-crs-label {
+    flex: 0 0 auto;
+
+    margin-right: 8px;
+
+    font-size: 12px;
+    color: #ffffff;
+}
+
+
+/* Select */
+
+.dxf-crs-select {
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    height: 28px;
+
+    padding: 0 7px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #1565c0;
+    color: #ffffff;
+
+    font-size: 12px;
+
+    outline: none;
+}
+
+
+.dxf-crs-select:focus {
+    border-color: #00c3ff;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 13px;
+}
+
+
+.legend-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.legend-delete {
+    width: 23px;
+    height: 23px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 4px;
+
+    background: #e74c3c;
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+.legend-delete:hover {
+    background: #c0392b;
+}
+
+.cad-popup {
+    font-family: Arial, sans-serif;
+    min-width: 280px;
+    max-width: 380px;
+}
+
+.cad-popup-title {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.cad-row {
+    display: flex;
+    flex-direction: column;
+    padding: 7px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cad-label {
+    font-size: 11px;
+    color: #777;
+    margin-bottom: 2px;
+}
+
+.cad-value {
+    font-size: 13px;
+    color: #222;
+    word-break: break-word;
+}
+
+.cad-cadnum {
+    font-weight: bold;
+    color: #1976d2;
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div id="map-panel">
+
+    <div class="panel-header">
+        <div class="panel-title">Шари</div>
+
+        <label class="upload-button">
+            + Додати DXF
+            <input
+                type="file"
+                id="dxfFile"
+                accept=".dxf"
+                multiple
+                hidden
+            >
+        </label>
+    </div>
+
+    <div class="panel-section">
+        <div class="section-title">Підкладка</div>
+
+        <label class="base-layer">
+            <input
+                type="radio"
+                name="basemap"
+                value="osm"
+                checked
+            >
+            <span>OpenStreetMap</span>
+        </label>
+
+        <label class="base-layer">
+            <input
+                type="radio"
+                name="basemap"
+                value="google"
+            >
+            <span>Google Satellite</span>
+        </label>
+        
+    </div>
+
+    <div class="panel-section">
+
+            <div class="section-title">
+                Кадастрові дані
+            </div>
+
+            <label class="base-layer">
+                <input
+                    type="checkbox"
+                    id="cadastral-toggle"
+                >
+                <span>Кадастрові ділянки</span>
+            </label>
+
+        </div>
+
+    <div class="panel-section">
+
+        <div class="section-title">
+            DXF шари
+        </div>
+
+        <div id="dxf-layers">
+            <div class="empty-layers">
+                Немає завантажених файлів
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel-section">
+
+        <div class="section-title">
+            Легенда
+        </div>
+
+        <div id="legend"></div>
+
+    </div>
+
+</div>
+
+<div id="map"></div>
+
+<script>
+
+// ----------------------------
+// CS63
+// ----------------------------
+proj4.defs(
+    "EPSG:7825",
+    "+proj=tmerc +lat_0=0.0833333333 +lon_0=23.5 +k=1 +x_0=1300003 +y_0=3 +ellps=krass +towgs84=23,-124,-82,0,0,0,0 +units=m +no_defs"
+);
+
+proj4.defs(
+  "EPSG:7826",
+  "+proj=tmerc +lat_0=0.0833333333 +lon_0=26.5 +k=1 +x_0=2300000 +y_0=0 +ellps=krass +towgs84=23,-124,-82,0,0,0,0 +units=m +no_defs"
+);
+
+
+function transformCoord(x, y, crs) {
+
+    // Якщо координати вже WGS84
+    if (Math.abs(x) <= 180 && Math.abs(y) <= 90) {
+        return [x, y];
+    }
+
+    return proj4(
+        crs,
+        "EPSG:4326",
+        [x, y]
+    );
+}
+
+// ----------------------------
+// Карта
+// ----------------------------
+const map = L.map("map", {
+    zoomControl: false
+}).setView([49.84, 24.03], 7);
+
+L.Marker.prototype._panOnFocus = function () {
+    // disabled
+};
+
+
+const measureControl = L.control.measure({
+    position: "topright",
+
+    primaryLengthUnit: "meters",
+    secondaryLengthUnit: "kilometers",
+
+    primaryAreaUnit: "hectares",
+    secondaryAreaUnit: "sqmeters",
+
+    activeColor: "#1976d2",
+    completedColor: "#3388ff",
+
+    localization: "uk",
+
+    captureZIndex: 10000
+});
+
+measureControl.addTo(map);
+
+map.createPane("cadastrePane");
+map.getPane("cadastrePane").style.zIndex = 400;
+
+// DXF буде вище кадастру
+map.createPane("dxfPane");
+map.getPane("dxfPane").style.zIndex = 600;
+
+
+
+
+const osm = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        attribution: "&copy; OpenStreetMap contributors"
+    }
+);
+
+const google = L.tileLayer(
+    "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+    {
+        attribution: "Google"
+    }
+);
+
+const cadastralTiles = L.vectorGrid.protobuf(
+    "https://jdwepohzmflyupbpmxkg.supabase.co/functions/v1/tiles-proxy?z={z}&x={x}&y={y}",
+    {
+        minZoom: 14,
+        maxNativeZoom: 16,
+
+        vectorTileLayerStyles: {
+
+            tile_land_polygons: {
+                weight: 0.5,
+                color: "#00c3ff",
+                opacity: 1,
+
+                fill: true,
+                fillColor: "#00c3ff",
+                fillOpacity: 0.1
+            }
+
+        },
+
+        interactive: true,
+
+        getFeatureId: function(feature) {
+            return feature.id;
+        },
+
+        pane: "cadastrePane"
+    }
+);
+
+cadastralTiles.on("click", async function(e) {
+
+    console.log("Clicked cadastral feature:", e.layer);
+    console.log("PBF properties:", e.layer.properties);
+
+    const properties = e.layer.properties || {};
+
+    const cadnum =
+        properties.cadnum ||
+        properties.CADNUM ||
+        properties.cad_num ||
+        properties.cadastral_number;
+
+    // -----------------------------------------------------
+    // Якщо кадастрового номера немає
+    // -----------------------------------------------------
+
+    if (!cadnum) {
+
+        console.warn("Кадастровий номер не знайдений");
+
+        L.popup()
+            .setLatLng(e.latlng)
+            .setContent(`
+                <div class="cad-popup">
+                    <div class="cad-popup-title">
+                        Кадастрова ділянка
+                    </div>
+
+                    <div style="color:#d9534f">
+                        Кадастровий номер не знайдено
+                    </div>
+                </div>
+            `)
+            .openOn(map);
+
+        return;
+    }
+
+
+    // -----------------------------------------------------
+    // Видаляємо попередню підсвічену ділянку
+    // -----------------------------------------------------
+
+    if (selectedParcelLayer) {
+
+        map.removeLayer(selectedParcelLayer);
+
+        selectedParcelLayer = null;
+
+    }
+
+
+    // -----------------------------------------------------
+    // Popup "Завантаження"
+    // -----------------------------------------------------
+
+    const popup = L.popup({
+        maxWidth: 420
+    })
+    .setLatLng(e.latlng)
+    .setContent(`
+        <div class="cad-popup">
+
+            <div class="cad-popup-title">
+                Кадастрова ділянка
+            </div>
+
+            <div class="cad-row">
+
+                <div class="cad-label">
+                    Кадастровий номер
+                </div>
+
+                <div class="cad-value cad-cadnum">
+                    ${cadnum}
+                </div>
+
+            </div>
+
+            <div style="
+                padding: 12px 0;
+                color: #777;
+            ">
+                Завантаження даних...
+            </div>
+
+        </div>
+    `)
+    .openOn(map);
+
+
+    // -----------------------------------------------------
+    // Запит до API
+    // -----------------------------------------------------
+
+    try {
+
+        const apiUrl =
+            `https://back.geoserver.click/api/landuse/${encodeURIComponent(cadnum)}`;
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        console.log("Landuse API:", data);
+
+
+        // =================================================
+        // ПІДСВІЧУВАННЯ З GEOMETRY API
+        // =================================================
+
+        if (data.geometry) {
+
+            selectedParcelLayer = L.geoJSON(
+                data.geometry,
+                {
+                    style: {
+                        color: "#ff5500",
+                        weight: 3,
+                        opacity: 1,
+
+                        fillColor: "#ffff00",
+                        fillOpacity: 0.45
+                    },
+
+                    interactive: false
+                }
+            );
+
+            selectedParcelLayer.addTo(map);
+
+        }
+
+
+        // -------------------------------------------------
+        // Дані popup
+        // -------------------------------------------------
+
+        const address =
+            data.address ||
+            "Не вказано";
+
+        const category =
+            data.category ||
+            "Не вказано";
+
+        const purpose =
+            data.purpose ||
+            "Не вказано";
+
+        const use =
+            data.use ||
+            "Не вказано";
+
+        const area =
+            data.area !== null &&
+            data.area !== undefined
+                ? `${data.area} ${data.unit_area || ""}`
+                : "Не вказано";
+
+        const ownership =
+            data.ownership ||
+            "Не вказано";
+
+
+        // -------------------------------------------------
+        // Popup
+        // -------------------------------------------------
+
+        const content = `
+
+            <div class="cad-popup">
+
+                <div class="cad-popup-title">
+                    Кадастрова ділянка
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Кадастровий номер
+                    </div>
+
+                    <div class="cad-value cad-cadnum">
+                        ${data.cadnum || cadnum}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Площа
+                    </div>
+
+                    <div class="cad-value">
+                        ${area}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Категорія земель
+                    </div>
+
+                    <div class="cad-value">
+                        ${category}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Код цільового призначення
+                    </div>
+
+                    <div class="cad-value">
+                        ${data.purpose_code || "Не вказано"}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Цільове призначення
+                    </div>
+
+                    <div class="cad-value">
+                        ${purpose}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Використання
+                    </div>
+
+                    <div class="cad-value">
+                        ${use}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Код власності
+                    </div>
+
+                    <div class="cad-value">
+                        ${data.ownershipcode || "Не вказано"}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Форма власності
+                    </div>
+
+                    <div class="cad-value">
+                        ${ownership}
+                    </div>
+
+                </div>
+
+
+                <div class="cad-row">
+
+                    <div class="cad-label">
+                        Адреса
+                    </div>
+
+                    <div class="cad-value">
+                        ${address}
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        popup
+            .setContent(content)
+            .update();
+
+
+    } catch (error) {
+
+        console.error(
+            "Помилка отримання даних кадастру:",
+            error
+        );
+
+        popup
+            .setContent(`
+
+                <div class="cad-popup">
+
+                    <div class="cad-popup-title">
+                        Кадастрова ділянка
+                    </div>
+
+                    <div class="cad-row">
+
+                        <div class="cad-label">
+                            Кадастровий номер
+                        </div>
+
+                        <div class="cad-value cad-cadnum">
+                            ${cadnum}
+                        </div>
+
+                    </div>
+
+                    <div style="
+                        color:#d9534f;
+                        padding-top:10px;
+                    ">
+                        Не вдалося отримати дані
+                        про земельну ділянку.
+                    </div>
+
+                </div>
+
+            `)
+            .update();
+
+    }
+
+});
+
+map.on("popupclose", function() {
+
+    if (selectedParcelLayer) {
+
+        map.removeLayer(selectedParcelLayer);
+
+        selectedParcelLayer = null;
+
+    }
+
+});
+
+document
+    .getElementById("cadastral-toggle")
+    .addEventListener("change", function () {
+
+        if (this.checked) {
+
+            cadastralTiles.addTo(map);
+
+        } else {
+
+            if (map.hasLayer(cadastralTiles)) {
+                map.removeLayer(cadastralTiles);
+            }
+
+        }
+
+    });
+
+osm.addTo(map);
+
+// ----------------------------
+// Перемикання підкладки
+// ----------------------------
+
+document.querySelectorAll('input[name="basemap"]').forEach(radio => {
+
+    radio.addEventListener("change", function () {
+
+        if (!this.checked) return;
+
+        if (this.value === "osm") {
+
+            if (map.hasLayer(google)) {
+                map.removeLayer(google);
+            }
+
+            if (!map.hasLayer(osm)) {
+                osm.addTo(map);
+            }
+
+        }
+
+        if (this.value === "google") {
+
+            if (map.hasLayer(osm)) {
+                map.removeLayer(osm);
+            }
+
+            if (!map.hasLayer(google)) {
+                google.addTo(map);
+            }
+
+        }
+
+    });
+
+});
+
+
+// ----------------------------
+// Глобальні змінні
+// ----------------------------
+const loadedLayers = {};
+const layerColors = {};
+let layerCounter = 0;
+let selectedParcelLayer = null;
+const deletedDxfLayers = new Set();
+
+// ----------------------------
+// Кольори DXF Layer
+// ----------------------------
+function randomColor() {
+    const hue = Math.floor(Math.random() * 360);
+    const sat = 65 + Math.floor(Math.random() * 40);
+    const light = 45 + Math.floor(Math.random() * 20);
+    return `hsl(${hue}, ${sat}%, ${light}%)`;
+}
+
+function getLayerColor(layerName) {
+
+    if (!layerColors[layerName]) {
+        layerColors[layerName] = randomColor();
+    }
+
+    return layerColors[layerName];
+}
+
+function hslToHex(hsl) {
+
+    // Якщо це вже HEX — повертаємо як є
+    if (hsl.startsWith("#")) {
+        return hsl;
+    }
+
+    const match = hsl.match(
+        /hsl\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*\)/
+    );
+
+    if (!match) {
+        return "#ff0000";
+    }
+
+    let h = parseInt(match[1]) / 360;
+    let s = parseInt(match[2]) / 100;
+    let l = parseInt(match[3]) / 100;
+
+    function hueToRgb(p, q, t) {
+
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+
+            if (t < 1 / 6) {
+                return p + (q - p) * 6 * t;
+            }
+
+            if (t < 1 / 2) {
+                return q;
+            }
+
+            if (t < 2 / 3) {
+                return p + (q - p) * (2 / 3 - t) * 6;
+            }
+
+            return p;
+        }
+
+        let r;
+        let g;
+        let b;
+
+        if (s === 0) {
+
+            r = g = b = l;
+
+        } else {
+
+            const q =
+                l < 0.5
+                    ? l * (1 + s)
+                    : l + s - l * s;
+
+            const p = 2 * l - q;
+
+            r = hueToRgb(p, q, h + 1 / 3);
+            g = hueToRgb(p, q, h);
+            b = hueToRgb(p, q, h - 1 / 3);
+
+        }
+
+        const toHex = value =>
+            Math.round(value * 255)
+                .toString(16)
+                .padStart(2, "0");
+
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
+function updateLegend() {
+
+    const legend = document.getElementById("legend");
+
+    if (!legend) {
+        console.error("Елемент #legend не знайдений");
+        return;
+    }
+
+    legend.innerHTML = "";
+
+    // Збираємо всі унікальні Layer
+    // з усіх завантажених DXF
+    const layerNames = new Set();
+
+    Object.values(loadedLayers).forEach(fileLayer => {
+
+        if (!fileLayer.dxf || !fileLayer.dxf.entities) {
+            return;
+        }
+
+        fileLayer.dxf.entities.forEach(entity => {
+
+            const layerName =
+                entity.layer || "Default";
+
+            // Не показуємо видалені Layer
+            if (!deletedDxfLayers.has(layerName)) {
+                layerNames.add(layerName);
+            }
+
+        });
+
+    });
+
+
+    const names = Array.from(layerNames).sort();
+
+
+    // Якщо Layer немає
+    if (names.length === 0) {
+
+        legend.innerHTML = `
+            <div class="empty-layers">
+                Немає активних DXF Layer
+            </div>
+        `;
+
+        return;
+    }
+
+
+    // Створюємо легенду
+    names.forEach(layerName => {
+
+        const color = getLayerColor(layerName);
+
+        const item = document.createElement("div");
+
+        item.className = "legend-item";
+
+        item.innerHTML = `
+            
+            <div
+                class="legend-color"
+                data-layer="${layerName}"
+                style="background:${color}"
+                title="Змінити колір"
+            ></div>
+
+            <div
+                class="legend-name"
+                title="${layerName}"
+            >
+                ${layerName}
+            </div>
+
+            <button
+                class="legend-delete"
+                data-layer="${layerName}"
+                title="Видалити Layer"
+            >
+                🗑
+            </button>
+
+        `;
+
+        legend.appendChild(item);
+
+    });
+
+    
+
+    legend
+        .querySelectorAll(".legend-color")
+        .forEach(colorElement => {
+
+            colorElement.addEventListener("click", function () {
+
+                const layerName = this.dataset.layer;
+
+                const currentColor = getLayerColor(layerName);
+
+                // Створюємо прихований input
+                const colorPicker = document.createElement("input");
+
+                colorPicker.type = "color";
+
+                // Якщо зараз HSL — переводимо його в HEX
+                colorPicker.value = hslToHex(currentColor);
+
+                colorPicker.style.position = "fixed";
+                colorPicker.style.left = "-100px";
+                colorPicker.style.top = "-100px";
+
+                document.body.appendChild(colorPicker);
+
+                colorPicker.addEventListener("change", function () {
+
+                    const newColor = this.value;
+
+                    // Запам'ятовуємо новий колір
+                    layerColors[layerName] = newColor;
+
+                    // Перемальовуємо всі DXF
+                    refreshAllDxfLayers();
+
+                    // Оновлюємо легенду
+                    updateLegend();
+
+                    // Видаляємо input
+                    colorPicker.remove();
+
+                });
+
+                colorPicker.addEventListener("blur", function () {
+                    setTimeout(() => {
+                        if (document.body.contains(colorPicker)) {
+                            colorPicker.remove();
+                        }
+                    }, 100);
+                });
+
+                colorPicker.click();
+
+            });
+
+        });
+
+
+    // Обробник кнопок видалення
+    legend
+        .querySelectorAll(".legend-delete")
+        .forEach(button => {
+
+            button.addEventListener("click", function() {
+
+                const layerName =
+                    this.dataset.layer;
+
+                deleteDxfLayer(layerName);
+
+            });
+
+        });
+
+}
+
+function refreshAllDxfLayers() {
+
+    Object.keys(loadedLayers).forEach(id => {
+
+        const fileLayer = loadedLayers[id];
+
+        if (!fileLayer || !fileLayer.dxf) {
+            return;
+        }
+
+        // Створюємо GeoJSON заново
+        const newGeoJSON = dxfToGeoJSON(
+            fileLayer.dxf,
+            fileLayer.crs
+        );
+
+        // Створюємо новий Leaflet layer
+        const newLeafletLayer = createLeafletLayer(
+            newGeoJSON
+        );
+
+        // Чи був шар видимий
+        const wasVisible = fileLayer.visible;
+
+        // Видаляємо старий
+        if (
+            fileLayer.leafletLayer &&
+            map.hasLayer(fileLayer.leafletLayer)
+        ) {
+            map.removeLayer(
+                fileLayer.leafletLayer
+            );
+        }
+
+        // Оновлюємо дані
+        fileLayer.geojson = newGeoJSON;
+
+        fileLayer.leafletLayer = newLeafletLayer;
+
+        // Повертаємо на карту
+        if (wasVisible) {
+
+            fileLayer.leafletLayer.addTo(map);
+
+        }
+
+    });
+
+}
+
+function deleteDxfLayer(layerName) {
+
+    deletedDxfLayers.add(layerName);
+
+
+    Object.keys(loadedLayers).forEach(id => {
+
+        const fileLayer = loadedLayers[id];
+
+
+        const newGeoJSON =
+            dxfToGeoJSON(
+                fileLayer.dxf,
+                fileLayer.crs
+            );
+
+
+        const newLeafletLayer =
+            createLeafletLayer(
+                newGeoJSON
+            );
+
+
+        // Видаляємо старий шар
+
+        if (
+            map.hasLayer(
+                fileLayer.leafletLayer
+            )
+        ) {
+
+            map.removeLayer(
+                fileLayer.leafletLayer
+            );
+
+        }
+
+
+        // Оновлюємо тільки відображення
+
+        fileLayer.geojson =
+            newGeoJSON;
+
+        fileLayer.leafletLayer =
+            newLeafletLayer;
+
+
+        if (fileLayer.visible) {
+
+            fileLayer.leafletLayer.addTo(map);
+
+        }
+
+    });
+
+
+    updateLegend();
+
+}
+
+// ----------------------------
+// Допоміжні функції
+// ----------------------------
+function fitToGeoJSON(geojson) {
+    const layer = L.geoJSON(geojson);
+    if (layer.getBounds().isValid()) {
+        map.fitBounds(layer.getBounds(), {
+            padding: [30, 30]
+        });
+    }
+}
+
+
+function arcPointsFromBulge(p1, p2, bulge, segments = 32) {
+
+    // Якщо bulge немає — звичайна пряма
+    if (!bulge || Math.abs(bulge) < 1e-12) {
+        return [p1, p2];
+    }
+
+    const x1 = p1[0];
+    const y1 = p1[1];
+
+    const x2 = p2[0];
+    const y2 = p2[1];
+
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+
+    const chord = Math.sqrt(dx * dx + dy * dy);
+
+    if (chord === 0) {
+        return [p1];
+    }
+
+    // Кут дуги
+    const theta = 4 * Math.atan(bulge);
+
+    // Радіус
+    const radius =
+        chord / (2 * Math.sin(Math.abs(theta) / 2));
+
+    // Середина хорди
+    const mx = (x1 + x2) / 2;
+    const my = (y1 + y2) / 2;
+
+    // Одинична нормаль до хорди
+    const nx = -dy / chord;
+    const ny = dx / chord;
+
+    // Відстань від середини хорди до центру
+    const h = Math.sqrt(
+        Math.max(
+            0,
+            radius * radius -
+            (chord / 2) * (chord / 2)
+        )
+    );
+
+    // Напрямок центру
+    const sign = bulge >= 0 ? 1 : -1;
+
+    const cx = mx + nx * h * sign;
+    const cy = my + ny * h * sign;
+
+    // Кут початку
+    const startAngle =
+        Math.atan2(
+            y1 - cy,
+            x1 - cx
+        );
+
+    // Кут кінця
+    let endAngle =
+        Math.atan2(
+            y2 - cy,
+            x2 - cx
+        );
+
+    let delta;
+
+    if (bulge > 0) {
+
+        while (endAngle < startAngle) {
+            endAngle += Math.PI * 2;
+        }
+
+        delta = endAngle - startAngle;
+
+    } else {
+
+        while (endAngle > startAngle) {
+            endAngle -= Math.PI * 2;
+        }
+
+        delta = endAngle - startAngle;
+    }
+
+    // Кількість точок залежить від довжини дуги
+    const count = Math.max(
+        segments,
+        Math.ceil(Math.abs(delta) * 20)
+    );
+
+    const result = [];
+
+    for (let i = 0; i <= count; i++) {
+
+        const t = i / count;
+
+        const angle =
+            startAngle + delta * t;
+
+        result.push([
+            cx + radius * Math.cos(angle),
+            cy + radius * Math.sin(angle)
+        ]);
+    }
+
+    return result;
+}
+
+// ----------------------------
+// DXF -> GeoJSON
+// ----------------------------
+function dxfToGeoJSON(dxf, crs) {
+
+    const features = [];
+
+    for (const entity of dxf.entities) {
+
+        const layer = entity.layer || "Default";
+
+
+        // ----------------------------
+        // Видалені Layer
+        // ----------------------------
+
+        if (deletedDxfLayers.has(layer)) {
+            continue;
+        }
+
+
+        getLayerColor(layer);
+
+
+        // ----------------------------
+        // LINE
+        // ----------------------------
+
+        if (entity.type === "LINE") {
+
+            features.push({
+                type: "Feature",
+
+                geometry: {
+                    type: "LineString",
+
+                    coordinates: [
+                        transformCoord(
+                            entity.vertices[0].x,
+                            entity.vertices[0].y,
+                            crs
+                        ),
+
+                        transformCoord(
+                            entity.vertices[1].x,
+                            entity.vertices[1].y,
+                            crs
+                        )
+                    ]
+                },
+
+                properties: {
+                    layer
+                }
+            });
+
+        }
+
+
+        // ----------------------------
+        // POLYLINE
+        // ----------------------------
+
+        if (
+            entity.type === "LWPOLYLINE" ||
+            entity.type === "POLYLINE"
+        ) {
+
+            let coords = [];
+
+            for (let i = 0; i < entity.vertices.length - 1; i++) {
+
+                const v1 = entity.vertices[i];
+                const v2 = entity.vertices[i + 1];
+
+                const p1 = [v1.x, v1.y];
+                const p2 = [v2.x, v2.y];
+
+                const bulge = v1.bulge || 0;
+
+                const segment = arcPointsFromBulge(
+                    p1,
+                    p2,
+                    bulge
+                );
+
+                // Не дублюємо першу точку
+                if (coords.length > 0) {
+                    segment.shift();
+                }
+
+                coords.push(...segment);
+            }
+
+            // Закрита полілінія
+            if (entity.shape || entity.closed) {
+
+                const last = entity.vertices[
+                    entity.vertices.length - 1
+                ];
+
+                const first = entity.vertices[0];
+
+                const p1 = [last.x, last.y];
+                const p2 = [first.x, first.y];
+
+                const bulge = last.bulge || 0;
+
+                const segment = arcPointsFromBulge(
+                    p1,
+                    p2,
+                    bulge
+                );
+
+                if (coords.length > 0) {
+                    segment.shift();
+                }
+
+                coords.push(...segment);
+            }
+
+
+            // Тепер трансформуємо всі точки
+            coords = coords.map(p =>
+                transformCoord(
+                    p[0],
+                    p[1],
+                    crs
+                )
+            );
+
+
+            if (entity.shape || entity.closed) {
+
+                if (
+                    coords.length > 0 &&
+                    (
+                        coords[0][0] !== coords[coords.length - 1][0] ||
+                        coords[0][1] !== coords[coords.length - 1][1]
+                    )
+                ) {
+                    coords.push(coords[0]);
+                }
+
+
+                features.push({
+                    type: "Feature",
+
+                    geometry: {
+                        type: "Polygon",
+                        coordinates: [coords]
+                    },
+
+                    properties: {
+                        layer
+                    }
+                });
+
+            } else {
+
+                features.push({
+                    type: "Feature",
+
+                    geometry: {
+                        type: "LineString",
+                        coordinates: coords
+                    },
+
+                    properties: {
+                        layer
+                    }
+                });
+
+            }
+
+        }
+
+
+        // ----------------------------
+        // POINT
+        // ----------------------------
+
+        if (entity.type === "POINT") {
+
+            features.push({
+                type: "Feature",
+
+                geometry: {
+                    type: "Point",
+
+                    coordinates: transformCoord(
+                        entity.position.x,
+                        entity.position.y,
+                        crs
+                    )
+                },
+
+                properties: {
+                    layer
+                }
+            });
+
+        }
+
+
+        // ----------------------------
+        // CIRCLE
+        // ----------------------------
+
+        if (entity.type === "CIRCLE") {
+
+            const center = transformCoord(
+                entity.center.x,
+                entity.center.y,
+                crs
+            );
+
+
+            features.push({
+                type: "Feature",
+
+                geometry: {
+                    type: "Point",
+                    coordinates: center
+                },
+
+                properties: {
+                    layer,
+                    radius: entity.radius
+                }
+            });
+
+        }
+
+    }
+
+
+    return {
+        type: "FeatureCollection",
+        features
+    };
+}
+
+// ----------------------------
+// Створення Leaflet шару з GeoJSON
+// ----------------------------
+function createLeafletLayer(geojson) {
+
+    const group = L.layerGroup();
+
+    L.geoJSON(geojson, {
+
+        style: function(feature) {
+            return {
+                color: getLayerColor(feature.properties.layer),
+                weight: 2,
+                opacity: 1,
+                fillColor: getLayerColor(feature.properties.layer),
+                fillOpacity: 0.25,
+                pane: "dxfPane"
+            };
+        },
+
+        pointToLayer: function(feature, latlng) {
+
+            if (feature.properties.radius) {
+
+                return L.circle(latlng, {
+                    radius: feature.properties.radius,
+                    color: getLayerColor(feature.properties.layer),
+                    weight: 2,
+                    fillColor: getLayerColor(feature.properties.layer),
+                    fillOpacity: 0.2,
+                    pane: "dxfPane"
+                });
+
+            }
+
+            return L.circleMarker(latlng, {
+                radius: 4,
+                color: getLayerColor(feature.properties.layer),
+                fillColor: getLayerColor(feature.properties.layer),
+                fillOpacity: 1,
+                pane: "dxfPane"
+            });
+
+        }
+
+    }).addTo(group);
+
+    return group;
+
+}
+
+// ----------------------------
+// Список шарів
+// ----------------------------
+function renderLayersList() {
+
+    const container = document.getElementById("dxf-layers");
+
+    container.innerHTML = "";
+
+    const ids = Object.keys(loadedLayers);
+
+
+    // Якщо немає файлів
+
+    if (ids.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-layers">
+                Немає завантажених файлів
+            </div>
+        `;
+
+        return;
+    }
+
+
+    ids.forEach(id => {
+
+        const layer = loadedLayers[id];
+
+        const item = document.createElement("div");
+
+        item.className = "dxf-layer-item";
+
+
+        item.innerHTML = `
+
+            <div class="dxf-main-row">
+
+                <input
+                    class="dxf-layer-checkbox"
+                    type="checkbox"
+
+                    ${layer.visible ? "checked" : ""}
+
+                    data-id="${id}"
+                >
+
+
+                <div
+                    class="dxf-layer-name"
+                    title="${layer.name}"
+                >
+                    ${layer.name}
+                </div>
+
+
+                <button
+                    class="delete-layer"
+                    data-delete="${id}"
+                    title="Видалити"
+                >
+                    🗑
+                </button>
+
+            </div>
+
+
+            <div class="dxf-crs-row">
+
+                <span>Система:</span>
+
+                <select
+                    class="dxf-crs-select"
+                    data-crs-id="${id}"
+                >
+
+                    <option
+                        value="EPSG:7825"
+                        ${layer.crs === "EPSG:7825" ? "selected" : ""}
+                    >
+                        СК-1
+                    </option>
+
+                    <option
+                        value="EPSG:7826"
+                        ${layer.crs === "EPSG:7826" ? "selected" : ""}
+                    >
+                        СК-2
+                    </option>
+
+                </select>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(item);
+
+    });
+
+
+    // ==================================================
+    // Видимість
+    // ==================================================
+
+    container
+        .querySelectorAll(".dxf-layer-checkbox")
+        .forEach(cb => {
+
+            cb.addEventListener("change", e => {
+
+                const id = e.target.dataset.id;
+
+                const layer = loadedLayers[id];
+
+                if (!layer) return;
+
+
+                layer.visible = e.target.checked;
+
+
+                if (layer.visible) {
+
+                    if (!map.hasLayer(layer.leafletLayer)) {
+
+                        layer.leafletLayer.addTo(map);
+
+                    }
+
+                } else {
+
+                    if (map.hasLayer(layer.leafletLayer)) {
+
+                        map.removeLayer(
+                            layer.leafletLayer
+                        );
+
+                    }
+
+                }
+
+            });
+
+        });
+
+
+    // ==================================================
+    // Видалення
+    // ==================================================
+
+    container
+        .querySelectorAll(".delete-layer")
+        .forEach(btn => {
+
+            btn.addEventListener("click", e => {
+
+                const id =
+                    e.currentTarget.dataset.delete;
+
+                const layer =
+                    loadedLayers[id];
+
+                if (!layer) return;
+
+
+                if (
+                    map.hasLayer(
+                        layer.leafletLayer
+                    )
+                ) {
+
+                    map.removeLayer(
+                        layer.leafletLayer
+                    );
+
+                }
+
+
+                delete loadedLayers[id];
+
+
+                renderLayersList();
+
+            });
+
+        });
+
+
+    // ==================================================
+    // Зміна системи координат
+    // ==================================================
+
+    container
+        .querySelectorAll(".dxf-crs-select")
+        .forEach(select => {
+
+            select.addEventListener("change", e => {
+
+                const id =
+                    e.target.dataset.crsId;
+
+                const layer =
+                    loadedLayers[id];
+
+                if (!layer) return;
+
+
+                // Нова система координат
+
+                const newCRS =
+                    e.target.value;
+
+
+                console.log(
+                    "Зміна CRS:",
+                    layer.name,
+                    newCRS
+                );
+
+
+                // Запам'ятовуємо
+
+                layer.crs = newCRS;
+
+
+                // Перераховуємо координати
+
+                const newGeoJSON =
+                    dxfToGeoJSON(
+                        layer.dxf,
+                        newCRS
+                    );
+
+
+                // Створюємо новий Leaflet layer
+
+                const newLeafletLayer =
+                    createLeafletLayer(
+                        newGeoJSON
+                    );
+
+
+                // Якщо старий був видимий —
+                // замінюємо його на карті
+
+                const wasVisible =
+                    layer.visible;
+
+
+                if (
+                    map.hasLayer(
+                        layer.leafletLayer
+                    )
+                ) {
+
+                    map.removeLayer(
+                        layer.leafletLayer
+                    );
+
+                }
+
+
+                layer.geojson =
+                    newGeoJSON;
+
+                layer.leafletLayer =
+                    newLeafletLayer;
+
+
+                if (wasVisible) {
+
+                    layer.leafletLayer.addTo(map);
+
+                }
+
+
+                // Автоматично переходимо
+                // до нового положення
+
+                fitToGeoJSON(
+                    newGeoJSON
+                );
+
+            });
+
+        });
+
+}
+
+// ----------------------------
+// Завантаження DXF (multiple)
+// ----------------------------
+document.getElementById("dxfFile").addEventListener("change", async (e) => {
+
+    const files = Array.from(e.target.files);
+
+    for (const file of files) {
+
+        const text = await file.text();
+
+        const parser = new DxfParser();
+
+        let dxf;
+
+        try {
+
+            dxf = parser.parseSync(text);
+
+        } catch (err) {
+
+            alert(`Помилка читання ${file.name}: ${err.message}`);
+
+            continue;
+
+        }
+
+        const geojson = dxfToGeoJSON(
+            dxf,
+            "EPSG:7825"
+        );
+
+        const leafletLayer = createLeafletLayer(geojson);
+
+        leafletLayer.addTo(map);
+
+        const id = `dxf_${++layerCounter}`;
+
+        loadedLayers[id] = {
+            id,
+            name: file.name,
+
+            // Зберігаємо оригінальний DXF
+            dxf,
+
+            // Початкова система координат
+            crs: "EPSG:7825",
+
+            geojson,
+            leafletLayer,
+
+            visible: true
+        };
+
+        fitToGeoJSON(geojson);
+
+    }
+
+    renderLayersList();
+    updateLegend();
+
+
+    // Дозволяє повторно вибрати той самий файл
+    e.target.value = "";
+
+});
+
+// Початкове оновлення легенди
+updateLegend();
+
+</script>
+</body>
+</html>
